@@ -61,6 +61,35 @@ AssetMapper):
 
 `$ti-font-path` points at the font files: adjust it to how your build resolves `node_modules`.
 
+## Icons from symfony/ux-icons
+
+With [Symfony UX Icons](https://symfony.com/bundles/ux-icons/current/index.html) (2.17+ / 3.x) installed, a `name` with
+an icon set prefix renders that icon as an inline `<svg>` instead of the webfont: any of the 200,000+ icons of
+[Iconify](https://icon-sets.iconify.design/) (`lucide:circle-check`, `mdi:account`, `tabler:check`…), or your own SVG
+files in `assets/icons/`. Names without a prefix keep using the webfont, so both can be mixed.
+
+```bash
+composer require symfony/ux-icons
+```
+
+The `<svg>` gets Tabler's `icon` class, which sizes SVG icons, and the same `variant`, `size` and `animation` classes.
+`filled` picks the filled icon of the `tabler` set (`tabler:{name}-filled`) and has no effect on other sets. Every
+`icon` prop takes these names too, since the components render it with `Icon`:
+
+```twig {"preview":true}
+<div class="d-flex align-items-center gap-3">
+    <twig:Tabler:Icon name="tabler:check" variant="success" />
+    <twig:Tabler:Icon name="tabler:star" variant="warning" />
+    <twig:Tabler:Icon name="tabler:star" variant="warning" filled />
+    <twig:Tabler:Icon name="lucide:circle-check" variant="success" size="md" />
+</div>
+<twig:Tabler:Alert variant="success" icon="lucide:circle-check" title="Saved!" description="Your changes are live." class="mt-3 mb-0" />
+```
+
+UX Icons hides the icon from assistive technology (`aria-hidden="true"`) unless you give it an `aria-label` or a
+`title`. Download the icons you use with `php bin/console ux:icons:lock`, so production never calls the Iconify API:
+see the [UX Icons documentation](https://symfony.com/bundles/ux-icons/current/index.html).
+
 ## Variants
 
 `variant` sets the color (`text-{variant}`):
@@ -98,10 +127,10 @@ meaning on its own:
 
 ## Props
 
-| Prop        | Type    | Default    | Description                                                                |
-| ----------- | ------- | ---------- | -------------------------------------------------------------------------- |
-| `name`      | string  | (required) | Icon name, without the `ti-` prefix                                        |
-| `variant`   | string? | `null`     | `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`   |
-| `animation` | string? | `null`     | `pulse` `tada` `rotate`                                                    |
-| `size`      | string? | `null`     | `sm` `md` `lg` `inline` (`icon icon-{size}`); unset, follows the font size |
-| `filled`    | bool    | `false`    | Filled variant: `ti-filled ti-filled-{name}`, see [Filled](#filled)        |
+| Prop        | Type    | Default    | Description                                                                                                                         |
+| ----------- | ------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `name`      | string  | (required) | Icon name, without the `ti-` prefix; or a ux-icons name, see [UX Icons](#icons-from-symfonyux-icons)                                |
+| `variant`   | string? | `null`     | `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                                                            |
+| `animation` | string? | `null`     | `pulse` `tada` `rotate`                                                                                                             |
+| `size`      | string? | `null`     | `sm` `md` `lg` `inline` (`icon icon-{size}`); unset, follows the font size                                                          |
+| `filled`    | bool    | `false`    | Filled variant: `ti-filled ti-filled-{name}`, see [Filled](#filled); with UX Icons, `tabler:{name}-filled` in the `tabler` set only |

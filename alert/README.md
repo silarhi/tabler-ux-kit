@@ -6,8 +6,9 @@ Contextual feedback messages: the result of an action, a warning, an error.
 <twig:Tabler:Alert variant="success" icon="check" title="Saved!" description="Your changes are live." />
 ```
 
-`icon` takes a [Tabler icon](https://tabler-ux-components.silarhi.dev/components/content/icon/) name. For any other icon (inline SVG, ux-icons), override the
-`icon` block with `Alert:Icon`:
+`icon` takes a [Tabler icon](https://tabler-ux-components.silarhi.dev/components/content/icon/) name, or a
+[UX Icons](https://tabler-ux-components.silarhi.dev/components/content/icon/#icons-from-symfonyux-icons) name such as `lucide:circle-check`. For any other
+markup, such as an inline SVG, override the `icon` block with `Alert:Icon`:
 
 ```twig {"preview":true}
 <twig:Tabler:Alert variant="warning" title="Storage almost full" description="You have used 92% of your 50 GB plan.">
@@ -105,15 +106,15 @@ Each prop has a matching block. Override one, and the others keep rendering from
 
 ## Props
 
-| Prop          | Type    | Default  | Description                                                       |
-| ------------- | ------- | -------- | ----------------------------------------------------------------- |
-| `variant`     | string  | `'info'` | `primary` `secondary` `success` `danger` `warning` `info`         |
-| `important`   | bool    | `false`  | Filled background (`alert-important`)                             |
-| `minor`       | bool    | `false`  | Plain border, no tinted background (`alert-minor`)                |
-| `icon`        | string? | `null`   | Tabler icon name, rendered with `Tabler:Icon` inside `Alert:Icon` |
-| `title`       | string? | `null`   | Rendered with `Alert:Title`                                       |
-| `description` | string? | `null`   | Rendered with `Alert:Description`                                 |
-| `dismissible` | bool    | `false`  | Adds a close button (`Alert:Dismiss`)                             |
+| Prop          | Type    | Default  | Description                                                                   |
+| ------------- | ------- | -------- | ----------------------------------------------------------------------------- |
+| `variant`     | string  | `'info'` | `primary` `secondary` `success` `danger` `warning` `info`                     |
+| `important`   | bool    | `false`  | Filled background (`alert-important`)                                         |
+| `minor`       | bool    | `false`  | Plain border, no tinted background (`alert-minor`)                            |
+| `icon`        | string? | `null`   | Tabler icon or UX Icons name, rendered with `Tabler:Icon` inside `Alert:Icon` |
+| `title`       | string? | `null`   | Rendered with `Alert:Title`                                                   |
+| `description` | string? | `null`   | Rendered with `Alert:Description`                                             |
+| `dismissible` | bool    | `false`  | Adds a close button (`Alert:Dismiss`)                                         |
 
 Other attributes go to the root `<div role="alert">`.
 

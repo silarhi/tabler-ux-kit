@@ -1,14 +1,15 @@
 {
     "type": "component",
     "name": "Icon",
-    "description": "A Tabler icon from the icon webfont, with a color, a size and an animation.",
+    "description": "A Tabler icon from the icon webfont, or any icon of Symfony UX Icons, with a color, a size and an animation.",
     "copy-files": {
         "templates/": "templates/"
     },
     "dependencies": {
         "composer": [
             "twig/extra-bundle",
-            "twig/html-extra:^3.12.0"
+            "twig/html-extra:^3.12.0",
+            "symfony/ux-icons"
         ]
     }
 }
