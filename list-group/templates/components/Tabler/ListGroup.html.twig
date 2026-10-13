@@ -1,0 +1,98 @@
+{#
+    Tabler ListGroup — a series of related items in one bordered block
+    (`.list-group`).
+
+    All-in-one (`items` is an array of {label, href?, active?, disabled?, variant?}):
+        <twig:Tabler:ListGroup items="{{ [
+            {label: 'Profile', href: '/profile', active: true},
+            {label: 'Billing', href: '/billing'},
+        ] }}" />
+
+    Composed:
+        <twig:Tabler:ListGroup flush hoverable>
+            <twig:Tabler:ListGroup:Header>Today</twig:Tabler:ListGroup:Header>
+            <twig:Tabler:ListGroup:Item href="/reports/1" active>Report generated</twig:Tabler:ListGroup:Item>
+            <twig:Tabler:ListGroup:Item variant="danger">Build failed</twig:Tabler:ListGroup:Item>
+        </twig:Tabler:ListGroup>
+
+        <twig:Tabler:ListGroup tag="ol" numbered>
+            <twig:Tabler:ListGroup:Item tag="li">Create an account</twig:Tabler:ListGroup:Item>
+        </twig:Tabler:ListGroup>
+
+    Pick the element for the content: `ul`/`ol` with `li` items for a list,
+    `nav` with link items for navigation, `div` otherwise.
+
+    Props:
+      tag          — div (default) | ul | ol | nav (generated items become <li> in a ul/ol)
+      items        — optional array of items; mirrored by the `content` block
+      flush        — no outer border nor rounding, to sit flush in a card (list-group-flush)
+      hoverable    — highlight the item under the cursor and reveal its actions (list-group-hoverable)
+      transparent  — no background nor borders, e.g. for a side menu (list-group-transparent)
+      numbered     — number the items, on an <ol> (list-group-numbered)
+      horizontal   — lay the items out in a row: bare for always, or from a breakpoint sm | md | lg | xl | xxl
+      card         — use the card padding inside a card (card-list-group)
+#}
+{% apply trim %}
+{% props
+    ## 'div'|'ul'|'ol'|'nav' The root element; generated items render as `<li>` in a `ul` or `ol`.
+    tag = 'div',
+    ## list<array{label:string,href?:string,active?:bool,disabled?:bool,variant?:string}>|null The items, each rendered with `ListGroup:Item`.
+    items = null,
+    ## bool Whether to drop the outer border and rounded corners (`list-group-flush`).
+    flush = false,
+    ## bool Whether to highlight the item under the cursor and reveal its actions (`list-group-hoverable`).
+    hoverable = false,
+    ## bool Whether to drop the background and borders of the items (`list-group-transparent`).
+    transparent = false,
+    ## bool Whether to number the items, on an `ol` (`list-group-numbered`).
+    numbered = false,
+    ## bool|'sm'|'md'|'lg'|'xl'|'xxl' Whether to lay the items out in a row: `true` for every width, or from a breakpoint (`list-group-horizontal-*`).
+    horizontal = false,
+    ## bool Whether to use the card padding on the items (`card-list-group`).
+    card = false,
+%}
+
+{% set list = html_cva(
+    base: 'list-group',
+    variants: {
+        flush: {true: 'list-group-flush', false: ''},
+        hoverable: {true: 'list-group-hoverable', false: ''},
+        transparent: {true: 'list-group-transparent', false: ''},
+        numbered: {true: 'list-group-numbered', false: ''},
+        horizontal: {
+            true: 'list-group-horizontal',
+            false: '',
+            sm: 'list-group-horizontal-sm',
+            md: 'list-group-horizontal-md',
+            lg: 'list-group-horizontal-lg',
+            xl: 'list-group-horizontal-xl',
+            xxl: 'list-group-horizontal-xxl',
+        },
+        card: {true: 'card-list-group', false: ''},
+    },
+) %}
+
+{% set classes = list.apply({
+    flush: flush,
+    hoverable: hoverable,
+    transparent: transparent,
+    numbered: numbered,
+    horizontal: horizontal ?? false,
+    card: card,
+}, attributes.render('class')) %}
+
+<{{ tag }} class="{{ classes }}" {{ attributes.without('class') }}>{## A `ListGroup:Item` for each entry of `items`; replace it to compose freely. #}
+    {%- block content -%}
+        {%- for item in items ?? [] -%}
+            <twig:Tabler:ListGroup:Item
+                tag="{{ tag in ['ul', 'ol'] ? 'li' : 'div' }}"
+                href="{{ item.href ?? null }}"
+                active="{{ item.active ?? false }}"
+                disabled="{{ item.disabled ?? false }}"
+                variant="{{ item.variant ?? null }}"
+                label="{{ item.label ?? null }}"
+            />
+        {%- endfor -%}
+    {%- endblock -%}
+</{{ tag }}>
+{% endapply ~%}

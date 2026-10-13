@@ -1,0 +1,22 @@
+{#
+    Navbar side — the trailing group of a navbar (`.navbar-side`): pinned to the
+    bottom of a vertical sidebar's scroll area. Tabler 1.6.1 does not align it in
+    a horizontal navbar: add class="ms-auto" there to push it to the end side.
+    Put it in the `side` block of <twig:Tabler:Navbar:Nav> so it sits inside the
+    collapse panel.
+
+    Usage:
+        <twig:Tabler:Navbar:Nav id="sidebar-menu" collapse>
+            <twig:Tabler:Navbar:Item href="/">Home</twig:Tabler:Navbar:Item>
+            <twig:block name="side">
+                <twig:Tabler:Navbar:Side>
+                    <twig:Tabler:Navbar:Item href="/help" icon="help">Help</twig:Tabler:Navbar:Item>
+                </twig:Tabler:Navbar:Side>
+            </twig:block>
+        </twig:Tabler:Navbar:Nav>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'navbar-side'}) }}>
+    <ul class="navbar-nav">{## The trailing entries, usually `Navbar:Item`s. #}{%- block content %}{% endblock -%}</ul>
+</div>
+{% endapply ~%}

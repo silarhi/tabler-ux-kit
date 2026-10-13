@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Toast",
+    "description": "Lightweight notifications with a header, a body and a close button, shown and hidden by Bootstrap.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

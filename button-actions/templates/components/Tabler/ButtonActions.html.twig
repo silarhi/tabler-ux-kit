@@ -1,0 +1,14 @@
+{#
+    Tabler ButtonActions — a row of quiet action buttons, e.g. in a card header or a table row (`.btn-actions`).
+    The buttons sit side by side with no gap (`.btn-actions` is a plain flex row): each `.btn-action` is a square
+    larger than its icon, which leaves room between the icons.
+
+    Usage:
+        <twig:Tabler:ButtonActions>
+            <twig:Tabler:Button appearance="action" href="/edit" aria-label="Edit"><twig:Tabler:Icon name="edit" /></twig:Tabler:Button>
+            <twig:Tabler:Button appearance="action" aria-label="Delete"><twig:Tabler:Icon name="trash" /></twig:Tabler:Button>
+        </twig:Tabler:ButtonActions>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'btn-actions'}) }}>{## The action buttons. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

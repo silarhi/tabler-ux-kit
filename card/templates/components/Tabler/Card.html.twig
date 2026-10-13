@@ -1,0 +1,174 @@
+{#
+    Tabler Card — main component, shadcn-style.
+
+    Renders a <div> by default, or an <a> when `href` is set.
+
+    The `content` block wraps the card body (header, body, footer), so composing
+    it replaces them — while each named sub-block stays individually overridable.
+    The `status` bar is rendered outside `content`, so it is kept when you compose.
+
+    All-in-one:
+        <twig:Tabler:Card title="Stats" text="42 active users" footer="Updated today" />
+        <twig:Tabler:Card title="Revenue" status="success" size="sm" text="$12,400" />
+        <twig:Tabler:Card title="Welcome back" gradient="ocean" gradientDirection="bottom" gradientAnimated />
+
+    Composed (full control):
+        <twig:Tabler:Card status="danger">
+            <twig:Tabler:Card:Header>
+                <twig:Tabler:Card:Title>Danger zone</twig:Tabler:Card:Title>
+                <twig:Tabler:Card:Actions>
+                    <twig:Tabler:Button variant="danger" size="sm">Delete</twig:Tabler:Button>
+                </twig:Tabler:Card:Actions>
+            </twig:Tabler:Card:Header>
+            <twig:Tabler:Card:Body>This action cannot be undone.</twig:Tabler:Card:Body>
+            <twig:Tabler:Card:Footer>Last edited 3 days ago</twig:Tabler:Card:Footer>
+        </twig:Tabler:Card>
+
+    More sub-components: Card:Img (cover image), Card:ImgOverlay (content over a full image),
+    Card:Cover (photo header), Card:Code (flush code block), Card:Stamp (corner mark), Card:Progress
+    (bar on the bottom edge), Card:Meta (muted line), Card:Btn (full-width bottom action);
+    Card:Body takes `scrollable`. A table that runs edge to edge: <twig:Tabler:Table card>.
+    Several cards switched by tabs: <twig:Tabler:Card:Tabs>.
+
+    Props:
+      size            — sm | md (default) | lg (padding)
+      status          — variant of the status border (primary, success, danger, …)
+      statusPosition  — top (default) | bottom | start
+      gradient        — gradient background (card-gradient, Tabler 1.5+): bare for the default
+                        gradient, a color (primary, success, …) or a preset (disco, gold, love,
+                        mellow, ocean, psychedelic, rainbow, snow, sun)
+      gradientDirection — start | end | bottom (where the gradient starts)
+      gradientAnimated  — slowly shift the gradient (card-gradient-animated)
+      dashed          — dashed border, e.g. for an empty slot (card-dashed, Tabler 1.5+)
+      borderless      — no border (card-borderless)
+      transparent     — no background, with a dashed border (card-transparent)
+      stacked         — draws a second card behind this one (card-stacked)
+      active          — marks the card as selected (card-active)
+      inactive        — dims the card (card-inactive)
+      rotate          — start | end | left | right: tilts the card (card-rotate-*)
+      link            — hover effect for a card that is a link: bare, `pop` or `rotate` (card-link*)
+      title           — optional title; mirrored by the `header` block
+      text            — optional body text; mirrored by the `body` block
+      footer          — optional footer text; mirrored by the `footer` block
+      href            — when set, renders <a href> instead of <div>
+#}
+{% apply trim %}
+{% props
+    ## 'sm'|'md'|'lg' The card padding.
+    size = 'md',
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|null The color of the status bar, rendered with `Card:Status`.
+    status = null,
+    ## 'top'|'bottom'|'start' The edge of the status bar.
+    statusPosition = 'top',
+    ## bool|'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|'disco'|'gold'|'love'|'mellow'|'ocean'|'psychedelic'|'rainbow'|'snow'|'sun'|null The gradient background (`card-gradient`): `true` for the default one, a color or a preset.
+    gradient = null,
+    ## 'start'|'end'|'bottom'|null Where the gradient starts.
+    gradientDirection = null,
+    ## bool Whether to slowly shift the gradient (`card-gradient-animated`).
+    gradientAnimated = false,
+    ## bool Whether to dash the border, e.g. for an empty slot (`card-dashed`).
+    dashed = false,
+    ## bool Whether to remove the border of the card, its header and its footer (`card-borderless`).
+    borderless = false,
+    ## bool Whether to remove the background and the shadow, with a dashed border (`card-transparent`).
+    transparent = false,
+    ## bool Whether to draw a second card behind this one (`card-stacked`).
+    stacked = false,
+    ## bool Whether to mark the card as selected (`card-active`).
+    active = false,
+    ## bool Whether to dim the card and disable pointer events (`card-inactive`).
+    inactive = false,
+    ## 'start'|'end'|'left'|'right'|null The direction to tilt the card (`card-rotate-*`).
+    rotate = null,
+    ## bool|'pop'|'rotate' The hover effect of a link card: `true` (`card-link`), `pop` or `rotate`.
+    link = false,
+    ## string|null The title, rendered with `Card:Header` and `Card:Title`.
+    title = null,
+    ## string|null The body text, rendered with `Card:Body`.
+    text = null,
+    ## string|null The footer text, rendered with `Card:Footer`.
+    footer = null,
+    ## string|null The link target; renders an `<a href>` instead of a `<div>` when set.
+    href = null,
+%}
+
+{% set card = html_cva(
+    base: 'card',
+    variants: {
+        size: {sm: 'card-sm', md: '', lg: 'card-lg'},
+        gradient: {
+            true: 'card-gradient',
+            primary: 'card-gradient card-gradient-primary',
+            secondary: 'card-gradient card-gradient-secondary',
+            success: 'card-gradient card-gradient-success',
+            danger: 'card-gradient card-gradient-danger',
+            warning: 'card-gradient card-gradient-warning',
+            info: 'card-gradient card-gradient-info',
+            dark: 'card-gradient card-gradient-dark',
+            light: 'card-gradient card-gradient-light',
+            disco: 'card-gradient card-gradient-disco',
+            gold: 'card-gradient card-gradient-gold',
+            love: 'card-gradient card-gradient-love',
+            mellow: 'card-gradient card-gradient-mellow',
+            ocean: 'card-gradient card-gradient-ocean',
+            psychedelic: 'card-gradient card-gradient-psychedelic',
+            rainbow: 'card-gradient card-gradient-rainbow',
+            snow: 'card-gradient card-gradient-snow',
+            sun: 'card-gradient card-gradient-sun',
+        },
+        gradientDirection: {
+            start: 'card-gradient-start',
+            end: 'card-gradient-end',
+            bottom: 'card-gradient-bottom',
+        },
+        gradientAnimated: {true: 'card-gradient-animated', false: ''},
+        dashed: {true: 'card-dashed', false: ''},
+        borderless: {true: 'card-borderless', false: ''},
+        transparent: {true: 'card-transparent', false: ''},
+        stacked: {true: 'card-stacked', false: ''},
+        active: {true: 'card-active', false: ''},
+        inactive: {true: 'card-inactive', false: ''},
+        rotate: {start: 'card-rotate-start', end: 'card-rotate-end', left: 'card-rotate-left', right: 'card-rotate-right'},
+        link: {true: 'card-link', pop: 'card-link card-link-pop', rotate: 'card-link card-link-rotate', false: ''},
+    },
+) %}
+
+{% set classes = card.apply({
+    size: size,
+    gradient: gradient ?? '',
+    gradientDirection: gradientDirection ?? '',
+    gradientAnimated: gradientAnimated,
+    dashed: dashed,
+    borderless: borderless,
+    transparent: transparent,
+    stacked: stacked,
+    active: active,
+    inactive: inactive,
+    rotate: rotate ?? '',
+    link: link,
+}, attributes.render('class')) %}
+{% set tag = href is not null ? 'a' : 'div' %}
+
+<{{ tag }} class="{{ classes }}"{% if href is not null %} href="{{ href }}"{% endif %} {{ attributes.without('class', 'href') }}>
+    {%- if status is not null -%}
+        <twig:Tabler:Card:Status variant="{{ status }}" position="{{ statusPosition }}" />
+    {%- endif -%}
+    {## The whole card content: `header`, `body` and `footer`; replace it to compose freely. -#}
+    {% block content %}
+        {## The header: `Card:Header` with a `Card:Title` holding the `title` prop, when set. -#}
+        {% block header %}
+            {%- if title is not null -%}
+                <twig:Tabler:Card:Header><twig:Tabler:Card:Title>{{ title }}</twig:Tabler:Card:Title></twig:Tabler:Card:Header>
+            {%- endif -%}
+        {% endblock %}
+        {## The body: `Card:Body` with the `text` prop, when set. -#}
+        {% block body %}
+            {%- if text is not null -%}<twig:Tabler:Card:Body>{{ text }}</twig:Tabler:Card:Body>{%- endif -%}
+        {% endblock %}
+        {## The footer: `Card:Footer` with the `footer` prop, when set. -#}
+        {% block footer %}
+            {%- if footer is not null -%}<twig:Tabler:Card:Footer>{{ footer }}</twig:Tabler:Card:Footer>{%- endif -%}
+        {% endblock %}
+    {% endblock %}
+</{{ tag }}>
+{% endapply ~%}

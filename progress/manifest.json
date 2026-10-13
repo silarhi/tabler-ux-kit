@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Progress",
+    "description": "A progress bar, with a single value or several stacked bars, and an indeterminate state.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

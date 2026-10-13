@@ -1,0 +1,11 @@
+{#
+    Modal footer — the bottom bar of a modal, usually holding actions.
+
+    Usage:
+      <twig:Tabler:Modal:Footer>
+          <twig:Tabler:Button variant="primary">Save</twig:Tabler:Button>
+      </twig:Tabler:Modal:Footer>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'modal-footer'}) }}>{## The footer content, usually the actions. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

@@ -1,0 +1,53 @@
+{#
+    Tabler Spinner — loading indicator.
+
+    All-in-one:
+        <twig:Tabler:Spinner />
+        <twig:Tabler:Spinner variant="primary" size="sm" />
+        <twig:Tabler:Spinner type="grow" variant="success" />
+
+    Props:
+      type   — border (default) | grow
+      variant  — primary | secondary | success | danger | warning | info | dark | light
+      size   — md (default) | sm
+      label  — visually-hidden status text (accessibility)
+#}
+{% apply trim %}
+{% props
+    ## 'border'|'grow' The spinner style.
+    type = 'border',
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|null The spinner color.
+    variant = null,
+    ## 'sm'|'md' The spinner size.
+    size = 'md',
+    ## string|null The visually hidden status text.
+    label = null,
+%}
+
+{% set spinner = html_cva(
+    base: '',
+    variants: {
+        type: {border: 'spinner-border', grow: 'spinner-grow'},
+        variant: {
+            primary: 'text-primary',
+            secondary: 'text-secondary',
+            success: 'text-success',
+            danger: 'text-danger',
+            warning: 'text-warning',
+            info: 'text-info',
+            dark: 'text-dark',
+            light: 'text-light',
+        },
+    },
+    compound_variants: [
+        {type: ['border'], size: ['sm'], class: 'spinner-border-sm'},
+        {type: ['grow'], size: ['sm'], class: 'spinner-grow-sm'},
+    ],
+) %}
+
+<div class="{{ spinner.apply({type: type, variant: variant ?? '', size: size}, attributes.render('class')) }}" role="status" {{ attributes.without('class') }}>{## The visually hidden `label`, when set. -#}
+    {%- block content -%}
+        {%- if label is not null -%}<span class="visually-hidden">{{ label }}</span>{%- endif -%}
+    {%- endblock -%}
+</div>
+{% endapply ~%}

@@ -1,0 +1,21 @@
+{#
+    Mention app — the square logo of an app or a brand at the start of a
+    mention (`.mention-app`).
+
+    Usage:
+        <twig:Tabler:Mention:App image="/brands/github.svg" />
+
+    Props:
+      image  — background image URL
+#}
+{% apply trim %}
+{% props
+    ## string|null The logo URL, set as the background image and scaled to the box (`bg-cover`).
+    image = null,
+%}
+
+{# Tabler resets .mention-app's background, so bg-cover scales the logo to the box; a user `style` goes last #}
+{% set style = [image is not null ? 'background-image: url(' ~ image ~ ')' : null, attributes.render('style')]|filter(v => v is not empty)|join('; ') %}
+
+<span class="{{ ('mention-app' ~ (image is not null ? ' bg-cover' : '') ~ ' ' ~ attributes.render('class'))|trim }}"{% if style %} style="{{ style }}"{% endif %} {{ attributes.without('class', 'style') }}></span>
+{% endapply ~%}

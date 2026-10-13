@@ -1,0 +1,36 @@
+{#
+    Tabler Dropdown — a Bootstrap dropdown wrapper.
+
+    Composed:
+        <twig:Tabler:Dropdown>
+            <twig:Tabler:Dropdown:Toggle variant="primary">Menu</twig:Tabler:Dropdown:Toggle>
+            <twig:Tabler:Dropdown:Menu>
+                <twig:Tabler:Dropdown:Header>Actions</twig:Tabler:Dropdown:Header>
+                <twig:Tabler:Dropdown:Item href="/edit">Edit</twig:Tabler:Dropdown:Item>
+                <twig:Tabler:Dropdown:Divider />
+                <twig:Tabler:Dropdown:Item href="/delete">Delete</twig:Tabler:Dropdown:Item>
+            </twig:Tabler:Dropdown:Menu>
+        </twig:Tabler:Dropdown>
+
+    Props:
+      direction  — down (default) | up | end | start: where the menu opens (dropup / dropend / dropstart).
+                   Dropdown:Toggle is a button (.btn), so it cannot be the .dropdown-item trigger of a submenu
+#}
+{% apply trim %}
+{% props
+    ## 'down'|'up'|'end'|'start' Where the menu opens (`dropup`, `dropend`, `dropstart`).
+    direction = 'down',
+%}
+
+{% set dropdown = html_cva(
+    base: 'dropdown',
+    variants: {
+        direction: {down: '', up: 'dropup', end: 'dropend', start: 'dropstart'},
+    },
+) %}
+
+<div class="{{ dropdown.apply({direction: direction}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {## The toggle and the menu: `Dropdown:Toggle` and `Dropdown:Menu`. -#}
+    {% block content %}{% endblock %}
+</div>
+{% endapply ~%}

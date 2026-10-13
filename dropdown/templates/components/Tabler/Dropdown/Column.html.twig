@@ -1,0 +1,11 @@
+{#
+    Dropdown column — one column of a <twig:Tabler:Dropdown:Columns> (`.dropdown-menu-column`).
+
+    Usage:
+        <twig:Tabler:Dropdown:Column>
+            <twig:Tabler:Dropdown:Item href="#">Accordion</twig:Tabler:Dropdown:Item>
+        </twig:Tabler:Dropdown:Column>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'dropdown-menu-column'}) }}>{## The column items. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

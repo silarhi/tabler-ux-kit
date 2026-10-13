@@ -1,0 +1,11 @@
+{#
+    Alert description — the body text of an alert (`.alert-description`).
+
+    Usage:
+      <twig:Tabler:Alert:Description>
+          Your changes are <strong>live</strong>.
+      </twig:Tabler:Alert:Description>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'alert-description'}) }}>{## The description. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

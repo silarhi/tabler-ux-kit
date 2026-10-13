@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Tag",
+    "description": "A compact label with an optional icon, avatar, status dot or checkbox, a counter and a remove button.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

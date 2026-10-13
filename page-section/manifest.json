@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "PageSection",
+    "description": "A heading that splits a long page body into sections, for instance between groups of cards.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

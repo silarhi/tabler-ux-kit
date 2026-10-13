@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Timeline",
+    "description": "A vertical feed of events, each with an icon, a title, a time and a text.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

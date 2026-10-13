@@ -1,0 +1,49 @@
+{#
+    Tabler Tabs — the tab bar (nav). Pair with <twig:Tabler:Tabs:Content>.
+
+    Composed:
+        <twig:Tabler:Tabs>
+            <twig:Tabler:Tabs:Item target="home" active>Home</twig:Tabler:Tabs:Item>
+            <twig:Tabler:Tabs:Item target="profile">Profile</twig:Tabler:Tabs:Item>
+        </twig:Tabler:Tabs>
+        <twig:Tabler:Tabs:Content>
+            <twig:Tabler:Tabs:Pane id="home" active>Home content</twig:Tabler:Tabs:Pane>
+            <twig:Tabler:Tabs:Pane id="profile">Profile content</twig:Tabler:Tabs:Pane>
+        </twig:Tabler:Tabs:Content>
+
+    Props:
+      pills      — pill style (nav-pills) instead of tabs
+      underline  — underline style (nav-underline) instead of tabs
+      bordered   — bottom border under the whole bar (nav-bordered)
+      fill       — tabs share the full width (nav-fill)
+      card       — card-header tab style (card-header-tabs)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to render pills (`nav-pills`) instead of tabs (`nav-tabs`).
+    pills = false,
+    ## bool Whether to underline the links (`nav-underline`) instead of tabs; ignored with `pills`.
+    underline = false,
+    ## bool Whether to draw a border under the whole bar, the active tab underlined (`nav-bordered`).
+    bordered = false,
+    ## bool Whether the tabs share the full width (`nav-fill`).
+    fill = false,
+    ## bool Whether the bar sits in a card header (`card-header-tabs`).
+    card = false,
+%}
+
+{% set tabs = html_cva(
+    base: 'nav',
+    variants: {
+        look: {tabs: 'nav-tabs', pills: 'nav-pills', underline: 'nav-underline'},
+        bordered: {true: 'nav-bordered', false: ''},
+        fill: {true: 'nav-fill', false: ''},
+        card: {true: 'card-header-tabs', false: ''},
+    },
+) %}
+
+<ul class="{{ tabs.apply({look: pills ? 'pills' : (underline ? 'underline' : 'tabs'), bordered: bordered, fill: fill, card: card}, attributes.render('class')) }}" data-bs-toggle="tabs" role="tablist" {{ attributes.without('class') }}>
+    {## The tabs: `Tabs:Item` children. -#}
+    {% block content %}{% endblock %}
+</ul>
+{% endapply ~%}

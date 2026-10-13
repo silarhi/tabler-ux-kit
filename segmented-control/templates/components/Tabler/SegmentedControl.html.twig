@@ -1,0 +1,39 @@
+{#
+    Tabler SegmentedControl — a compact segmented toggle (nav-segmented).
+
+    Composed:
+        <twig:Tabler:SegmentedControl>
+            <twig:Tabler:SegmentedControl:Item active>Day</twig:Tabler:SegmentedControl:Item>
+            <twig:Tabler:SegmentedControl:Item>Week</twig:Tabler:SegmentedControl:Item>
+            <twig:Tabler:SegmentedControl:Item>Month</twig:Tabler:SegmentedControl:Item>
+        </twig:Tabler:SegmentedControl>
+
+    Props:
+      fullWidth — stretch to the container width (w-100)
+      vertical   — stack the segments in a column (nav-segmented-vertical)
+      size       — sm | md (default) | lg
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to stretch to the container width (`w-100`).
+    fullWidth = false,
+    ## bool Whether to stack the segments in a column (`nav-segmented-vertical`).
+    vertical = false,
+    ## 'sm'|'md'|'lg' The control size.
+    size = 'md',
+%}
+
+{% set segmented = html_cva(
+    base: 'nav nav-segmented',
+    variants: {
+        fullWidth: {true: 'w-100', false: ''},
+        vertical: {true: 'nav-segmented-vertical', false: ''},
+        size: {sm: 'nav-sm', md: '', lg: 'nav-lg'},
+    },
+) %}
+
+<nav class="{{ segmented.apply({fullWidth: fullWidth, vertical: vertical, size: size}, attributes.render('class')) }}" role="tablist" {{ attributes.without('class') }}>
+    {## The segments: `SegmentedControl:Item` components. -#}
+    {% block content %}{% endblock %}
+</nav>
+{% endapply ~%}

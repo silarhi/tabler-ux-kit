@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "SwitchIcon",
+    "description": "A button that toggles between two icons, such as a dark mode or a favorite toggle.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

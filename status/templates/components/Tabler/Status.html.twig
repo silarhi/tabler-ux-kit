@@ -1,0 +1,80 @@
+{#
+    Tabler Status — a colored status label, optionally with a (animated) dot.
+
+    All-in-one (use the `label` prop so the dot and label both stay inside `content`):
+        <twig:Tabler:Status variant="success" label="Online" />
+        <twig:Tabler:Status variant="danger" dot animated label="Live" />
+
+    A standalone, larger marker: <twig:Tabler:Status:Indicator variant="green" animated />.
+
+    Composed (override `content`, or just the `dot` / `label` sub-blocks):
+        <twig:Tabler:Status variant="danger">
+            <twig:Tabler:Status:Dot animated />
+            Live
+        </twig:Tabler:Status>
+
+    Props:
+      variant   — primary | secondary | success | danger | warning | info | dark | light | muted,
+                  or a palette color: blue | azure | indigo | purple | pink | red | orange | yellow | lime | green | teal | cyan
+      dot       — show a leading status dot; mirrored by the `dot` block
+      animated  — pulse the dot (requires `dot`)
+      lite      — transparent background, keeps only the dot and the text (status-lite)
+      label     — the status text; mirrored by the `label` block
+#}
+{% apply trim %}
+{% props
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|'muted'|'blue'|'azure'|'indigo'|'purple'|'pink'|'red'|'orange'|'yellow'|'lime'|'green'|'teal'|'cyan' The status color.
+    variant = 'primary',
+    ## bool Whether to add a leading dot, rendered with `Status:Dot`.
+    dot = false,
+    ## bool Whether to pulse the dot (needs `dot`).
+    animated = false,
+    ## bool Whether to keep a neutral border and text, only the dot keeping the color (`status-lite`).
+    lite = false,
+    ## string|null The status text.
+    label = null,
+%}
+
+{% set status = html_cva(
+    base: 'status',
+    variants: {
+        variant: {
+            primary: 'status-primary',
+            secondary: 'status-secondary',
+            success: 'status-success',
+            danger: 'status-danger',
+            warning: 'status-warning',
+            info: 'status-info',
+            dark: 'status-dark',
+            light: 'status-light',
+            muted: 'status-muted',
+            blue: 'status-blue',
+            azure: 'status-azure',
+            indigo: 'status-indigo',
+            purple: 'status-purple',
+            pink: 'status-pink',
+            red: 'status-red',
+            orange: 'status-orange',
+            yellow: 'status-yellow',
+            lime: 'status-lime',
+            green: 'status-green',
+            teal: 'status-teal',
+            cyan: 'status-cyan',
+        },
+        lite: {true: 'status-lite', false: ''},
+    },
+) %}
+
+<span class="{{ status.apply({variant: variant, lite: lite}, attributes.render('class')) }}" {{ attributes.without('class') }}>{## The whole status content: `dot` and `label`; replace it to compose freely. #}
+    {%- block content -%}
+        {## The dot: `Status:Dot`, animated when `animated`, when `dot` is set. -#}
+        {%- block dot -%}
+            {%- if dot -%}
+                {%- if animated -%}<twig:Tabler:Status:Dot animated />{%- else -%}<twig:Tabler:Status:Dot />{%- endif -%}
+            {%- endif -%}
+        {%- endblock -%}
+        {## The `label` prop, when set. -#}
+        {%- block label -%}{%- if label is not null -%}{{ label }}{%- endif -%}{%- endblock -%}
+    {%- endblock -%}
+</span>
+{% endapply ~%}

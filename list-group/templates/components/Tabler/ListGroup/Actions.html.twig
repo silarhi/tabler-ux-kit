@@ -1,0 +1,35 @@
+{#
+    ListGroup actions — a link on the trailing edge of a list group item that
+    appears on hover in a hoverable list group (`.list-group-item-actions`).
+
+    It stays in the tab order while hidden, so never make it the only way to do
+    something; use `show` to keep it visible. Name it with an `aria-label`.
+
+    Usage:
+        <twig:Tabler:ListGroup:Actions href="/favorites/add" aria-label="Add to favorites">
+            <twig:Tabler:Icon name="star" />
+        </twig:Tabler:ListGroup:Actions>
+
+    Props:
+      href  — link target (defaults to #)
+      show  — always visible (show)
+#}
+{% apply trim %}
+{% props
+    ## string|null The link target; defaults to `#`.
+    href = null,
+    ## bool Whether to keep it visible, not only on hover (`show`).
+    show = false,
+%}
+
+{% set actions = html_cva(
+    base: 'list-group-item-actions',
+    variants: {
+        show: {true: 'show', false: ''},
+    },
+) %}
+
+<a href="{{ href ?? '#' }}" class="{{ actions.apply({show: show}, attributes.render('class')) }}" {{ attributes.without('class', 'href') }}>{## The link content, usually a `Tabler:Icon`. #}
+    {%- block content %}{% endblock -%}
+</a>
+{% endapply ~%}

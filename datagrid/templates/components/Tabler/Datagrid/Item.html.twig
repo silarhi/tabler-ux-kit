@@ -1,0 +1,40 @@
+{#
+    Datagrid item — one title/value pair in a <twig:Tabler:Datagrid>.
+
+    All-in-one:
+        <twig:Tabler:Datagrid:Item title="Registrar" text="Third Party" />
+
+    Composed (the `content` block wraps the whole item):
+        <twig:Tabler:Datagrid:Item>
+            <twig:Tabler:Datagrid:Item:Title>Registrar</twig:Tabler:Datagrid:Item:Title>
+            <twig:Tabler:Datagrid:Item:Content>
+                <twig:Tabler:Avatar size="xs">JL</twig:Tabler:Avatar> Third Party
+            </twig:Tabler:Datagrid:Item:Content>
+        </twig:Tabler:Datagrid:Item>
+
+    Props:
+      title  — mirrored by the `title` block
+      text   — mirrored by the `body` block
+#}
+{% apply trim %}
+{% props
+    ## string|null The title, rendered with `Datagrid:Item:Title`.
+    title = null,
+    ## string|null The value, rendered with `Datagrid:Item:Content`.
+    text = null,
+%}
+
+<div {{ attributes.defaults({class: 'datagrid-item'}) }}>
+    {## The whole item: `title` and `body`; replace it to compose freely. -#}
+    {% block content %}
+        {## The title: `Datagrid:Item:Title` with the `title` prop, when set. -#}
+        {% block title %}
+            {%- if title is not null -%}<twig:Tabler:Datagrid:Item:Title>{{ title }}</twig:Tabler:Datagrid:Item:Title>{%- endif -%}
+        {% endblock %}
+        {## The value: `Datagrid:Item:Content` with the `text` prop, when set. -#}
+        {% block body %}
+            {%- if text is not null -%}<twig:Tabler:Datagrid:Item:Content>{{ text }}</twig:Tabler:Datagrid:Item:Content>{%- endif -%}
+        {% endblock %}
+    {% endblock %}
+</div>
+{% endapply ~%}

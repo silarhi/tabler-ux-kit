@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Modal",
+    "description": "A dialog over the page, for confirmations, forms and details.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

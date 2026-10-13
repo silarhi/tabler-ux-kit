@@ -1,0 +1,88 @@
+{#
+    ButtonGroup toggle — a radio or checkbox input styled as a button: a hidden
+    `.btn-check` input followed by its `<label class="btn">`.
+
+    Usage:
+        <twig:Tabler:ButtonGroup aria-label="View">
+            <twig:Tabler:ButtonGroup:Toggle id="view-list" name="view" value="list" checked>List</twig:Tabler:ButtonGroup:Toggle>
+            <twig:Tabler:ButtonGroup:Toggle id="view-grid" name="view" value="grid">Grid</twig:Tabler:ButtonGroup:Toggle>
+        </twig:Tabler:ButtonGroup>
+
+        <twig:Tabler:ButtonGroup:Toggle id="bold" type="checkbox" variant="primary" appearance="outline">Bold</twig:Tabler:ButtonGroup:Toggle>
+
+    The `class` attribute goes on the label (the visible button), and so do the
+    attributes prefixed with `label:` (label:title, label:data-bs-toggle…, e.g. for
+    a tooltip); every other attribute (data-*, required, form, aria-label, …) goes
+    on the input, which takes the focus.
+
+    Props:
+      id          — input id, referenced by the label's `for` (required)
+      name        — input name, shared by the radios of one group
+      value       — input value
+      type        — radio (default) | checkbox
+      checked     — selected state
+      disabled    — inactive state
+      label       — label text; mirrored by the `content` block
+      variant     — default (default) | primary | secondary | success | danger | warning | info | dark | light
+      appearance  — filled (default) | outline | ghost
+#}
+{% apply trim %}
+{% props
+    ## string The input `id`, referenced by the label's `for`.
+    id,
+    ## string|null The input `name`, shared by the radios of one group.
+    name = null,
+    ## string|null The input `value`.
+    value = null,
+    ## 'radio'|'checkbox' The input type.
+    type = 'radio',
+    ## bool Whether the input is selected (`checked` attribute).
+    checked = false,
+    ## bool Whether the input is disabled (`disabled` attribute).
+    disabled = false,
+    ## string|null The label text, rendered in the `content` block.
+    label = null,
+    ## 'default'|'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The button color; `default` is neutral.
+    variant = 'default',
+    ## 'filled'|'outline'|'ghost' The button style.
+    appearance = 'filled',
+%}
+
+{% set button = html_cva(
+    base: 'btn',
+    compound_variants: [
+        {appearance: ['filled'], variant: ['primary'], class: 'btn-primary'},
+        {appearance: ['filled'], variant: ['secondary'], class: 'btn-secondary'},
+        {appearance: ['filled'], variant: ['success'], class: 'btn-success'},
+        {appearance: ['filled'], variant: ['danger'], class: 'btn-danger'},
+        {appearance: ['filled'], variant: ['warning'], class: 'btn-warning'},
+        {appearance: ['filled'], variant: ['info'], class: 'btn-info'},
+        {appearance: ['filled'], variant: ['dark'], class: 'btn-dark'},
+        {appearance: ['filled'], variant: ['light'], class: 'btn-light'},
+        {appearance: ['outline'], variant: ['default'], class: 'btn-outline'},
+        {appearance: ['outline'], variant: ['primary'], class: 'btn-outline-primary'},
+        {appearance: ['outline'], variant: ['secondary'], class: 'btn-outline-secondary'},
+        {appearance: ['outline'], variant: ['success'], class: 'btn-outline-success'},
+        {appearance: ['outline'], variant: ['danger'], class: 'btn-outline-danger'},
+        {appearance: ['outline'], variant: ['warning'], class: 'btn-outline-warning'},
+        {appearance: ['outline'], variant: ['info'], class: 'btn-outline-info'},
+        {appearance: ['outline'], variant: ['dark'], class: 'btn-outline-dark'},
+        {appearance: ['outline'], variant: ['light'], class: 'btn-outline-light'},
+        {appearance: ['ghost'], variant: ['default'], class: 'btn-ghost'},
+        {appearance: ['ghost'], variant: ['primary'], class: 'btn-ghost-primary'},
+        {appearance: ['ghost'], variant: ['secondary'], class: 'btn-ghost-secondary'},
+        {appearance: ['ghost'], variant: ['success'], class: 'btn-ghost-success'},
+        {appearance: ['ghost'], variant: ['danger'], class: 'btn-ghost-danger'},
+        {appearance: ['ghost'], variant: ['warning'], class: 'btn-ghost-warning'},
+        {appearance: ['ghost'], variant: ['info'], class: 'btn-ghost-info'},
+        {appearance: ['ghost'], variant: ['dark'], class: 'btn-ghost-dark'},
+        {appearance: ['ghost'], variant: ['light'], class: 'btn-ghost-light'},
+    ],
+) %}
+
+<input type="{{ type }}" class="btn-check" id="{{ id }}"{% if name is not null %} name="{{ name }}"{% endif %}{% if value is not null %} value="{{ value }}"{% endif %}{% if checked %} checked{% endif %}{% if disabled %} disabled{% endif %} {{ attributes.defaults({autocomplete: 'off'}).without('class', 'type', 'id') }}>
+{% set label_attributes = attributes.nested('label') %}
+<label class="{{ button.apply({appearance: appearance, variant: variant}, attributes.render('class'), label_attributes.render('class')) }}" for="{{ id }}" {{ label_attributes.without('class', 'for') }}>{## The label text: the `label` prop. #}
+    {%- block content %}{{ label }}{% endblock -%}
+</label>
+{% endapply ~%}

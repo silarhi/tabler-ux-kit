@@ -1,0 +1,30 @@
+{#
+    Tabler Placeholder — a skeleton block for loading states.
+
+    All-in-one:
+        <twig:Tabler:Placeholder width="9" />
+        <twig:Tabler:Placeholder width="6" size="xs" />
+
+    Wrap several in a `.placeholder-glow` / `.placeholder-wave` element to animate.
+
+    Props:
+      width  — Bootstrap column span (1–12) for the placeholder width
+      size   — xs | sm | (default) | lg
+#}
+{% apply trim %}
+{% props
+    ## int|null The column span, from 1 to 12 (`col-*`).
+    width = null,
+    ## 'xs'|'sm'|'lg'|null The height (`placeholder-*`); the default height when null.
+    size = null,
+%}
+
+{% set placeholder = html_cva(
+    base: 'placeholder',
+    variants: {
+        size: {xs: 'placeholder-xs', sm: 'placeholder-sm', lg: 'placeholder-lg'},
+    },
+) %}
+
+<div class="{{ placeholder.apply({size: size ?? ''}, width is not null ? 'col-' ~ width : null, attributes.render('class')) }}" {{ attributes.without('class') }}></div>
+{% endapply ~%}

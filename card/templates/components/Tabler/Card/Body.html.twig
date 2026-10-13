@@ -1,0 +1,17 @@
+{#
+    Card body — the main content area of a card.
+
+    Usage:
+      <twig:Tabler:Card:Body>Some content.</twig:Tabler:Card:Body>
+
+    Props:
+      scrollable  — scrolls the body instead of growing the card (card-body-scrollable)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to scroll the body instead of growing the card (`card-body-scrollable`).
+    scrollable = false,
+%}
+
+<div {{ attributes.defaults({class: scrollable ? 'card-body card-body-scrollable' : 'card-body'}) }}>{## The body content. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

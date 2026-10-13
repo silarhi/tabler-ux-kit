@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Button",
+    "description": "A button or a link styled as a button, with colors, appearances, sizes and states.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

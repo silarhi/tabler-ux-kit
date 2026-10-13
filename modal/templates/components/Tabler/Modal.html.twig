@@ -1,0 +1,109 @@
+{#
+    Tabler Modal — main component, shadcn-style. Bootstrap 5 modal markup.
+
+    The `content` block wraps the modal content (header, body, footer), so
+    composing it replaces them — while each named sub-block stays individually
+    overridable. The `status` bar is rendered outside `content`, so it is kept
+    when you compose.
+
+    All-in-one:
+        <twig:Tabler:Modal id="confirm" title="Delete item?" text="This cannot be undone." />
+
+    Composed (full control):
+        <twig:Tabler:Modal id="edit" size="lg" status="primary">
+            <twig:Tabler:Modal:Header>
+                <twig:Tabler:Modal:Title>Edit profile</twig:Tabler:Modal:Title>
+                <twig:Tabler:Modal:Close />
+            </twig:Tabler:Modal:Header>
+            <twig:Tabler:Modal:Body>…form…</twig:Tabler:Modal:Body>
+            <twig:Tabler:Modal:Footer>
+                <twig:Tabler:Button variant="primary">Save</twig:Tabler:Button>
+            </twig:Tabler:Modal:Footer>
+        </twig:Tabler:Modal>
+
+    Open it with a trigger: data-bs-toggle="modal" data-bs-target="#<id>".
+
+    Props:
+      id              — DOM id used by triggers (data-bs-target="#id")
+      size            — sm | md (default) | lg | xl | full | fullscreen
+      centered        — vertically center the dialog
+      scrollable      — scroll the body instead of the page
+      status          — variant of the status bar at the top of the dialog
+      title           — optional title; mirrored by the `header` block
+      text            — optional body text; mirrored by the `body` block
+      footer          — optional footer text; mirrored by the `footer` block
+      dismissible     — show a close button in the header (default true); turn it off with
+                        dismissible="{{ false }}" (a bare "false" is the truthy string "false")
+      staticBackdrop  — clicking the backdrop does not close the modal
+      blur            — blur the page behind the backdrop (modal-blur)
+#}
+{% apply trim %}
+{% props
+    ## string|null The DOM id targeted by triggers (`data-bs-target="#id"`).
+    id = null,
+    ## 'sm'|'md'|'lg'|'xl'|'full'|'fullscreen' The dialog size (`modal-sm`, `modal-lg`, `modal-xl`, `modal-full-width`, `modal-fullscreen`).
+    size = 'md',
+    ## bool Whether to center the dialog vertically (`modal-dialog-centered`).
+    centered = false,
+    ## bool Whether to scroll the body instead of the page (`modal-dialog-scrollable`).
+    scrollable = false,
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|null The color of the status bar, rendered with `Modal:Status`.
+    status = null,
+    ## string|null The title, rendered with `Modal:Header` and `Modal:Title`.
+    title = null,
+    ## string|null The body text, rendered with `Modal:Body`.
+    text = null,
+    ## string|null The footer text, rendered with `Modal:Footer`.
+    footer = null,
+    ## bool Whether to add a close button (`Modal:Close`) to the header rendered from `title`.
+    dismissible = true,
+    ## bool Whether to keep the modal open on a backdrop click or the Escape key.
+    staticBackdrop = false,
+    ## bool Whether to blur the page behind the backdrop (`modal-blur`).
+    blur = false,
+%}
+
+{% set dialog = html_cva(
+    base: 'modal-dialog',
+    variants: {
+        size: {
+            sm: 'modal-sm',
+            md: '',
+            lg: 'modal-lg',
+            xl: 'modal-xl',
+            full: 'modal-full-width',
+            fullscreen: 'modal-fullscreen',
+        },
+        centered: {true: 'modal-dialog-centered', false: ''},
+        scrollable: {true: 'modal-dialog-scrollable', false: ''},
+    },
+) %}
+
+<div {{ attributes.defaults({class: blur ? 'modal modal-blur' : 'modal', tabindex: '-1'}).without('id') }}{% if id is not null %} id="{{ id }}"{% endif %}{% if staticBackdrop %} data-bs-backdrop="static" data-bs-keyboard="false"{% endif %}>
+    <div class="{{ dialog.apply({size: size, centered: centered, scrollable: scrollable}) }}" role="document">
+        <div class="modal-content">
+            {%- if status is not null -%}<twig:Tabler:Modal:Status variant="{{ status }}" />{%- endif -%}
+            {## The modal content: `header`, `body` and `footer`; replace it to compose freely (the status bar stays outside it). -#}
+            {% block content %}
+                {## The header: `Modal:Header` with `Modal:Title` and `Modal:Close` (when `dismissible`), when `title` is set. -#}
+                {% block header %}
+                    {%- if title is not null -%}
+                        <twig:Tabler:Modal:Header>
+                            <twig:Tabler:Modal:Title>{{ title }}</twig:Tabler:Modal:Title>
+                            {%- if dismissible -%}<twig:Tabler:Modal:Close />{%- endif -%}
+                        </twig:Tabler:Modal:Header>
+                    {%- endif -%}
+                {% endblock %}
+                {## The body: `Modal:Body` with the `text` prop, when set. -#}
+                {% block body %}
+                    {%- if text is not null -%}<twig:Tabler:Modal:Body>{{ text }}</twig:Tabler:Modal:Body>{%- endif -%}
+                {% endblock %}
+                {## The footer: `Modal:Footer` with the `footer` prop, when set. -#}
+                {% block footer %}
+                    {%- if footer is not null -%}<twig:Tabler:Modal:Footer>{{ footer }}</twig:Tabler:Modal:Footer>{%- endif -%}
+                {% endblock %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endapply ~%}

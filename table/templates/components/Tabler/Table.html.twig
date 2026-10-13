@@ -1,0 +1,113 @@
+{#
+    Tabler Table — a styled table, optionally wrapped for horizontal scrolling.
+
+    All-in-one:
+        <twig:Tabler:Table hover striped>
+            <thead><tr><th>Name</th><th>Role</th></tr></thead>
+            <tbody><tr><td>Jane</td><td>Admin</td></tr></tbody>
+        </twig:Tabler:Table>
+
+    Stacked rows on phones (give each cell a `data-label`):
+        <twig:Tabler:Table mobile="md">
+            <thead><tr><th>Name</th></tr></thead>
+            <tbody><tr><td data-label="Name">Jane</td></tr></tbody>
+        </twig:Tabler:Table>
+
+    Sortable headers and selectable rows:
+        <twig:Tabler:Table selectable>
+            <thead><tr>
+                <th class="w-1"><twig:Tabler:Table:Check aria-label="Select all rows" /></th>
+                <th><twig:Tabler:Table:Sort field="name" direction="asc">Name</twig:Tabler:Table:Sort></th>
+            </tr></thead>
+            …
+        </twig:Tabler:Table>
+
+    Props:
+      responsive   — wrap in .table-responsive (default true)
+      vcenter      — vertically center cells (table-vcenter)
+      center       — horizontally center cells (table-center)
+      striped      — zebra striping (table-striped)
+      hover        — row hover highlight (table-hover)
+      bordered     — cell borders (table-bordered)
+      borderless   — no borders at all (table-borderless)
+      transparent  — no background (table-transparent)
+      nowrap       — cell text does not wrap (table-nowrap)
+      selectable   — highlight rows whose <twig:Tabler:Table:Check> is checked (table-selectable)
+      size         — sm | md (default) — sm tightens the cell padding
+      mobile       — sm | md | lg | xl | xxl: stack rows into blocks below this breakpoint
+                     (table-mobile-{breakpoint}), labelled by each cell's `data-label`
+                     (see <twig:Tabler:Table:Cell label="…">)
+      card         — inside a card: runs edge to edge, no bottom margin (card-table)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to wrap the table in a `<div class="table-responsive">`.
+    responsive = true,
+    ## bool Whether to center cells vertically (`table-vcenter`).
+    vcenter = false,
+    ## bool Whether to center cells horizontally (`table-center`).
+    center = false,
+    ## bool Whether to stripe the rows (`table-striped`).
+    striped = false,
+    ## bool Whether to highlight the hovered row (`table-hover`).
+    hover = false,
+    ## bool Whether to add borders on every cell (`table-bordered`).
+    bordered = false,
+    ## bool Whether to remove all borders (`table-borderless`).
+    borderless = false,
+    ## bool Whether to remove the background of the header cells (`table-transparent`).
+    transparent = false,
+    ## bool Whether to keep the cell text from wrapping (`table-nowrap`).
+    nowrap = false,
+    ## bool Whether to highlight the rows whose `Table:Check` is checked (`table-selectable`).
+    selectable = false,
+    ## 'sm'|'md' The cell padding; `sm` tightens it (`table-sm`).
+    size = 'md',
+    ## 'sm'|'md'|'lg'|'xl'|'xxl'|null The breakpoint below which rows stack into blocks, labelled by each cell's `data-label` (`table-mobile-*`).
+    mobile = null,
+    ## bool Whether to run edge to edge inside a card, with no bottom margin (`card-table`).
+    card = false,
+%}
+
+{% set table = html_cva(
+    base: 'table',
+    variants: {
+        vcenter: {true: 'table-vcenter', false: ''},
+        center: {true: 'table-center', false: ''},
+        striped: {true: 'table-striped', false: ''},
+        hover: {true: 'table-hover', false: ''},
+        bordered: {true: 'table-bordered', false: ''},
+        borderless: {true: 'table-borderless', false: ''},
+        transparent: {true: 'table-transparent', false: ''},
+        nowrap: {true: 'table-nowrap', false: ''},
+        selectable: {true: 'table-selectable', false: ''},
+        size: {sm: 'table-sm', md: ''},
+        card: {true: 'card-table', false: ''},
+        mobile: {
+            sm: 'table-mobile-sm',
+            md: 'table-mobile-md',
+            lg: 'table-mobile-lg',
+            xl: 'table-mobile-xl',
+            xxl: 'table-mobile-xxl',
+        },
+    },
+) %}
+
+{% set classes = table.apply({
+    vcenter: vcenter,
+    center: center,
+    striped: striped,
+    hover: hover,
+    bordered: bordered,
+    borderless: borderless,
+    transparent: transparent,
+    nowrap: nowrap,
+    selectable: selectable,
+    size: size,
+    mobile: mobile ?? '',
+    card: card,
+}, attributes.render('class')) %}
+{% if responsive %}<div class="table-responsive">{% endif %}
+<table class="{{ classes }}" {{ attributes.without('class') }}>{## The table rows: the `<thead>` and `<tbody>`. #}{%- block content %}{% endblock -%}</table>
+{% if responsive %}</div>{% endif %}
+{% endapply ~%}

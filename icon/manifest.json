@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Icon",
+    "description": "A Tabler icon from the icon webfont, with a color, a size and an animation.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

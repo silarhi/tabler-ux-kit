@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Status",
+    "description": "A colored status label, with an optional dot that can pulse.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

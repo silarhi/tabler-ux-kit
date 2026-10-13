@@ -1,0 +1,9 @@
+{#
+    Dropdown header — a non-interactive label above a group of items.
+
+    Usage:
+        <twig:Tabler:Dropdown:Header>Actions</twig:Tabler:Dropdown:Header>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'dropdown-header'}) }}>{## The header label. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

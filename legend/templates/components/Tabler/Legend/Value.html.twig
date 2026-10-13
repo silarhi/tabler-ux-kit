@@ -1,0 +1,20 @@
+{#
+    Legend value — the muted number next to a legend label (`.legend-value`).
+
+    Usage:
+        <twig:Tabler:Legend:Value unit="ms">124</twig:Tabler:Legend:Value>
+
+    Props:
+      unit  — optional unit rendered with <twig:Tabler:Legend:Unit>
+#}
+{% apply trim %}
+{% props
+    ## string|null The unit after the content, rendered with `Legend:Unit`.
+    unit = null,
+%}
+
+<span {{ attributes.defaults({class: 'legend-value'}) }}>{## The value. -#}
+    {%- block content %}{% endblock -%}
+    {%- if unit is not null and unit is not same as('') -%}<twig:Tabler:Legend:Unit>{{ unit }}</twig:Tabler:Legend:Unit>{%- endif -%}
+</span>
+{% endapply ~%}

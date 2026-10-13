@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Alert",
+    "description": "Contextual feedback messages, with a title, a description, an icon and a close button.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

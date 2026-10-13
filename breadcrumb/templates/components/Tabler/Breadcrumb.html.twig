@@ -1,0 +1,37 @@
+{#
+    Tabler Breadcrumb — a navigation trail.
+
+    Composed:
+        <twig:Tabler:Breadcrumb>
+            <twig:Tabler:Breadcrumb:Item href="/">Home</twig:Tabler:Breadcrumb:Item>
+            <twig:Tabler:Breadcrumb:Item href="/library">Library</twig:Tabler:Breadcrumb:Item>
+            <twig:Tabler:Breadcrumb:Item active>Data</twig:Tabler:Breadcrumb:Item>
+        </twig:Tabler:Breadcrumb>
+
+    Props:
+      separator  — default | dots | arrows | bullets
+      muted      — muted style (breadcrumb-muted)
+#}
+{% apply trim %}
+{% props
+    ## 'default'|'dots'|'arrows'|'bullets' The separator between the crumbs.
+    separator = 'default',
+    ## bool Whether to use the muted style (`breadcrumb-muted`).
+    muted = false,
+%}
+
+{% set breadcrumb = html_cva(
+    base: 'breadcrumb',
+    variants: {
+        separator: {default: '', dots: 'breadcrumb-dots', arrows: 'breadcrumb-arrows', bullets: 'breadcrumb-bullets'},
+        muted: {true: 'breadcrumb-muted', false: ''},
+    },
+) %}
+
+<nav aria-label="breadcrumbs">
+    <ol class="{{ breadcrumb.apply({separator: separator, muted: muted}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+        {## The crumbs: `Breadcrumb:Item` components. -#}
+        {% block content %}{% endblock %}
+    </ol>
+</nav>
+{% endapply ~%}

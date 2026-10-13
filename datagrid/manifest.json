@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "Datagrid",
+    "description": "A responsive grid of title and value pairs, for the details of a record.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

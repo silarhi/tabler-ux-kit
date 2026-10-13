@@ -1,0 +1,9 @@
+{#
+    Clipboard label — the resting state of a <twig:Tabler:Clipboard> (`.clipboard-label`).
+
+    Usage:
+        <twig:Tabler:Clipboard:Label>Copy link</twig:Tabler:Clipboard:Label>
+#}
+{% apply trim %}
+<span {{ attributes.defaults({class: 'clipboard-label'}) }}>{## The resting text or icon. #}{%- block content %}{% endblock -%}</span>
+{% endapply ~%}

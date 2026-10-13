@@ -1,0 +1,12 @@
+{#
+    Toast header — the top bar of a toast.
+
+    Usage:
+        <twig:Tabler:Toast:Header>
+            <strong class="me-auto">Notice</strong>
+            <twig:Tabler:Toast:Close />
+        </twig:Tabler:Toast:Header>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'toast-header'}) }}>{## The header content, e.g. a title, a time and a `Toast:Close`. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

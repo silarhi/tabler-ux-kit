@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Offcanvas",
+    "description": "A panel that slides in from an edge of the page, for filters, details or navigation.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

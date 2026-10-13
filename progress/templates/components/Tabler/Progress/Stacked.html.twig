@@ -1,0 +1,21 @@
+{#
+    Progress stacked — several segments shown as one bar, e.g. the share of each
+    file type in the used storage (`.progress-stacked`, Bootstrap 5.3 markup).
+
+    Usage:
+        <twig:Tabler:Progress:Stacked separated>
+            <twig:Tabler:Progress:Segment value="15" label="Photos" />
+            <twig:Tabler:Progress:Segment value="30" variant="success" label="Videos" />
+        </twig:Tabler:Progress:Stacked>
+
+    Props:
+      separated  — gap between the segments (progress-separated)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to add a gap between the segments (`progress-separated`).
+    separated = false,
+%}
+
+<div {{ attributes.defaults({class: separated ? 'progress-stacked progress-separated' : 'progress-stacked'}) }}>{## The segments: `Progress:Segment` children. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

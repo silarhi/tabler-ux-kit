@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Divider",
+    "description": "A horizontal rule between sections, with an optional label.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

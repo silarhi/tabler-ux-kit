@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Avatar",
+    "description": "A user picture, initials or an icon in a round or square frame.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

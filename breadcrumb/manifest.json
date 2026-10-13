@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Breadcrumb",
+    "description": "A navigation trail from the home page to the current page.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

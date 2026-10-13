@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "StarRating",
+    "description": "A read-only row of stars showing a score, such as the rating of a product review.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

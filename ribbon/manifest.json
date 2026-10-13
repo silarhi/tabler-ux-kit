@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Ribbon",
+    "description": "A corner ribbon or bookmark that flags a card as new, featured or recommended.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

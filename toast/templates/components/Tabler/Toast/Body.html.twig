@@ -1,0 +1,9 @@
+{#
+    Toast body — the message area of a toast.
+
+    Usage:
+        <twig:Tabler:Toast:Body>Saved successfully.</twig:Tabler:Toast:Body>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'toast-body'}) }}>{## The message. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

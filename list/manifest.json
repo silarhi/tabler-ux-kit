@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "List",
+    "description": "A plain list without the list group borders, stacked with a gap or laid out in a row.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

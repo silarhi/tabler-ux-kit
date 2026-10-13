@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Trending",
+    "description": "A change in a value, shown as the number, a direction arrow and a matching color on one line.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

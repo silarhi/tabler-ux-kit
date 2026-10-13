@@ -1,0 +1,9 @@
+{#
+    Tag badge — a compact counter appended to a tag (`.tag-badge`).
+
+    Usage:
+        <twig:Tabler:Tag:Badge>12</twig:Tabler:Tag:Badge>
+#}
+{% apply trim %}
+<span {{ attributes.defaults({class: 'badge tag-badge'}) }}>{## The counter. #}{%- block content %}{% endblock -%}</span>
+{% endapply ~%}

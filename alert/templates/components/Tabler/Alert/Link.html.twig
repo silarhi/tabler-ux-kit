@@ -1,0 +1,19 @@
+{#
+    Alert link — a link inside the alert message, matched to the alert color (`.alert-link`).
+
+    Usage:
+        <twig:Tabler:Alert:Description>
+            Your trial ends soon. <twig:Tabler:Alert:Link href="/billing">Upgrade now</twig:Tabler:Alert:Link>.
+        </twig:Tabler:Alert:Description>
+
+    Props:
+      href  — link target (defaults to #)
+#}
+{% apply trim %}
+{% props
+    ## string|null The link target; defaults to `#`.
+    href = null,
+%}
+
+<a href="{{ href ?? '#' }}" {{ attributes.defaults({class: 'alert-link'}).without('href') }}>{## The link text. #}{%- block content %}{% endblock -%}</a>
+{% endapply ~%}

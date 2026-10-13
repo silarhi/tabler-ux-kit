@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Navbar",
+    "description": "A responsive navigation header, or a vertical sidebar that can fold into an icon rail.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

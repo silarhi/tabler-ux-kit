@@ -1,0 +1,37 @@
+{#
+    Tabler Toast — a lightweight notification (Bootstrap toast).
+
+    Composed:
+        <twig:Tabler:Toast show>
+            <twig:Tabler:Toast:Header>
+                <strong class="me-auto">Notice</strong>
+                <small>1 min ago</small>
+                <twig:Tabler:Toast:Close />
+            </twig:Tabler:Toast:Header>
+            <twig:Tabler:Toast:Body>Saved successfully.</twig:Tabler:Toast:Body>
+        </twig:Tabler:Toast>
+
+    Props:
+      show      — render in the visible state (toast .show)
+      autohide  — auto-dismiss after the Bootstrap delay (default true)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to render the toast in its visible state (`show`).
+    show = false,
+    ## bool Whether to hide the toast after Bootstrap's delay.
+    autohide = true,
+%}
+
+{% set toast = html_cva(
+    base: 'toast',
+    variants: {
+        show: {true: 'show', false: ''},
+    },
+) %}
+
+<div class="{{ toast.apply({show: show}, attributes.render('class')) }}" role="alert" aria-live="polite" aria-atomic="true"{% if not autohide %} data-bs-autohide="false"{% endif %} {{ attributes.without('class') }}>
+    {## The toast parts: `Toast:Header` and `Toast:Body`. -#}
+    {% block content %}{% endblock %}
+</div>
+{% endapply ~%}

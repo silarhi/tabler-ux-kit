@@ -1,0 +1,52 @@
+{#
+    Tabler Empty — an empty-state placeholder.
+
+    All-in-one:
+        <twig:Tabler:Empty title="No results found" subtitle="Try adjusting your search." />
+
+    Composed:
+        <twig:Tabler:Empty>
+            <twig:Tabler:Empty:Icon><twig:Tabler:Icon name="mood-empty" /></twig:Tabler:Empty:Icon>
+            <twig:Tabler:Empty:Title>Nothing here yet</twig:Tabler:Empty:Title>
+            <twig:Tabler:Empty:Subtitle>Create your first item to get started.</twig:Tabler:Empty:Subtitle>
+            <twig:Tabler:Empty:Action>
+                <twig:Tabler:Button variant="primary">New item</twig:Tabler:Button>
+            </twig:Tabler:Empty:Action>
+        </twig:Tabler:Empty>
+
+    Instead of an icon, lead with <twig:Tabler:Empty:Header>404</twig:Tabler:Empty:Header>
+    or an illustration in <twig:Tabler:Empty:Img>.
+
+    Props:
+      title     — mirrored by the `title` block
+      subtitle  — mirrored by the `subtitle` block
+      bordered  — border around the empty state (empty-bordered)
+#}
+{% apply trim %}
+{% props
+    ## string|null The title, rendered with `Empty:Title`.
+    title = null,
+    ## string|null The subtitle, rendered with `Empty:Subtitle`.
+    subtitle = null,
+    ## bool Whether to draw a border around the empty state (`empty-bordered`).
+    bordered = false,
+%}
+
+<div {{ attributes.defaults({class: bordered ? 'empty empty-bordered' : 'empty'}) }}>
+    {## The whole empty state: `icon`, `title`, `subtitle` and `action`; replace it to compose freely. -#}
+    {% block content %}
+        {## Empty by default: put an `Empty:Icon`, `Empty:Header` or `Empty:Img` in it. -#}
+        {% block icon %}{% endblock %}
+        {## The title: `Empty:Title` with the `title` prop, when set. -#}
+        {% block title %}
+            {%- if title is not null -%}<twig:Tabler:Empty:Title>{{ title }}</twig:Tabler:Empty:Title>{%- endif -%}
+        {% endblock %}
+        {## The subtitle: `Empty:Subtitle` with the `subtitle` prop, when set. -#}
+        {% block subtitle %}
+            {%- if subtitle is not null -%}<twig:Tabler:Empty:Subtitle>{{ subtitle }}</twig:Tabler:Empty:Subtitle>{%- endif -%}
+        {% endblock %}
+        {## Empty by default: put an `Empty:Action` in it. -#}
+        {% block action %}{% endblock %}
+    {% endblock %}
+</div>
+{% endapply ~%}

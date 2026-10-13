@@ -1,0 +1,66 @@
+{#
+    Tabler Progress — a progress bar track.
+
+    All-in-one (single bar):
+        <twig:Tabler:Progress value="38" />
+        <twig:Tabler:Progress value="57" variant="success" size="sm" label="57% complete" />
+        <twig:Tabler:Progress indeterminate size="sm" />
+
+    Composed (stacked bars):
+        <twig:Tabler:Progress>
+            <twig:Tabler:Progress:Bar value="30" variant="primary" />
+            <twig:Tabler:Progress:Bar value="20" variant="success" />
+        </twig:Tabler:Progress>
+
+    Props:
+      value          — 0–100 percentage for the single-bar shortcut
+      variant          — bar variant for the single-bar shortcut
+      size           — sm | md (default) | lg | xl
+      striped        — diagonal stripes on the bar (progress-bar-striped)
+      animated       — animates the stripes (progress-bar-animated)
+      separated      — gap between stacked bars (progress-separated)
+      label          — visually-hidden label for the single bar
+      indeterminate  — render an indeterminate single bar
+#}
+{% apply trim %}
+{% props
+    ## int|null The percentage of the single bar, from 0 to 100, rendered with `Progress:Bar`; no bar when null.
+    value = null,
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The color of the single bar.
+    variant = 'primary',
+    ## 'sm'|'md'|'lg'|'xl' The track height (`progress-*`).
+    size = 'md',
+    ## string|null The visually-hidden label of the single bar.
+    label = null,
+    ## bool Whether to render a single indeterminate bar.
+    indeterminate = false,
+    ## bool Whether to add diagonal stripes to the single bar (`progress-bar-striped`).
+    striped = false,
+    ## bool Whether to animate the stripes of the single bar (`progress-bar-animated`).
+    animated = false,
+    ## bool Whether to add a gap between stacked bars (`progress-separated`).
+    separated = false,
+%}
+
+{% set progress = html_cva(
+    base: 'progress',
+    variants: {
+        size: {sm: 'progress-sm', md: '', lg: 'progress-lg', xl: 'progress-xl'},
+        separated: {true: 'progress-separated', false: ''},
+    },
+) %}
+
+<div class="{{ progress.apply({size: size, separated: separated}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {## The whole track content, the `bar`; replace it with `Progress:Bar` children to stack bars. -#}
+    {% block content %}
+        {## The single bar: a `Progress:Bar` from `value`, `variant`, `label`, `striped` and `animated`, or an indeterminate one. -#}
+        {% block bar %}
+            {%- if indeterminate -%}
+                <twig:Tabler:Progress:Bar variant="{{ variant }}" indeterminate />
+            {%- elseif value is not null -%}
+                <twig:Tabler:Progress:Bar value="{{ value }}" variant="{{ variant }}" label="{{ label }}" striped="{{ striped }}" animated="{{ animated }}" />
+            {%- endif -%}
+        {% endblock %}
+    {% endblock %}
+</div>
+{% endapply ~%}

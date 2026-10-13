@@ -1,0 +1,24 @@
+{#
+    Tabler Tracking — a row of status blocks (e.g. uptime monitor).
+
+    Composed:
+        <twig:Tabler:Tracking>
+            <twig:Tabler:Tracking:Block variant="success" />
+            <twig:Tabler:Tracking:Block variant="success" />
+            <twig:Tabler:Tracking:Block variant="danger" />
+        </twig:Tabler:Tracking>
+
+    Props:
+      squares  — square blocks instead of thin bars (tracking-squares)
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to render square blocks instead of thin bars (`tracking-squares`).
+    squares = false,
+%}
+
+<div {{ attributes.defaults({class: squares ? 'tracking tracking-squares' : 'tracking'}) }}>
+    {## The `Tracking:Block` items. -#}
+    {% block content %}{% endblock %}
+</div>
+{% endapply ~%}

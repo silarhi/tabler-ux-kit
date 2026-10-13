@@ -1,0 +1,60 @@
+{#
+    Progress bar — a single fill inside a <twig:Tabler:Progress>.
+
+    Usage:
+        <twig:Tabler:Progress:Bar value="38" variant="primary" />
+        <twig:Tabler:Progress:Bar indeterminate />
+
+    Props:
+      value          — 0–100 percentage (sets width + aria values)
+      variant          — primary | secondary | success | danger | warning | info | dark | light
+      label          — visually-hidden label
+      indeterminate  — animated indeterminate bar (ignores `value`)
+      striped        — diagonal stripes (progress-bar-striped)
+      animated       — animated stripes (progress-bar-striped progress-bar-animated)
+#}
+{% apply trim %}
+{% props
+    ## int|null The percentage, from 0 to 100: sets the width and the `aria-value*` attributes.
+    value = null,
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The bar color (`bg-*`).
+    variant = 'primary',
+    ## string|null The visually-hidden label.
+    label = null,
+    ## bool Whether to render an animated indeterminate bar (`progress-bar-indeterminate`), ignoring `value`.
+    indeterminate = false,
+    ## bool Whether to add diagonal stripes (`progress-bar-striped`).
+    striped = false,
+    ## bool Whether to animate the stripes (`progress-bar-striped progress-bar-animated`).
+    animated = false,
+%}
+
+{% set bar = html_cva(
+    base: 'progress-bar',
+    variants: {
+        variant: {
+            primary: 'bg-primary',
+            secondary: 'bg-secondary',
+            success: 'bg-success',
+            danger: 'bg-danger',
+            warning: 'bg-warning',
+            info: 'bg-info',
+            dark: 'bg-dark',
+            light: 'bg-light',
+        },
+        indeterminate: {true: 'progress-bar-indeterminate', false: ''},
+        striped: {true: 'progress-bar-striped', false: ''},
+        animated: {true: 'progress-bar-striped progress-bar-animated', false: ''},
+    },
+) %}
+
+{% set determinate = not indeterminate and value is not null %}
+{# the width goes first so a user `style` can still override it #}
+{% set style = [determinate ? 'width: ' ~ value ~ '%' : null, attributes.render('style')]|filter(v => v is not empty)|join('; ') %}
+
+<div class="{{ bar.apply({variant: variant, indeterminate: indeterminate, striped: striped and not animated, animated: animated ? true : false}, attributes.render('class')) }}" role="progressbar"{% if style %} style="{{ style }}"{% endif %}{% if determinate %} aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="100"{% endif %} {{ attributes.without('class', 'style') }}>{## The bar content: the visually-hidden `label`, when set. #}
+    {%- block content -%}
+        {%- if label -%}<span class="visually-hidden">{{ label }}</span>{%- endif -%}
+    {%- endblock -%}
+</div>
+{% endapply ~%}

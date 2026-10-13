@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Sparkline",
+    "description": "A tiny inline chart (line, bar, win/loss or circle) drawn by tabler.js from data attributes.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

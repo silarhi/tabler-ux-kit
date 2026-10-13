@@ -1,0 +1,11 @@
+{#
+    Offcanvas footer — a row of actions at the bottom of an offcanvas panel.
+
+    Usage:
+        <twig:Tabler:Offcanvas:Footer>
+            <twig:Tabler:Button variant="primary" block>Apply</twig:Tabler:Button>
+        </twig:Tabler:Offcanvas:Footer>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'offcanvas-footer'}) }}>{## The footer content, usually the actions. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

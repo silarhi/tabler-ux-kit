@@ -1,0 +1,47 @@
+{#
+    Dropdown menu — the panel of items.
+
+    Usage:
+        <twig:Tabler:Dropdown:Menu>
+            <twig:Tabler:Dropdown:Item href="/edit">Edit</twig:Tabler:Dropdown:Item>
+        </twig:Tabler:Dropdown:Menu>
+
+    Props:
+      end  — align the menu to the end (dropdown-menu-end)
+      arrow       — small arrow pointing at the toggle (dropdown-menu-arrow)
+      dark        — dark menu on a light page (dropdown-menu-dark)
+      scrollable  — caps the height and scrolls (dropdown-menu-scrollable)
+      card        — card-like panel for rich content (dropdown-menu-card)
+
+    Long menus can be split with <twig:Tabler:Dropdown:Columns> / <twig:Tabler:Dropdown:Column>.
+#}
+{% apply trim %}
+{% props
+    ## bool Whether to align the menu to the end (`dropdown-menu-end`).
+    end = false,
+    ## bool Whether to add an arrow pointing at the toggle (`dropdown-menu-arrow`).
+    arrow = false,
+    ## bool Whether to render a dark menu (`dropdown-menu-dark`).
+    dark = false,
+    ## bool Whether to cap the height and scroll (`dropdown-menu-scrollable`).
+    scrollable = false,
+    ## bool Whether to render a panel for rich content (`dropdown-menu-card`).
+    card = false,
+%}
+
+{% set menu = html_cva(
+    base: 'dropdown-menu',
+    variants: {
+        end: {true: 'dropdown-menu-end', false: ''},
+        arrow: {true: 'dropdown-menu-arrow', false: ''},
+        dark: {true: 'dropdown-menu-dark', false: ''},
+        scrollable: {true: 'dropdown-menu-scrollable', false: ''},
+        card: {true: 'dropdown-menu-card', false: ''},
+    },
+) %}
+
+<div class="{{ menu.apply({end: end, arrow: arrow, dark: dark, scrollable: scrollable, card: card}, attributes.render('class')) }}" {{ attributes.without('class') }}>
+    {## The menu entries: `Dropdown:Item`, `Dropdown:Header`, `Dropdown:Divider` and the like. -#}
+    {% block content %}{% endblock %}
+</div>
+{% endapply ~%}

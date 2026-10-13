@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Dropdown",
+    "description": "A toggle button that opens a menu of actions or links.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

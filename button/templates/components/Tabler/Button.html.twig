@@ -1,0 +1,116 @@
+{#
+    Tabler Button — main component, shadcn-style.
+
+    Renders a <button> by default, or an <a> when `href` is set.
+
+    All-in-one:
+        <twig:Tabler:Button variant="primary">Save</twig:Tabler:Button>
+        <twig:Tabler:Button variant="danger" appearance="outline" size="sm">Delete</twig:Tabler:Button>
+        <twig:Tabler:Button href="/profile" variant="secondary" appearance="ghost">Profile</twig:Tabler:Button>
+
+    Props:
+      variant      — color: default | primary | secondary | success | danger | warning | info | dark | light
+                     (`default` is Tabler's neutral button: plain .btn, .btn-outline or .btn-ghost)
+      appearance   — filled (default) | outline | ghost | link (btn-link) | action (btn-action: quiet icon
+                     button for card headers and table rows; give it an aria-label) — link and action ignore `variant`
+      size         — sm | md (default) | lg | xl
+      href         — when set, renders <a href> instead of <button>
+      type         — button (default) | submit | reset (ignored for links)
+      pill         — fully rounded corners
+      square       — remove border radius
+      iconOnly     — icon-only button (no label padding)
+      loading      — show loading spinner state
+      block        — full width (w-100)
+      disabled     — inactive state (attribute on <button>, .disabled class on <a>)
+      floating     — pinned to the bottom corner of the viewport (btn-floating)
+      animateIcon  — animate the icon on hover: pulse | rotate | shake | tada | move-start (btn-animate-icon-*)
+#}
+{% apply trim %}
+{% props
+    ## 'default'|'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The button color; `default` is neutral.
+    variant = 'primary',
+    ## 'filled'|'outline'|'ghost'|'link'|'action' The button style; `link` and `action` ignore `variant`.
+    appearance = 'filled',
+    ## 'sm'|'md'|'lg'|'xl' The button size.
+    size = 'md',
+    ## string|null The link target; renders an `<a>` instead of a `<button>` when set.
+    href = null,
+    ## 'button'|'submit'|'reset' The `<button>` type, ignored for links.
+    type = 'button',
+    ## bool Whether to fully round the corners (`btn-pill`).
+    pill = false,
+    ## bool Whether to remove the border radius (`btn-square`).
+    square = false,
+    ## bool Whether the button holds only an icon (`btn-icon`).
+    iconOnly = false,
+    ## bool Whether to show a spinner instead of the label (`btn-loading`).
+    loading = false,
+    ## bool Whether to take the full width (`w-100`).
+    block = false,
+    ## bool Whether the button is disabled: the `disabled` attribute on a `<button>`, `aria-disabled` on a link.
+    disabled = false,
+    ## bool Whether to pin the button to the bottom corner of the viewport (`btn-floating`).
+    floating = false,
+    ## 'pulse'|'rotate'|'shake'|'tada'|'move-start'|null The icon animation on hover (`btn-animate-icon-*`).
+    animateIcon = null,
+%}
+
+{% set button = html_cva(
+    base: 'btn',
+    variants: {
+        size: {sm: 'btn-sm', md: '', lg: 'btn-lg', xl: 'btn-xl'},
+        pill: {true: 'btn-pill', false: ''},
+        square: {true: 'btn-square', false: ''},
+        iconOnly: {true: 'btn-icon', false: ''},
+        loading: {true: 'btn-loading', false: ''},
+        block: {true: 'w-100', false: ''},
+        disabled: {true: 'disabled', false: ''},
+        floating: {true: 'btn-floating', false: ''},
+        animateIcon: {
+            pulse: 'btn-animate-icon btn-animate-icon-pulse',
+            rotate: 'btn-animate-icon btn-animate-icon-rotate',
+            shake: 'btn-animate-icon btn-animate-icon-shake',
+            tada: 'btn-animate-icon btn-animate-icon-tada',
+            'move-start': 'btn-animate-icon btn-animate-icon-move-start',
+        },
+    },
+    compound_variants: [
+        {appearance: ['filled'], variant: ['primary'], class: 'btn-primary'},
+        {appearance: ['filled'], variant: ['secondary'], class: 'btn-secondary'},
+        {appearance: ['filled'], variant: ['success'], class: 'btn-success'},
+        {appearance: ['filled'], variant: ['danger'], class: 'btn-danger'},
+        {appearance: ['filled'], variant: ['warning'], class: 'btn-warning'},
+        {appearance: ['filled'], variant: ['info'], class: 'btn-info'},
+        {appearance: ['filled'], variant: ['dark'], class: 'btn-dark'},
+        {appearance: ['filled'], variant: ['light'], class: 'btn-light'},
+        {appearance: ['link'], class: 'btn-link'},
+        {appearance: ['action'], class: 'btn-action'},
+        {appearance: ['outline'], variant: ['default'], class: 'btn-outline'},
+        {appearance: ['outline'], variant: ['primary'], class: 'btn-outline-primary'},
+        {appearance: ['outline'], variant: ['secondary'], class: 'btn-outline-secondary'},
+        {appearance: ['outline'], variant: ['success'], class: 'btn-outline-success'},
+        {appearance: ['outline'], variant: ['danger'], class: 'btn-outline-danger'},
+        {appearance: ['outline'], variant: ['warning'], class: 'btn-outline-warning'},
+        {appearance: ['outline'], variant: ['info'], class: 'btn-outline-info'},
+        {appearance: ['outline'], variant: ['dark'], class: 'btn-outline-dark'},
+        {appearance: ['outline'], variant: ['light'], class: 'btn-outline-light'},
+        {appearance: ['ghost'], variant: ['default'], class: 'btn-ghost'},
+        {appearance: ['ghost'], variant: ['primary'], class: 'btn-ghost-primary'},
+        {appearance: ['ghost'], variant: ['secondary'], class: 'btn-ghost-secondary'},
+        {appearance: ['ghost'], variant: ['success'], class: 'btn-ghost-success'},
+        {appearance: ['ghost'], variant: ['danger'], class: 'btn-ghost-danger'},
+        {appearance: ['ghost'], variant: ['warning'], class: 'btn-ghost-warning'},
+        {appearance: ['ghost'], variant: ['info'], class: 'btn-ghost-info'},
+        {appearance: ['ghost'], variant: ['dark'], class: 'btn-ghost-dark'},
+        {appearance: ['ghost'], variant: ['light'], class: 'btn-ghost-light'},
+    ],
+) %}
+
+{% set link = href is not null %}
+{% set classes = button.apply({size: size, pill: pill, square: square, iconOnly: iconOnly, loading: loading, block: block, disabled: link and disabled, floating: floating, animateIcon: animateIcon ?? '', appearance: appearance, variant: variant}, attributes.render('class')) %}
+{% set tag = link ? 'a' : 'button' %}
+<{{ tag }}{% if link %} href="{{ href }}"{% else %} type="{{ type }}"{% endif %} class="{{ classes }}" {{ (link ? attributes.defaults({role: 'button'}) : attributes).without('class', 'href', 'type') }}
+    {%- if disabled %}{% if link %} aria-disabled="true" tabindex="-1"{% else %} disabled{% endif %}{% endif %}>{## The button label. #}
+    {%- block content %}{% endblock -%}
+</{{ tag }}>
+{% endapply ~%}

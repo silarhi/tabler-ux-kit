@@ -1,0 +1,51 @@
+{#
+    Tabler Divider — a horizontal rule with optional centered text.
+
+    All-in-one:
+        <twig:Tabler:Divider />
+        <twig:Tabler:Divider>See also</twig:Tabler:Divider>
+        <twig:Tabler:Divider position="start" variant="primary">Section</twig:Tabler:Divider>
+
+    Props:
+      position  — start | center (default) | end (text alignment)
+      variant     — primary | secondary | success | danger | warning | info | dark | light
+      spaceless  — no vertical margin around a labelled divider (hr-text-spaceless)
+
+    With no content it renders a plain <hr>; with content it renders a `.hr-text`.
+#}
+{% apply trim %}
+{% props
+    ## 'start'|'center'|'end' The label alignment (`hr-text-*`).
+    position = 'center',
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|null The label color (`text-*`).
+    variant = null,
+    ## bool Whether to remove the vertical margin around a labelled divider (`hr-text-spaceless`).
+    spaceless = false,
+%}
+
+{%- set label -%}{## The label; a plain `<hr>` when empty or blank. #}{%- block content %}{% endblock -%}{%- endset -%}
+
+{% set divider = html_cva(
+    base: 'hr-text',
+    variants: {
+        position: {start: 'hr-text-start', center: '', end: 'hr-text-end'},
+        spaceless: {true: 'hr-text-spaceless', false: ''},
+        variant: {
+            primary: 'text-primary',
+            secondary: 'text-secondary',
+            success: 'text-success',
+            danger: 'text-danger',
+            warning: 'text-warning',
+            info: 'text-info',
+            dark: 'text-dark',
+            light: 'text-light',
+        },
+    },
+) %}
+
+{% if label|trim %}
+    <div class="{{ divider.apply({position: position, variant: variant ?? '', spaceless: spaceless}, attributes.render('class')) }}" {{ attributes.without('class') }}>{{- label -}}</div>
+{% else %}
+    <hr {{ attributes.defaults({class: 'hr'}) }}>
+{% endif %}
+{% endapply ~%}

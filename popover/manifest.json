@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "Popover",
+    "description": "A small overlay with a title and a text, opened by clicking an element.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

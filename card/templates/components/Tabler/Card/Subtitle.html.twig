@@ -1,0 +1,9 @@
+{#
+    Card subtitle — small muted text accompanying the title.
+
+    Usage:
+      <twig:Tabler:Card:Subtitle>Last 30 days</twig:Tabler:Card:Subtitle>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'card-subtitle'}) }}>{## The subtitle. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

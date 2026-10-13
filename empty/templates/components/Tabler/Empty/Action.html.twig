@@ -1,0 +1,11 @@
+{#
+    Empty action — the call-to-action area of an empty state.
+
+    Usage:
+      <twig:Tabler:Empty:Action>
+          <twig:Tabler:Button variant="primary">New item</twig:Tabler:Button>
+      </twig:Tabler:Empty:Action>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'empty-action'}) }}>{## The buttons or links. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

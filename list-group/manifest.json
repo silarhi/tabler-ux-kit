@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "List group",
+    "description": "A series of related items in one bordered block, as links, buttons or plain rows.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

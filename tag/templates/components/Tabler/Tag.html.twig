@@ -1,0 +1,77 @@
+{#
+    Tabler Tag — a compact inline label with optional leading media, a counter
+    badge and a remove button (`.tag`).
+
+    All-in-one:
+        <twig:Tabler:Tag label="Featured" icon="star" dismissible />
+        <twig:Tabler:Tag label="Alex P." avatar="/avatars/alex.jpg" dismissible />
+        <twig:Tabler:Tag label="Online" status="success" />
+        <twig:Tabler:Tag label="Notifications" badge="12" />
+        <twig:Tabler:Tag label="Selected" checkbox checked />
+
+    In a list:
+        <twig:Tabler:Tag:List>
+            <twig:Tabler:Tag label="Alpha" dismissible />
+            <twig:Tabler:Tag label="Beta" dismissible />
+        </twig:Tabler:Tag:List>
+
+    Composed (override `content`, or just the `leading` / `label` / `badge` / `close` blocks):
+        <twig:Tabler:Tag>
+            <twig:Tabler:Tag:Avatar>AP</twig:Tabler:Tag:Avatar>
+            Alex P.
+            <twig:Tabler:Tag:Close aria-label="Remove Alex" />
+        </twig:Tabler:Tag>
+
+    Props:
+      label        — the tag text; mirrored by the `label` block
+      icon         — leading Tabler icon name (tag-icon)
+      avatar       — leading avatar image URL (Tag:Avatar)
+      status       — leading status dot color: primary | secondary | success | danger | warning | info | dark | light | muted,
+                     or a palette color (Tag:Status)
+      checkbox     — leading checkbox, for a selectable filter (Tag:Check)
+      checked      — initial state of that checkbox
+      badge        — optional counter; mirrored by the `badge` block
+      dismissible  — show a remove button labelled "Remove <label>"; mirrored by the `close` block
+#}
+{% apply trim %}
+{% props
+    ## string|null The tag text.
+    label = null,
+    ## string|null The leading Tabler icon name (`tag-icon`).
+    icon = null,
+    ## string|null The leading avatar image URL, rendered with `Tag:Avatar`.
+    avatar = null,
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light'|'muted'|'blue'|'azure'|'indigo'|'purple'|'pink'|'red'|'orange'|'yellow'|'lime'|'green'|'teal'|'cyan'|null The color of the leading status dot, rendered with `Tag:Status`.
+    status = null,
+    ## bool Whether to add a leading checkbox (`Tag:Check`), labelled with `label`.
+    checkbox = false,
+    ## bool The initial state of that checkbox.
+    checked = false,
+    ## string|null The counter at the end, rendered with `Tag:Badge`.
+    badge = null,
+    ## bool Whether to add a remove button (`Tag:Close`), labelled "Remove" followed by the `label`.
+    dismissible = false,
+%}
+
+<span {{ attributes.defaults({class: 'tag'}) }}>{## The tag content: `leading`, `label`, `badge` and `close`; replace it to compose freely. -#}
+    {%- block content -%}
+        {## The leading media: the checkbox, avatar, icon and status dot, each when its prop is set. -#}
+        {%- block leading -%}
+            {%- if checkbox -%}{%- if label is not null -%}<twig:Tabler:Tag:Check checked="{{ checked }}" aria-label="{{ label }}" />{%- else -%}<twig:Tabler:Tag:Check checked="{{ checked }}" />{%- endif -%}{%- endif -%}
+            {%- if avatar is not null -%}<twig:Tabler:Tag:Avatar image="{{ avatar }}" />{%- endif -%}
+            {%- if icon is not null -%}<twig:Tabler:Icon name="{{ icon }}" class="tag-icon" aria-hidden="true" />{%- endif -%}
+            {%- if status is not null -%}<twig:Tabler:Tag:Status variant="{{ status }}" />{%- endif -%}
+        {%- endblock -%}
+        {## The tag text: the `label` prop. -#}
+        {%- block label -%}{{ label }}{%- endblock -%}
+        {## The counter: `Tag:Badge` with the `badge` prop, when set. -#}
+        {%- block badge -%}
+            {%- if badge is not null -%}<twig:Tabler:Tag:Badge>{{ badge }}</twig:Tabler:Tag:Badge>{%- endif -%}
+        {%- endblock -%}
+        {## The remove button: `Tag:Close`, when `dismissible`. -#}
+        {%- block close -%}
+            {%- if dismissible -%}<twig:Tabler:Tag:Close aria-label="{{ label is not null ? 'Remove ' ~ label : 'Remove' }}" />{%- endif -%}
+        {%- endblock -%}
+    {%- endblock -%}
+</span>
+{% endapply ~%}

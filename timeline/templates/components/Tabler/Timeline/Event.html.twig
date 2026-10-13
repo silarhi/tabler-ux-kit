@@ -1,0 +1,56 @@
+{#
+    Timeline event — one entry in a <twig:Tabler:Timeline>.
+
+    All-in-one:
+        <twig:Tabler:Timeline:Event title="Backup completed" time="1 day ago" text="Download the latest backup." />
+
+    Composed — `content` wraps the whole event (icon + card). Override `content`
+    to replace everything, or just the `icon` / `time` / `title` / `body` blocks:
+        <twig:Tabler:Timeline:Event title="Backup completed" time="1 day ago">
+            <twig:block name="icon">
+                <twig:Tabler:Timeline:Event:Icon><twig:Tabler:Icon name="check" /></twig:Tabler:Timeline:Event:Icon>
+            </twig:block>
+            <twig:block name="body">
+                <twig:Tabler:Timeline:Event:Body>Download the <a href="#">latest backup</a>.</twig:Tabler:Timeline:Event:Body>
+            </twig:block>
+        </twig:Tabler:Timeline:Event>
+
+    Props (each mirrored by a same-named block rendering its sub-component):
+      title  — optional event heading; mirrored by the `title` block
+      time   — optional timestamp shown on the right; mirrored by the `time` block
+      text   — optional body text; mirrored by the `body` block
+#}
+{% apply trim %}
+{% props
+    ## string|null The event heading, rendered with `Timeline:Event:Title`.
+    title = null,
+    ## string|null The timestamp shown on the right, rendered with `Timeline:Event:Time`.
+    time = null,
+    ## string|null The body text, rendered with `Timeline:Event:Body`.
+    text = null,
+%}
+
+<li {{ attributes.defaults({class: 'timeline-event'}) }}>
+    {## The whole event: `icon` and the card holding `time`, `title` and `body`; replace it to compose freely. -#}
+    {% block content %}
+        {## The icon: an empty `Timeline:Event:Icon` by default. -#}
+        {% block icon %}<twig:Tabler:Timeline:Event:Icon></twig:Tabler:Timeline:Event:Icon>{% endblock %}
+        <div class="card timeline-event-card">
+            <div class="card-body">
+                {## The timestamp: `Timeline:Event:Time` with the `time` prop, when set. -#}
+                {% block time %}
+                    {%- if time is not null -%}<twig:Tabler:Timeline:Event:Time>{{ time }}</twig:Tabler:Timeline:Event:Time>{%- endif -%}
+                {% endblock %}
+                {## The heading: `Timeline:Event:Title` with the `title` prop, when set. -#}
+                {% block title %}
+                    {%- if title is not null -%}<twig:Tabler:Timeline:Event:Title>{{ title }}</twig:Tabler:Timeline:Event:Title>{%- endif -%}
+                {% endblock %}
+                {## The body: `Timeline:Event:Body` with the `text` prop, when set. -#}
+                {% block body %}
+                    {%- if text is not null -%}<twig:Tabler:Timeline:Event:Body>{{ text }}</twig:Tabler:Timeline:Event:Body>{%- endif -%}
+                {% endblock %}
+            </div>
+        </div>
+    {% endblock %}
+</li>
+{% endapply ~%}

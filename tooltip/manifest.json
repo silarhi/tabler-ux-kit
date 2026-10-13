@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "Tooltip",
+    "description": "A short text label shown when hovering or focusing an element.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

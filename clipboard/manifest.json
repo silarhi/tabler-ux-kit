@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "Clipboard",
+    "description": "A copy button that shows a short \"copied\" state, built on the browser clipboard API.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

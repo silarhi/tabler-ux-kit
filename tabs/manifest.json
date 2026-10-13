@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Tabs",
+    "description": "A tab bar that switches between content panes, with JavaScript.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

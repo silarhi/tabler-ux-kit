@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "ButtonGroup",
+    "description": "Related buttons joined into one bar, or radio and checkbox inputs styled as buttons.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Carousel",
+    "description": "A slideshow of images, with controls, indicators and captions.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

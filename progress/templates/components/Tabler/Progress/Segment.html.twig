@@ -1,0 +1,53 @@
+{#
+    Progress segment — one part of a <twig:Tabler:Progress:Stacked>: a `.progress`
+    track sized to its share, holding a full bar.
+
+    Usage:
+        <twig:Tabler:Progress:Segment value="30" variant="success" label="Videos" />
+
+    Props:
+      value     — share of the whole, in percent (sets the width and aria-valuenow)
+      variant   — bar color (same values as <twig:Tabler:Progress:Bar>)
+      label     — accessible name (aria-label, default "{value}% of total")
+      striped   — diagonal stripes (progress-bar-striped)
+      animated  — animated stripes (progress-bar-animated)
+#}
+{% apply trim %}
+{% props
+    ## int The share of the whole, in percent: sets the width and `aria-valuenow`.
+    value = 0,
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The bar color (`bg-*`).
+    variant = 'primary',
+    ## string|null The `aria-label` of the segment; defaults to "{value}% of total".
+    label = null,
+    ## bool Whether to add diagonal stripes (`progress-bar-striped`).
+    striped = false,
+    ## bool Whether to animate the stripes (`progress-bar-animated`).
+    animated = false,
+%}
+
+{% set bar = html_cva(
+    base: 'progress-bar',
+    variants: {
+        variant: {
+            primary: 'bg-primary',
+            secondary: 'bg-secondary',
+            success: 'bg-success',
+            danger: 'bg-danger',
+            warning: 'bg-warning',
+            info: 'bg-info',
+            dark: 'bg-dark',
+            light: 'bg-light',
+        },
+        striped: {true: 'progress-bar-striped', false: ''},
+        animated: {true: 'progress-bar-striped progress-bar-animated', false: ''},
+    },
+) %}
+{# the width goes first so a user `style` can still override it #}
+{% set style = ['width: ' ~ value ~ '%', attributes.render('style')]|filter(v => v is not empty)|join('; ') %}
+
+{# the segment is the progressbar; its fill is decorative, without a role of its own (Bootstrap 5.3 markup) #}
+<div {{ attributes.defaults({class: 'progress'}).without('style') }} style="{{ style }}" role="progressbar" aria-valuenow="{{ value }}" aria-valuemin="0" aria-valuemax="100" aria-label="{{ label ?? (value ~ '% of total') }}">
+    <div class="{{ bar.apply({variant: variant, striped: striped and not animated, animated: animated ? true : false}) }}"></div>
+</div>
+{% endapply ~%}

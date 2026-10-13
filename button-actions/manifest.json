@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "ButtonActions",
+    "description": "A row of quiet icon buttons for a card header or a table row.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

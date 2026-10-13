@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Legend",
+    "description": "A colored marker, a label and an optional value that name the series of a chart or a progress bar.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

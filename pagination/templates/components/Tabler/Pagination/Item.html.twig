@@ -1,0 +1,57 @@
+{#
+    Pagination item — one page link in a <twig:Tabler:Pagination>.
+
+    Usage:
+        <twig:Tabler:Pagination:Item href="?page=2">2</twig:Tabler:Pagination:Item>
+        <twig:Tabler:Pagination:Item href="?page=2" active>2</twig:Tabler:Pagination:Item>
+        <twig:Tabler:Pagination:Item disabled>«</twig:Tabler:Pagination:Item>
+
+    Named pager (prose, docs, wizards):
+        <twig:Tabler:Pagination:Item href="/docs/start" direction="prev" subtitle="previous" title="Getting started" />
+        <twig:Tabler:Pagination:Item href="/docs/install" direction="next" subtitle="next" title="Installation" />
+
+    Props:
+      href      — link target
+      active    — current page
+      disabled  — non-interactive page
+      direction — prev | next: a pager step (page-prev / page-next, rel=prev|next)
+      title     — page name, for a pager that names pages (page-item-title)
+      subtitle  — small uppercase label above the title (page-item-subtitle)
+#}
+{% apply trim %}
+{% props
+    ## string|null The link target; defaults to `#`.
+    href = null,
+    ## bool Whether the item is the current page (`active`, `aria-current`).
+    active = false,
+    ## bool Whether the item is non-interactive, rendered without `href` (`disabled`).
+    disabled = false,
+    ## 'prev'|'next'|null Makes the item a pager step (`page-prev` / `page-next`, `rel`).
+    direction = null,
+    ## string|null The page name, for a pager that names pages (`page-item-title`).
+    title = null,
+    ## string|null A small uppercase label above the title (`page-item-subtitle`).
+    subtitle = null,
+%}
+
+{% set item = html_cva(
+    base: 'page-item',
+    variants: {
+        active: {true: 'active', false: ''},
+        disabled: {true: 'disabled', false: ''},
+        direction: {prev: 'page-prev', next: 'page-next'},
+    },
+) %}
+
+{# a disabled item is an <a> without href, as in Tabler's markup: a <span> could not hold the title <div>s #}
+<li class="{{ item.apply({active: active, disabled: disabled, direction: direction ?? ''}, attributes.render('class')) }}" {{ attributes.without('class', 'href') }}>
+    <a class="page-link"
+        {%- if disabled %} aria-disabled="true"{% else %} href="{{ href ?? '#' }}"{% if direction is not null %} rel="{{ direction }}"{% endif %}{% endif %}
+        {%- if active %} aria-current="page"{% endif %}>
+        {%- if subtitle is not null -%}<div class="page-item-subtitle">{{ subtitle }}</div>{%- endif -%}
+        {%- if title is not null -%}<div class="page-item-title">{{ title }}</div>{%- endif -%}
+        {## The link content, after the subtitle and title. -#}
+        {%- block content %}{% endblock -%}
+    </a>
+</li>
+{% endapply ~%}

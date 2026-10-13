@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Nav",
+    "description": "A list of navigation links, as plain links, tabs, pills or underlined.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

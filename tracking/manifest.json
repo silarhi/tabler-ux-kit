@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Tracking",
+    "description": "A row of colored status blocks, such as the daily history of an uptime monitor.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

@@ -1,0 +1,108 @@
+{#
+    Tabler Badge — main component, shadcn-style.
+
+    Renders a <span> by default, or an <a> when `href` is set.
+
+    All-in-one:
+        <twig:Tabler:Badge variant="success">New</twig:Tabler:Badge>
+        <twig:Tabler:Badge variant="primary" light pill>3</twig:Tabler:Badge>
+        <twig:Tabler:Badge variant="danger" outline>Deprecated</twig:Tabler:Badge>
+        <twig:Tabler:Badge href="/tags/php" variant="info" light>PHP</twig:Tabler:Badge>
+
+    Status dot and notification counter:
+        <twig:Tabler:Badge variant="success" dot aria-label="Online" />
+        <twig:Tabler:Button>Inbox <twig:Tabler:Badge variant="danger" notification blink>4</twig:Tabler:Badge></twig:Tabler:Button>
+
+    Several badges side by side: wrap them in <twig:Tabler:Badge:List>.
+
+    Props:
+      variant       — primary | secondary | success | danger | warning | info | dark | light
+      light         — soft/tinted variant (bg-{variant}-lt)
+      outline       — transparent fill with a colored border (badge-outline, Tabler 1.5+)
+      pill          — fully rounded corners
+      size          — sm | md (default) | lg
+      dot           — small dot with no text, for a status marker (badge-dot)
+      iconOnly      — square badge holding only an icon (badge-icononly)
+      notification  — positions the badge over the corner of its parent (badge-notification)
+      blink         — pulsing animation, for a live counter (badge-blink)
+      href          — when set, renders <a href> instead of <span>
+#}
+{% apply trim %}
+{% props
+    ## 'primary'|'secondary'|'success'|'danger'|'warning'|'info'|'dark'|'light' The badge color.
+    variant = 'primary',
+    ## bool Whether to use a tinted background (`bg-{variant}-lt`) instead of `text-bg-{variant}`.
+    light = false,
+    ## bool Whether to use a transparent background and a colored border (`badge-outline`); takes precedence over `light`.
+    outline = false,
+    ## bool Whether to fully round the corners (`badge-pill`).
+    pill = false,
+    ## 'sm'|'md'|'lg' The badge size.
+    size = 'md',
+    ## bool Whether to render a small dot with no text (`badge-dot`).
+    dot = false,
+    ## bool Whether the badge holds only an icon (`badge-icononly`).
+    iconOnly = false,
+    ## bool Whether to place the badge over the top end corner of its parent (`badge-notification`).
+    notification = false,
+    ## bool Whether to pulse the badge (`badge-blink`).
+    blink = false,
+    ## string|null The link target; renders an `<a>` instead of a `<span>` when set.
+    href = null,
+%}
+
+{% set badge = html_cva(
+    base: 'badge',
+    variants: {
+        size: {sm: 'badge-sm', md: '', lg: 'badge-lg'},
+        pill: {true: 'badge-pill', false: ''},
+        outline: {true: 'badge-outline', false: ''},
+        dot: {true: 'badge-dot', false: ''},
+        iconOnly: {true: 'badge-icononly', false: ''},
+        notification: {true: 'badge-notification', false: ''},
+        blink: {true: 'badge-blink', false: ''},
+    },
+    compound_variants: [
+        {light: [false], outline: [false], variant: ['primary'], class: 'text-bg-primary'},
+        {light: [false], outline: [false], variant: ['secondary'], class: 'text-bg-secondary'},
+        {light: [false], outline: [false], variant: ['success'], class: 'text-bg-success'},
+        {light: [false], outline: [false], variant: ['danger'], class: 'text-bg-danger'},
+        {light: [false], outline: [false], variant: ['warning'], class: 'text-bg-warning'},
+        {light: [false], outline: [false], variant: ['info'], class: 'text-bg-info'},
+        {light: [false], outline: [false], variant: ['dark'], class: 'text-bg-dark'},
+        {light: [false], outline: [false], variant: ['light'], class: 'text-bg-light'},
+        {light: [true], outline: [false], variant: ['primary'], class: 'bg-primary-lt'},
+        {light: [true], outline: [false], variant: ['secondary'], class: 'bg-secondary-lt'},
+        {light: [true], outline: [false], variant: ['success'], class: 'bg-success-lt'},
+        {light: [true], outline: [false], variant: ['danger'], class: 'bg-danger-lt'},
+        {light: [true], outline: [false], variant: ['warning'], class: 'bg-warning-lt'},
+        {light: [true], outline: [false], variant: ['info'], class: 'bg-info-lt'},
+        {light: [true], outline: [false], variant: ['dark'], class: 'bg-dark-lt'},
+        {light: [true], outline: [false], variant: ['light'], class: 'bg-light-lt'},
+        {outline: [true], variant: ['primary'], class: 'text-primary'},
+        {outline: [true], variant: ['secondary'], class: 'text-secondary'},
+        {outline: [true], variant: ['success'], class: 'text-success'},
+        {outline: [true], variant: ['danger'], class: 'text-danger'},
+        {outline: [true], variant: ['warning'], class: 'text-warning'},
+        {outline: [true], variant: ['info'], class: 'text-info'},
+        {outline: [true], variant: ['dark'], class: 'text-dark'},
+        {outline: [true], variant: ['light'], class: 'text-light'},
+    ],
+) %}
+
+{% set classes = badge.apply({
+    size: size,
+    pill: pill,
+    outline: outline,
+    dot: dot,
+    iconOnly: iconOnly,
+    notification: notification,
+    blink: blink,
+    light: light,
+    variant: variant,
+}, attributes.render('class')) %}
+{% set tag = href is not null ? 'a' : 'span' %}
+<{{ tag }}{% if href is not null %} href="{{ href }}"{% endif %} class="{{ classes }}" {{ attributes.without('class', 'href') }}>{## The badge label. #}
+    {%- block content %}{% endblock -%}
+</{{ tag }}>
+{% endapply ~%}

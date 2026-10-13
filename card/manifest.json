@@ -1,0 +1,18 @@
+{
+    "type": "component",
+    "name": "Card",
+    "description": "A bordered container with a header, a body and a footer, with status borders, gradients and link cards.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon",
+            "progress"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

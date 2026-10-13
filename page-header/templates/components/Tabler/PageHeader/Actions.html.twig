@@ -1,0 +1,13 @@
+{#
+    Page header actions — the right-aligned button area of a page header.
+
+    Usage:
+        <twig:Tabler:PageHeader:Actions>
+            <twig:Tabler:Button variant="primary">New</twig:Tabler:Button>
+        </twig:Tabler:PageHeader:Actions>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'col-auto ms-auto'}) }}>
+    <div class="btn-list">{## The action buttons. #}{%- block content %}{% endblock -%}</div>
+</div>
+{% endapply ~%}

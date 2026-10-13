@@ -1,0 +1,86 @@
+{#
+    Tabler Accordion — collapsible sections showing one panel at a time
+    (Bootstrap collapse).
+
+    All-in-one (`items` is an array of {title, text, open?, icon?, id?, level?, toggleIcon?};
+    item ids default to "<id>-<n>"):
+        <twig:Tabler:Accordion id="faq" items="{{ [
+            {title: 'Account details', text: 'Update your profile.', open: true},
+            {title: 'Security settings', text: 'Configure two-factor authentication.'},
+        ] }}" />
+
+    Composed (`parent` makes an item close the others when it opens):
+        <twig:Tabler:Accordion id="settings" flush>
+            <twig:Tabler:Accordion:Item id="settings-api" parent="settings" title="API access" text="Generate tokens." open />
+            <twig:Tabler:Accordion:Item id="settings-hooks" parent="settings" title="Webhooks">
+                <twig:block name="body">
+                    <twig:Tabler:Accordion:Body>Manage <strong>delivery URLs</strong>.</twig:Tabler:Accordion:Body>
+                </twig:block>
+            </twig:Tabler:Accordion:Item>
+        </twig:Tabler:Accordion>
+
+    Props:
+      id          — DOM id, used as the `data-bs-parent` of the generated items and the prefix of
+                    their ids; a random one ("accordion-<n>") when unset, so two accordions never
+                    share item ids
+      items       — optional array of items; mirrored by the `content` block
+      flush       — no outer border nor rounding, to sit flush in a parent (accordion-flush)
+      inverted    — move the toggle indicator to the start of the header (accordion-inverted)
+      tabs        — a gap between items, each fully bordered (accordion-tabs)
+      alwaysOpen  — let generated items stay open when another one opens (no data-bs-parent)
+      plus        — generated items use the plus toggle (accordion-button-toggle-plus)
+      level       — heading level of the generated items, 1 to 6 (default 3); an item's `level` wins
+      toggleIcon  — Tabler icon name of the toggle indicator of the generated items; an item's
+                    `toggleIcon` wins
+#}
+{% apply trim %}
+{% props
+    ## string|null The DOM id, the `data-bs-parent` of the generated items and the prefix of their ids; random when unset.
+    id = null,
+    ## list<array{title:string,text:string,open?:bool,icon?:string,id?:string,level?:int,toggleIcon?:string}>|null The items, rendered with `Accordion:Item`.
+    items = null,
+    ## bool Whether to remove the outer border and rounded corners (`accordion-flush`).
+    flush = false,
+    ## bool Whether to move the toggle indicator to the start of the header (`accordion-inverted`).
+    inverted = false,
+    ## bool Whether to space the items, each fully bordered (`accordion-tabs`).
+    tabs = false,
+    ## bool Whether generated items stay open when another one opens (no `data-bs-parent`).
+    alwaysOpen = false,
+    ## bool Whether generated items use the plus indicator (`accordion-button-toggle-plus`).
+    plus = false,
+    ## int The heading level of the generated items, 1 to 6; an item's `level` wins.
+    level = 3,
+    ## string|null The Tabler icon name of the generated items' indicator; an item's `toggleIcon` wins.
+    toggleIcon = null,
+%}
+
+{% set id = id ?? ('accordion-' ~ random(100000, 999999)) %}
+
+{% set accordion = html_cva(
+    base: 'accordion',
+    variants: {
+        flush: {true: 'accordion-flush', false: ''},
+        inverted: {true: 'accordion-inverted', false: ''},
+        tabs: {true: 'accordion-tabs', false: ''},
+    },
+) %}
+
+<div class="{{ accordion.apply({flush: flush, inverted: inverted, tabs: tabs}, attributes.render('class')) }}" id="{{ id }}" {{ attributes.without('class', 'id') }}>{## The items: an `Accordion:Item` for each entry of `items`. #}
+    {%- block content -%}
+        {%- for item in items ?? [] -%}
+            <twig:Tabler:Accordion:Item
+                id="{{ item.id ?? (id ~ '-' ~ loop.index) }}"
+                parent="{{ alwaysOpen ? null : id }}"
+                title="{{ item.title ?? null }}"
+                text="{{ item.text ?? null }}"
+                icon="{{ item.icon ?? null }}"
+                open="{{ item.open ?? false }}"
+                plus="{{ plus }}"
+                level="{{ item.level ?? level }}"
+                toggleIcon="{{ item.toggleIcon ?? toggleIcon }}"
+            />
+        {%- endfor -%}
+    {%- endblock -%}
+</div>
+{% endapply ~%}

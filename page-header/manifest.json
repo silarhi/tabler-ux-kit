@@ -1,0 +1,8 @@
+{
+    "type": "component",
+    "name": "PageHeader",
+    "description": "The title block at the top of a page, with an optional pretitle and action buttons.",
+    "copy-files": {
+        "templates/": "templates/"
+    }
+}

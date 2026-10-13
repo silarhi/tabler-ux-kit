@@ -1,0 +1,9 @@
+{#
+    Empty header — a large leading text, e.g. an error code (`.empty-header`).
+
+    Usage:
+        <twig:Tabler:Empty:Header>404</twig:Tabler:Empty:Header>
+#}
+{% apply trim %}
+<div {{ attributes.defaults({class: 'empty-header'}) }}>{## The large text, such as an error code. #}{%- block content %}{% endblock -%}</div>
+{% endapply ~%}

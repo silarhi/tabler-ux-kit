@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Spinner",
+    "description": "A loading indicator, spinning or pulsing, with a label for screen readers.",
+    "copy-files": {
+        "templates/": "templates/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

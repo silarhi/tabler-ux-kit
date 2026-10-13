@@ -1,0 +1,21 @@
+{#
+    Alert action — an underlined link on its own line, for the next step to take (`.alert-action`).
+
+    Usage:
+        <twig:Tabler:Alert variant="danger">
+            <twig:Tabler:Alert:Title>An error occurred</twig:Tabler:Alert:Title>
+            <twig:Tabler:Alert:Description>We could not save your changes.</twig:Tabler:Alert:Description>
+            <twig:Tabler:Alert:Action href="/retry">Try again</twig:Tabler:Alert:Action>
+        </twig:Tabler:Alert>
+
+    Props:
+      href  — link target (defaults to #)
+#}
+{% apply trim %}
+{% props
+    ## string|null The link target; defaults to `#`.
+    href = null,
+%}
+
+<a href="{{ href ?? '#' }}" {{ attributes.defaults({class: 'alert-action'}).without('href') }}>{## The link text. #}{%- block content %}{% endblock -%}</a>
+{% endapply ~%}

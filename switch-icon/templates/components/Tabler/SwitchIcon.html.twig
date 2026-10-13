@@ -1,0 +1,65 @@
+{#
+    Tabler SwitchIcon — a button that toggles between two icons.
+
+    All-in-one (icon names via <twig:Tabler:Icon>):
+        <twig:Tabler:SwitchIcon iconA="moon" iconB="sun" animation="fade" aria-label="Dark mode" />
+
+    Composed (the `content` block wraps the whole button):
+        <twig:Tabler:SwitchIcon animation="fade" aria-label="Dark mode">
+            <twig:Tabler:SwitchIcon:A><twig:Tabler:Icon name="moon" /></twig:Tabler:SwitchIcon:A>
+            <twig:Tabler:SwitchIcon:B><twig:Tabler:Icon name="sun" /></twig:Tabler:SwitchIcon:B>
+        </twig:Tabler:SwitchIcon>
+
+    Requires Tabler's switch-icon JS (data-bs-toggle="switch-icon"), which keeps
+    `aria-pressed` in sync. Give the button an `aria-label` saying what it toggles.
+
+    Props:
+      animation — fade | scale | flip | slide-up | slide-down | slide-left | slide-right | slide-start | slide-end
+      active    — starts switched on (icon B shown)
+      loading   — spinner instead of the icons, clicks ignored (switch-icon-loading, Tabler 1.6+)
+      iconA     — name of the first icon; mirrored by the `a` block
+      iconB     — name of the second icon; mirrored by the `b` block
+#}
+{% apply trim %}
+{% props
+    ## 'fade'|'scale'|'flip'|'slide-up'|'slide-down'|'slide-left'|'slide-right'|'slide-start'|'slide-end'|null The transition between the two icons.
+    animation = null,
+    ## bool Whether to start switched on, showing icon B (`active`).
+    active = false,
+    ## bool Whether to show a spinner instead of the icons and ignore clicks (`switch-icon-loading`).
+    loading = false,
+    ## string|null The Tabler icon name of the first icon, rendered inside `SwitchIcon:A`.
+    iconA = null,
+    ## string|null The Tabler icon name of the second icon, rendered inside `SwitchIcon:B`.
+    iconB = null,
+%}
+
+{% set switch = html_cva(
+    base: 'switch-icon',
+    variants: {
+        animation: {
+            fade: 'switch-icon-fade',
+            scale: 'switch-icon-scale',
+            flip: 'switch-icon-flip',
+            'slide-up': 'switch-icon-slide-up',
+            'slide-down': 'switch-icon-slide-down',
+            'slide-left': 'switch-icon-slide-left',
+            'slide-right': 'switch-icon-slide-right',
+            'slide-start': 'switch-icon-slide-start',
+            'slide-end': 'switch-icon-slide-end',
+        },
+        active: {true: 'active', false: ''},
+        loading: {true: 'switch-icon-loading', false: ''},
+    },
+) %}
+
+<button type="button" class="{{ switch.apply({animation: animation ?? '', active: active, loading: loading}, attributes.render('class')) }}" data-bs-toggle="switch-icon" aria-pressed="{{ active ? 'true' : 'false' }}"{% if loading %} aria-busy="true"{% endif %} {{ attributes.without('class', 'type') }}>
+    {## The whole button content: `a` and `b`; replace it to compose freely. -#}
+    {% block content %}
+        {## The first icon: `SwitchIcon:A` with a `Tabler:Icon` named `iconA`, when set. -#}
+        {% block a %}<twig:Tabler:SwitchIcon:A>{%- if iconA is not null -%}<twig:Tabler:Icon name="{{ iconA }}" />{%- endif -%}</twig:Tabler:SwitchIcon:A>{% endblock %}
+        {## The second icon: `SwitchIcon:B` with a `Tabler:Icon` named `iconB`, when set. -#}
+        {% block b %}<twig:Tabler:SwitchIcon:B>{%- if iconB is not null -%}<twig:Tabler:Icon name="{{ iconB }}" />{%- endif -%}</twig:Tabler:SwitchIcon:B>{% endblock %}
+    {% endblock %}
+</button>
+{% endapply ~%}
