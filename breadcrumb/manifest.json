@@ -3,7 +3,7 @@
     "name": "Breadcrumb",
     "description": "A navigation trail from the home page to the current page.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

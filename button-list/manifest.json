@@ -3,7 +3,7 @@
     "name": "ButtonList",
     "description": "A row of buttons with a consistent gap that wraps onto the next line.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

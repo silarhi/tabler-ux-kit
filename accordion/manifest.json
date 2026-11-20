@@ -3,7 +3,7 @@
     "name": "Accordion",
     "description": "Collapsible sections that open one at a time, for FAQs, settings groups and long forms.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "recipe": [

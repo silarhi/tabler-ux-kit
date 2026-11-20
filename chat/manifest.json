@@ -3,7 +3,7 @@
     "name": "Chat",
     "description": "A conversation shown as a column of message bubbles, with avatars, authors, times and a typing indicator.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

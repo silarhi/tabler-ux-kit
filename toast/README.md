@@ -6,15 +6,18 @@ A lightweight notification: a background job that finished, a message from a tea
 <twig:Tabler:Toast show>
     <twig:Tabler:Toast:Header>
         <twig:Tabler:Avatar image="/examples/avatar-1.jpg" size="xs" class="me-2" />
-        <strong class="me-auto">Jane Doe</strong>
-        <small class="text-secondary">2 min ago</small>
+        <twig:Tabler:Toast:Title>Jane Doe</twig:Tabler:Toast:Title>
+        <twig:Tabler:Toast:Time>2 min ago</twig:Tabler:Toast:Time>
         <twig:Tabler:Toast:Close />
     </twig:Tabler:Toast:Header>
     <twig:Tabler:Toast:Body>Deployment #482 is live on production.</twig:Tabler:Toast:Body>
 </twig:Tabler:Toast>
 ```
 
-Toast has no content props: compose it with `Toast:Header`, `Toast:Body` and `Toast:Close`.
+`title`, `time` and `text` render the header and the body, with a close button unless `dismissible` is `false`, as in
+the [placement](#placement) examples. For anything richer, such as an avatar before the title, compose it with
+`Toast:Header`, `Toast:Body` and `Toast:Close`, as above. `Toast:Header` takes the same `title`, `time` and
+`dismissible`.
 
 ## Installation
 
@@ -40,22 +43,8 @@ stack to a corner or the center of the viewport. Without `placement`, the contai
 
 ```twig {"preview":true}
 <twig:Tabler:Toast:Container placement="top-end">
-    <twig:Tabler:Toast show>
-        <twig:Tabler:Toast:Header>
-            <strong class="me-auto">Backup</strong>
-            <small class="text-secondary">just now</small>
-            <twig:Tabler:Toast:Close />
-        </twig:Tabler:Toast:Header>
-        <twig:Tabler:Toast:Body>The nightly backup finished.</twig:Tabler:Toast:Body>
-    </twig:Tabler:Toast>
-    <twig:Tabler:Toast show>
-        <twig:Tabler:Toast:Header>
-            <strong class="me-auto">Users</strong>
-            <small class="text-secondary">5 min ago</small>
-            <twig:Tabler:Toast:Close />
-        </twig:Tabler:Toast:Header>
-        <twig:Tabler:Toast:Body>3 users accepted their invitation.</twig:Tabler:Toast:Body>
-    </twig:Tabler:Toast>
+    <twig:Tabler:Toast show title="Backup" time="just now" text="The nightly backup finished." />
+    <twig:Tabler:Toast show title="Users" time="5 min ago" text="3 users accepted their invitation." />
 </twig:Tabler:Toast:Container>
 ```
 
@@ -72,33 +61,41 @@ A shown toast hides itself after Bootstrap's delay (5 seconds, set `data-bs-dela
 <twig:Tabler:Button variant="primary" data-bs-toggle="toast" data-bs-target="#deploy-toast">Deploy</twig:Tabler:Button>
 
 <twig:Tabler:Toast:Container placement="bottom-end">
-    <twig:Tabler:Toast id="deploy-toast" autohide="{{ false }}">
-        <twig:Tabler:Toast:Header>
-            <strong class="me-auto">Deployment started</strong>
-            <twig:Tabler:Toast:Close />
-        </twig:Tabler:Toast:Header>
-        <twig:Tabler:Toast:Body>Production will be updated in a few minutes.</twig:Tabler:Toast:Body>
-    </twig:Tabler:Toast>
+    <twig:Tabler:Toast id="deploy-toast" autohide="{{ false }}" title="Deployment started" text="Production will be updated in a few minutes." />
 </twig:Tabler:Toast:Container>
 ```
 
 ## Props
 
-| Prop       | Type | Default | Description                                                                 |
-| ---------- | ---- | ------- | --------------------------------------------------------------------------- |
-| `show`     | bool | `false` | Renders the toast visible (`show`)                                          |
-| `autohide` | bool | `true`  | `false` adds `data-bs-autohide="false"`: the toast stays until it is closed |
+| Prop          | Type    | Default | Description                                                                 |
+| ------------- | ------- | ------- | --------------------------------------------------------------------------- |
+| `show`        | bool    | `false` | Renders the toast visible (`show`)                                          |
+| `autohide`    | bool    | `true`  | `false` adds `data-bs-autohide="false"`: the toast stays until it is closed |
+| `title`       | string? | `null`  | Rendered with `Toast:Header` and `Toast:Title`                              |
+| `time`        | string? | `null`  | Timestamp next to the title, rendered with `Toast:Time`                     |
+| `text`        | string? | `null`  | Rendered with `Toast:Body`                                                  |
+| `dismissible` | bool    | `true`  | Close button in the header rendered from `title` (`Toast:Close`)            |
 
 Other attributes go to the root `<div role="alert">`, such as the `id` a trigger targets.
 
 ## Sub-components
 
-| Component         | Renders                                                                                |
-| ----------------- | -------------------------------------------------------------------------------------- |
-| `Toast:Header`    | `<div class="toast-header">`                                                           |
-| `Toast:Body`      | `<div class="toast-body">`                                                             |
-| `Toast:Close`     | The close button, `<button class="ms-2 btn-close" data-bs-dismiss="toast">` (needs JS) |
-| `Toast:Container` | `<div class="toast-container">`: stacks toasts, see its props below                    |
+| Component         | Renders                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------- |
+| `Toast:Header`    | `<div class="toast-header">`: the title, a time and the close button, see its props below |
+| `Toast:Title`     | `<strong class="me-auto">`: the title, pushing the time and the close button to the end   |
+| `Toast:Time`      | `<small class="text-secondary">`: a timestamp, such as `2 min ago`                        |
+| `Toast:Body`      | `<div class="toast-body">`                                                                |
+| `Toast:Close`     | The close button, `<button class="ms-2 btn-close" data-bs-dismiss="toast">` (needs JS)    |
+| `Toast:Container` | `<div class="toast-container">`: stacks toasts, see its props below                       |
+
+### `Toast:Header` props
+
+| Prop          | Type    | Default | Description                         |
+| ------------- | ------- | ------- | ----------------------------------- |
+| `title`       | string? | `null`  | Rendered with `Toast:Title`         |
+| `time`        | string? | `null`  | Rendered with `Toast:Time`          |
+| `dismissible` | bool    | `true`  | Adds a close button (`Toast:Close`) |
 
 ### `Toast:Container` props
 
@@ -108,3 +105,20 @@ Other attributes go to the root `<div role="alert">`, such as the `id` a trigger
 
 With a `placement`, the container gets `position-fixed p-3` and the position utilities of that place (for instance
 `top-0 end-0`). Other attributes go to the container `<div>`.
+
+## Blocks
+
+| Block     | Default                                                                              |
+| --------- | ------------------------------------------------------------------------------------ |
+| `header`  | `Toast:Header` with the `title`, `time` and `dismissible` props, when `title` is set |
+| `body`    | `Toast:Body` with the `text` prop, when set                                          |
+| `content` | `header` and `body`: replace it to compose freely                                    |
+
+`Toast:Header`:
+
+| Block     | Default                                              |
+| --------- | ---------------------------------------------------- |
+| `title`   | `Toast:Title` with the `title` prop, when set        |
+| `time`    | `Toast:Time` with the `time` prop, when set          |
+| `close`   | `Toast:Close`, when `dismissible`                    |
+| `content` | `title`, `time` and `close`: its children replace it |

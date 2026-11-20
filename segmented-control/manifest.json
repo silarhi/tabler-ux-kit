@@ -3,7 +3,7 @@
     "name": "SegmentedControl",
     "description": "A compact group of mutually exclusive options, such as a period or a view switcher.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

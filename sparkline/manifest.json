@@ -3,7 +3,7 @@
     "name": "Sparkline",
     "description": "A tiny inline chart (line, bar, win/loss or circle) drawn by tabler.js from data attributes.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

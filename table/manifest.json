@@ -3,7 +3,7 @@
     "name": "Table",
     "description": "A styled table, wrapped for horizontal scrolling on small screens.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

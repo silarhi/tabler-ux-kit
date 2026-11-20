@@ -3,7 +3,7 @@
     "name": "Status",
     "description": "A colored status label, with an optional dot that can pulse.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Icon",
     "description": "A Tabler icon from the icon webfont, or any icon of Symfony UX Icons, with a color, a size and an animation.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Badge",
     "description": "A small label for a state, a count or a tag, filled, tinted or outlined, optionally a link.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

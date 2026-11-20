@@ -3,7 +3,7 @@
     "name": "Ribbon",
     "description": "A corner ribbon or bookmark that flags a card as new, featured or recommended.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Timeline",
     "description": "A vertical feed of events, each with an icon, a title, a time and a text.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

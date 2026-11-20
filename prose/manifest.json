@@ -3,6 +3,6 @@
     "name": "Prose",
     "description": "A typography wrapper for freeform HTML, such as rendered Markdown.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     }
 }

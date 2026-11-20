@@ -3,7 +3,7 @@
     "name": "Modal",
     "description": "A dialog over the page, for confirmations, forms and details.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

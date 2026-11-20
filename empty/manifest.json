@@ -3,6 +3,6 @@
     "name": "Empty",
     "description": "An empty state for a list, a table or a search with nothing to show.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     }
 }

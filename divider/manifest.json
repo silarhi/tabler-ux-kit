@@ -3,7 +3,7 @@
     "name": "Divider",
     "description": "A horizontal rule between sections, with an optional label.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

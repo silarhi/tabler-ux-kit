@@ -15,7 +15,8 @@ A Bootstrap offcanvas, opened by a trigger with `data-bs-toggle="offcanvas"` and
 
 ## Composed
 
-The sub-components take over for a form or custom actions:
+The sub-components take over for a form or custom actions. `Offcanvas:Header` takes a `title` and renders the close
+button unless `dismissible` is `false`, like the offcanvas itself:
 
 ```twig {"preview":true}
 <twig:Tabler:Button variant="default" data-bs-toggle="offcanvas" data-bs-target="#user-filters">
@@ -23,10 +24,7 @@ The sub-components take over for a form or custom actions:
 </twig:Tabler:Button>
 
 <twig:Tabler:Offcanvas id="user-filters" placement="end">
-    <twig:Tabler:Offcanvas:Header>
-        <twig:Tabler:Offcanvas:Title>Filter users</twig:Tabler:Offcanvas:Title>
-        <twig:Tabler:Offcanvas:Close />
-    </twig:Tabler:Offcanvas:Header>
+    <twig:Tabler:Offcanvas:Header title="Filter users" />
     <twig:Tabler:Offcanvas:Body>
         <label class="form-check">
             <input type="checkbox" class="form-check-input" checked>
@@ -124,11 +122,26 @@ Other attributes go to the root `<div class="offcanvas" tabindex="-1">`. To hide
 | `Offcanvas:Body`   | `<div class="offcanvas-body">`                                              |
 | `Offcanvas:Footer` | `<div class="offcanvas-footer">`: usually the actions                       |
 
+`Offcanvas:Header`:
+
+| Prop          | Type    | Default | Description                             |
+| ------------- | ------- | ------- | --------------------------------------- |
+| `title`       | string? | `null`  | Rendered with `Offcanvas:Title`         |
+| `dismissible` | bool    | `true`  | Adds a close button (`Offcanvas:Close`) |
+
 ## Blocks
 
-| Block     | Default                                                                                                   |
-| --------- | --------------------------------------------------------------------------------------------------------- |
-| `header`  | `Offcanvas:Header` with `Offcanvas:Title` and `Offcanvas:Close` (when `dismissible`), when `title` is set |
-| `body`    | `Offcanvas:Body` with the `text` prop, when set                                                           |
-| `footer`  | `Offcanvas:Footer` with the `footer` prop, when set                                                       |
-| `content` | `header`, `body` and `footer`: replace it to compose freely                                               |
+| Block     | Default                                                                          |
+| --------- | -------------------------------------------------------------------------------- |
+| `header`  | `Offcanvas:Header` with the `title` and `dismissible` props, when `title` is set |
+| `body`    | `Offcanvas:Body` with the `text` prop, when set                                  |
+| `footer`  | `Offcanvas:Footer` with the `footer` prop, when set                              |
+| `content` | `header`, `body` and `footer`: replace it to compose freely                      |
+
+`Offcanvas:Header`:
+
+| Block     | Default                                           |
+| --------- | ------------------------------------------------- |
+| `title`   | `Offcanvas:Title` with the `title` prop, when set |
+| `close`   | `Offcanvas:Close`, when `dismissible`             |
+| `content` | `title` and `close`: its children replace it      |

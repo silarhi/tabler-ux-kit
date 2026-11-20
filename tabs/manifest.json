@@ -3,7 +3,7 @@
     "name": "Tabs",
     "description": "A tab bar that switches between content panes, with JavaScript.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

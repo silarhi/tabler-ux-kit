@@ -3,6 +3,6 @@
     "name": "ButtonToolbar",
     "description": "Several button groups combined into one toolbar.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     }
 }

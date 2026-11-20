@@ -3,7 +3,7 @@
     "name": "Alert",
     "description": "Contextual feedback messages, with a title, a description, an icon and a close button.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "recipe": [

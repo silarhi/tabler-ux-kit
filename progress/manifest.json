@@ -3,7 +3,7 @@
     "name": "Progress",
     "description": "A progress bar, with a single value or several stacked bars, and an indeterminate state.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

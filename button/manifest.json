@@ -3,7 +3,7 @@
     "name": "Button",
     "description": "A button or a link styled as a button, with colors, appearances, sizes and states.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

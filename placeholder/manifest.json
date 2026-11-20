@@ -3,7 +3,7 @@
     "name": "Placeholder",
     "description": "Skeleton blocks that stand in for content while it loads.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

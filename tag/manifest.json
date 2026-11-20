@@ -3,7 +3,7 @@
     "name": "Tag",
     "description": "A compact label with an optional icon, avatar, status dot or checkbox, a counter and a remove button.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "recipe": [

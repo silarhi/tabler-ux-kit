@@ -3,7 +3,7 @@
     "name": "Spinner",
     "description": "A loading indicator, spinning or pulsing, with a label for screen readers.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

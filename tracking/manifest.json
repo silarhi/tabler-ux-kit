@@ -3,7 +3,7 @@
     "name": "Tracking",
     "description": "A row of colored status blocks, such as the daily history of an uptime monitor.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Pagination",
     "description": "Links to the pages of a list, with the current page and disabled items.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Step",
     "description": "A progress stepper for multi-step flows, horizontal or vertical.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

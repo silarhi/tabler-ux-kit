@@ -3,7 +3,7 @@
     "name": "Avatar",
     "description": "A user picture, initials or an icon in a round or square frame.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "recipe": [

@@ -3,7 +3,7 @@
     "name": "Nav",
     "description": "A list of navigation links, as plain links, tabs, pills or underlined.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

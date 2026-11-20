@@ -3,7 +3,7 @@
     "name": "List group",
     "description": "A series of related items in one bordered block, as links, buttons or plain rows.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

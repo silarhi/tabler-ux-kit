@@ -3,7 +3,7 @@
     "name": "Signal",
     "description": "A small row of stepped bars showing a level, such as a priority, a strength or a coverage.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

@@ -3,7 +3,7 @@
     "name": "Mention",
     "description": "An inline chip in running text that points at a person, a tag, an app or a color.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

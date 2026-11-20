@@ -3,7 +3,7 @@
     "name": "Toast",
     "description": "Lightweight notifications with a header, a body and a close button, shown and hidden by Bootstrap.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

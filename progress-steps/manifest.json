@@ -3,7 +3,7 @@
     "name": "ProgressSteps",
     "description": "A segmented bar showing where the user is in a short flow, such as setup or onboarding.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [

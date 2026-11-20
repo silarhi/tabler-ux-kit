@@ -3,7 +3,7 @@
     "name": "ButtonGroup",
     "description": "Related buttons joined into one bar, or radio and checkbox inputs styled as buttons.",
     "copy-files": {
-        "templates/": "templates/"
+        "templates/components/": "%COMPONENTS_DIR%/"
     },
     "dependencies": {
         "composer": [
