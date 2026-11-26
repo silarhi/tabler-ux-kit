@@ -4,5 +4,11 @@
     "description": "A responsive grid of title and value pairs, for the details of a record.",
     "copy-files": {
         "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
     }
 }

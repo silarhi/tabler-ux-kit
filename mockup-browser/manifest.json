@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Mockup browser",
+    "description": "A frame that looks like a browser window, with the window dots and an address bar, around a screenshot.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

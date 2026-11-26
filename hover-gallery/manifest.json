@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Hover gallery",
+    "description": "Several images in the space of one, switched as the pointer moves across them, for product cards and listings.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

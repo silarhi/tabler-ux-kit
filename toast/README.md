@@ -65,6 +65,16 @@ A shown toast hides itself after Bootstrap's delay (5 seconds, set `data-bs-dela
 </twig:Tabler:Toast:Container>
 ```
 
+## Urgency
+
+A toast is a polite status message (`role="status"`, `aria-live="polite"`): screen readers announce it once they are
+idle, as Tabler does since 1.7.1. `urgent` makes it an alert (`role="alert"`, `aria-live="assertive"`), announced at
+once, interrupting the user: keep it for errors that matter.
+
+```twig {"preview":true}
+<twig:Tabler:Toast show urgent autohide="{{ false }}" title="Payment failed" text="The card was declined: update the payment method to keep your plan." />
+```
+
 ## Props
 
 | Prop          | Type    | Default | Description                                                                 |
@@ -75,8 +85,9 @@ A shown toast hides itself after Bootstrap's delay (5 seconds, set `data-bs-dela
 | `time`        | string? | `null`  | Timestamp next to the title, rendered with `Toast:Time`                     |
 | `text`        | string? | `null`  | Rendered with `Toast:Body`                                                  |
 | `dismissible` | bool    | `true`  | Close button in the header rendered from `title` (`Toast:Close`)            |
+| `urgent`      | bool    | `false` | `role="alert"` and `aria-live="assertive"` instead of `status` and `polite` |
 
-Other attributes go to the root `<div role="alert">`, such as the `id` a trigger targets.
+Other attributes go to the root `<div class="toast">`, such as the `id` a trigger targets.
 
 ## Sub-components
 

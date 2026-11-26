@@ -68,8 +68,24 @@ shows a background on hover. Give it an `aria-label`, and group several in
 
 ## Icons
 
-Put an icon before the label, with the `icon` class so Tabler spaces it. `iconOnly` removes the label padding: give
-the button an `aria-label`.
+`icon` adds an icon before the label and `iconEnd` one after it. They are rendered with
+[Icon](https://tabler-ux-components.silarhi.dev/components/content/icon/), so a name with an icon set prefix (`lucide:circle-check`) works with
+`symfony/ux-icons`, and get Tabler's `icon` class (`icon icon-end` for the trailing one), which sizes and spaces them.
+Both are hidden from assistive technology. `iconOnly` removes the label padding (`btn-icon`): with `icon`, the button
+needs no children, but give it an `aria-label` (or a [`tooltip`](#tooltip), which becomes its label):
+
+```twig {"preview":true}
+<div class="btn-list">
+    <twig:Tabler:Button icon="plus">New user</twig:Tabler:Button>
+    <twig:Tabler:Button variant="default" iconEnd="arrow-right">Next step</twig:Tabler:Button>
+    <twig:Tabler:Button variant="default" appearance="outline" icon="download" animateIcon="move-start">Export</twig:Tabler:Button>
+    <twig:Tabler:Button variant="success" icon="lucide:circle-check">Approve</twig:Tabler:Button>
+    <twig:Tabler:Button variant="danger" icon="trash" iconOnly="{{ true }}" aria-label="Delete" />
+</div>
+```
+
+The `icon` and `iconEnd` blocks replace the generated icons. You can also put the icon in the children yourself, with
+the `icon` class:
 
 ```twig {"preview":true}
 <div class="btn-list">
@@ -99,6 +115,48 @@ the button an `aria-label`.
     <twig:Tabler:Button variant="default" animateIcon="move-start"><twig:Tabler:Icon name="arrow-left" class="icon" /> Move start</twig:Tabler:Button>
 </div>
 ```
+
+## Triggers
+
+`modal`, `offcanvas` and `collapse` take the id of the element the button opens, and set Bootstrap's data API:
+`data-bs-toggle`, `data-bs-target="#<id>"` and `aria-controls`, plus `aria-expanded="false"` for `collapse` (Bootstrap
+updates it on toggle). They work on a link too: Bootstrap reads `data-bs-target` on an `<a>` and prevents its
+navigation; set its `href` to `#<id>` so the link still points to the target without JavaScript.
+
+```twig {"preview":true}
+<div class="btn-list mb-3">
+    <twig:Tabler:Button variant="danger" icon="trash" modal="button-delete-user">Delete user</twig:Tabler:Button>
+    <twig:Tabler:Button variant="default" icon="menu-2" offcanvas="button-menu">Menu</twig:Tabler:Button>
+    <twig:Tabler:Button variant="default" appearance="outline" icon="filter" collapse="button-filters">Filters</twig:Tabler:Button>
+</div>
+<div class="collapse" id="button-filters">
+    <div class="card card-body">Status, owner and creation date filters.</div>
+</div>
+
+<twig:Tabler:Modal id="button-delete-user" title="Delete Jane Doe?" text="She loses access to the workspace immediately." />
+<twig:Tabler:Offcanvas id="button-menu" title="Menu" text="Dashboard, projects and settings." />
+```
+
+Bootstrap reads a single `data-bs-toggle`, so set only one of them: when several are set, `modal` wins over
+`offcanvas`, which wins over `collapse`. An attribute you pass yourself (`data-bs-target=".filters"`,
+`aria-expanded="true"`…) wins over the generated one.
+
+## Tooltip
+
+`tooltip` sets the `title` and `data-bs-toggle="tooltip"`, which `tabler.js` turns into a Bootstrap tooltip. On an
+`iconOnly` button, it is also the `aria-label`, unless you pass one:
+
+```twig {"preview":true}
+<div class="btn-list">
+    <twig:Tabler:Button variant="default" tooltip="Saves a draft, visible only to you">Save draft</twig:Tabler:Button>
+    <twig:Tabler:Button variant="default" appearance="ghost" icon="settings" iconOnly="{{ true }}" tooltip="Settings" />
+    <twig:Tabler:Button variant="default" appearance="ghost" icon="bell" iconOnly="{{ true }}" tooltip="Notifications" aria-label="Notifications, 3 unread" />
+</div>
+```
+
+A trigger takes precedence: with `modal`, `offcanvas` or `collapse`, `tooltip` only sets the `title`, a native browser
+tooltip, since the button cannot carry two `data-bs-toggle`. For a Bootstrap tooltip on a trigger, wrap the button in
+a [Tooltip](https://tabler-ux-components.silarhi.dev/components/overlays/tooltip/).
 
 ## Shapes
 
@@ -166,20 +224,35 @@ forwarded to the button:
 
 ## Props
 
-| Prop          | Type    | Default     | Description                                                                                                  |
-| ------------- | ------- | ----------- | ------------------------------------------------------------------------------------------------------------ |
-| `variant`     | string  | `'primary'` | `default` (neutral) `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                 |
-| `appearance`  | string  | `'filled'`  | `filled` `outline` `ghost` `link` (`btn-link`) `action` (`btn-action`); `link` and `action` ignore `variant` |
-| `size`        | string  | `'md'`      | `sm` `md` `lg` `xl`                                                                                          |
-| `href`        | string? | `null`      | Renders `<a href role="button">` instead of `<button>`                                                       |
-| `type`        | string  | `'button'`  | `button` `submit` `reset`, ignored for links                                                                 |
-| `pill`        | bool    | `false`     | Fully rounded corners (`btn-pill`)                                                                           |
-| `square`      | bool    | `false`     | No border radius (`btn-square`)                                                                              |
-| `iconOnly`    | bool    | `false`     | Icon-only button (`btn-icon`)                                                                                |
-| `loading`     | bool    | `false`     | Spinner instead of the label (`btn-loading`)                                                                 |
-| `block`       | bool    | `false`     | Full width (`w-100`)                                                                                         |
-| `disabled`    | bool    | `false`     | `disabled` attribute on `<button>`; `disabled` class, `aria-disabled` and `tabindex` on `<a>`                |
-| `floating`    | bool    | `false`     | Pinned to the bottom corner of the viewport (`btn-floating`)                                                 |
-| `animateIcon` | string? | `null`      | Animates the icon on hover: `pulse` `rotate` `shake` `tada` `move-start` (`btn-animate-icon-*`)              |
+| Prop          | Type    | Default     | Description                                                                                                   |
+| ------------- | ------- | ----------- | ------------------------------------------------------------------------------------------------------------- |
+| `variant`     | string  | `'primary'` | `default` (neutral) `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                  |
+| `appearance`  | string  | `'filled'`  | `filled` `outline` `ghost` `link` (`btn-link`) `action` (`btn-action`); `link` and `action` ignore `variant`  |
+| `size`        | string  | `'md'`      | `sm` `md` `lg` `xl`                                                                                           |
+| `href`        | string? | `null`      | Renders `<a href role="button">` instead of `<button>`                                                        |
+| `type`        | string  | `'button'`  | `button` `submit` `reset`, ignored for links                                                                  |
+| `pill`        | bool    | `false`     | Fully rounded corners (`btn-pill`)                                                                            |
+| `square`      | bool    | `false`     | No border radius (`btn-square`)                                                                               |
+| `iconOnly`    | bool    | `false`     | Icon-only button (`btn-icon`)                                                                                 |
+| `loading`     | bool    | `false`     | Spinner instead of the label (`btn-loading`)                                                                  |
+| `block`       | bool    | `false`     | Full width (`w-100`)                                                                                          |
+| `disabled`    | bool    | `false`     | `disabled` attribute on `<button>`; `disabled` class, `aria-disabled` and `tabindex` on `<a>`                 |
+| `floating`    | bool    | `false`     | Pinned to the bottom corner of the viewport (`btn-floating`)                                                  |
+| `animateIcon` | string? | `null`      | Animates the icon on hover: `pulse` `rotate` `shake` `tada` `move-start` (`btn-animate-icon-*`)               |
+| `icon`        | string? | `null`      | Leading icon name, rendered with `Icon` (`icon`)                                                              |
+| `iconEnd`     | string? | `null`      | Trailing icon name, rendered with `Icon` (`icon icon-end`)                                                    |
+| `modal`       | string? | `null`      | Id of the modal to open (`data-bs-toggle="modal"`, `data-bs-target`, `aria-controls`)                         |
+| `offcanvas`   | string? | `null`      | Id of the offcanvas to open (`data-bs-toggle="offcanvas"`, `data-bs-target`, `aria-controls`)                 |
+| `collapse`    | string? | `null`      | Id of the element to toggle (`data-bs-toggle="collapse"`, `data-bs-target`, `aria-controls`, `aria-expanded`) |
+| `tooltip`     | string? | `null`      | Tooltip text (`title`, `data-bs-toggle="tooltip"` unless a trigger is set); `aria-label` of an `iconOnly` one |
 
-Other attributes go to the `<button>` or `<a>`. The children are the label.
+Other attributes go to the `<button>` or `<a>`, and win over the generated `role`, `data-bs-*`, `aria-*` and `title`.
+The children are the label.
+
+## Blocks
+
+| Block     | Default                                                                    |
+| --------- | -------------------------------------------------------------------------- |
+| `icon`    | A `Tabler:Icon` named `icon` with the `icon` class, when set               |
+| `content` | Empty: the children, the label                                             |
+| `iconEnd` | A `Tabler:Icon` named `iconEnd` with the `icon icon-end` classes, when set |

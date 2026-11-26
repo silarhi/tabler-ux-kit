@@ -11,7 +11,8 @@ A bordered block of rows: a settings menu, a list of records, an activity feed, 
 ] }}" />
 ```
 
-`items` is an array of `{label, href?, active?, disabled?, variant?}`, rendered with `ListGroup:Item`. Pick the
+`items` is an array of `{label?, href?, active?, disabled?, variant?, title?, description?, icon?, meta?}`, rendered
+with `ListGroup:Item`. Pick the
 element of the root with `tag`, for the content: `nav` with link items for navigation, `ul` or `ol` for a list (the
 generated items then render as `<li>`), `div` (the default) otherwise.
 
@@ -43,6 +44,102 @@ In a `ul` or `ol` list group, set `tag="li"` on each item that is not a link nor
     <twig:Tabler:ListGroup:Item tag="li" label="Symfony 7.4 or later" />
     <twig:Tabler:ListGroup:Item tag="li" label="Symfony UX TwigComponent" />
 </twig:Tabler:ListGroup>
+```
+
+## Item slots
+
+An item can be a row of slots (Tabler 1.7+): `ListGroup:Media` for an icon, an avatar or an input,
+`ListGroup:Content` with a `ListGroup:Title` and a `ListGroup:Description`, `ListGroup:Meta` for a time, a count or a
+badge, and `ListGroup:Actions` with `tag="div"` for buttons and other controls. Only the content slot is required: its
+presence turns the item into a row. The title and the description are cut with an ellipsis; add `text-wrap` to a
+`ListGroup:Description` for a longer text.
+
+```twig {"preview":true}
+<twig:Tabler:ListGroup>
+    {% for user in [
+        {name: 'Jane Cooper', role: 'UI designer', avatar: '/examples/avatar-1.jpg', seen: '2 h'},
+        {name: 'Wade Warren', role: 'Frontend developer', avatar: '/examples/avatar-2.jpg', seen: '3 d'},
+    ] %}
+        <twig:Tabler:ListGroup:Item>
+            <twig:Tabler:ListGroup:Media><twig:Tabler:Avatar image="{{ user.avatar }}" /></twig:Tabler:ListGroup:Media>
+            <twig:Tabler:ListGroup:Content title="{{ user.name }}" description="{{ user.role }}" />
+            <twig:Tabler:ListGroup:Meta>{{ user.seen }}</twig:Tabler:ListGroup:Meta>
+            <twig:Tabler:ListGroup:Actions tag="div">
+                <twig:Tabler:Button variant="default" size="sm">Follow</twig:Tabler:Button>
+            </twig:Tabler:ListGroup:Actions>
+        </twig:Tabler:ListGroup:Item>
+    {% endfor %}
+</twig:Tabler:ListGroup>
+```
+
+On `ListGroup:Item`, and in `items`, `title`, `description`, `icon` and `meta` render those slots for you, here in link
+items. The slots are `<span>`s, valid in a link, a button or a label item too (`tag="div"` switches one to a `<div>`).
+Each one is a block of the item (`media`, `body`, `meta`, then an empty `actions`), to replace a single slot:
+
+```twig {"preview":true}
+<twig:Tabler:ListGroup tag="nav" items="{{ [
+    {href: '/inbox', icon: 'inbox', title: 'Inbox', description: '3 unread messages', meta: '9:41'},
+    {href: '/drafts', icon: 'file-text', title: 'Drafts', description: 'Last edited yesterday'},
+    {href: '/archive', icon: 'archive', title: 'Archive', meta: '1,204'},
+] }}" />
+```
+
+## Selectable
+
+`selectable` gives an item with a checked `ListGroup:Check`, a checkbox or a radio, the look of an `active` one, with no
+JavaScript (`list-group-selectable`, Tabler 1.7+). Use `tag="label"` items, so a click on the whole row changes the
+input:
+
+```twig {"preview":true}
+<twig:Tabler:ListGroup selectable>
+    {% for user in [
+        {id: 12, name: 'Jane Cooper', role: 'UI designer', checked: true},
+        {id: 27, name: 'Wade Warren', role: 'Frontend developer', checked: false},
+    ] %}
+        <twig:Tabler:ListGroup:Item tag="label" title="{{ user.name }}" description="{{ user.role }}">
+            <twig:block name="media">
+                <twig:Tabler:ListGroup:Media>
+                    <twig:Tabler:ListGroup:Check name="members[]" value="{{ user.id }}" checked="{{ user.checked }}" />
+                </twig:Tabler:ListGroup:Media>
+            </twig:block>
+        </twig:Tabler:ListGroup:Item>
+    {% endfor %}
+</twig:Tabler:ListGroup>
+```
+
+## Nested
+
+`ListGroup:Nested` holds indented items right after their parent item (`list-group-nested`, Tabler 1.7+). `collapse`
+makes it a Bootstrap collapse, open with `show`, and the parent its toggle; `list-group-item-toggle` on the chevron
+turns it over while the group is open:
+
+```twig {"preview":true}
+<twig:Tabler:ListGroup>
+    <twig:Tabler:ListGroup:Item button icon="folder" title="Projects" data-bs-toggle="collapse" data-bs-target="#list-group-projects" aria-expanded="true" aria-controls="list-group-projects">
+        <twig:block name="meta">
+            <twig:Tabler:ListGroup:Meta><twig:Tabler:Icon name="chevron-down" class="list-group-item-toggle" /></twig:Tabler:ListGroup:Meta>
+        </twig:block>
+    </twig:Tabler:ListGroup:Item>
+    <twig:Tabler:ListGroup:Nested id="list-group-projects" collapse show>
+        <twig:Tabler:ListGroup:Item href="#website" label="Website redesign" />
+        <twig:Tabler:ListGroup:Item href="#mobile" label="Mobile app" />
+    </twig:Tabler:ListGroup:Nested>
+    <twig:Tabler:ListGroup:Item href="#settings" icon="settings" title="Settings" />
+</twig:Tabler:ListGroup>
+```
+
+## Sizes
+
+`size` makes the items compact (`sm`) or roomy (`lg`): it changes their vertical padding and the gap between the slots
+(`list-group-sm`, `list-group-lg`, Tabler 1.7+).
+
+```twig {"preview":true}
+{% for size in ['sm', null, 'lg'] %}
+    <twig:Tabler:ListGroup size="{{ size }}" class="mb-3" items="{{ [
+        {label: (size ?? 'Default') ~ ' item'},
+        {label: (size ?? 'Default') ~ ' item'},
+    ] }}" />
+{% endfor %}
 ```
 
 ## Active and disabled
@@ -195,28 +292,34 @@ highlight spans the full width of the card.
 | Prop          | Type         | Default | Description                                                                                 |
 | ------------- | ------------ | ------- | ------------------------------------------------------------------------------------------- |
 | `tag`         | string       | `'div'` | `div` `ul` `ol` `nav`: the root element; generated items render as `<li>` in a `ul` or `ol` |
-| `items`       | array?       | `null`  | `{label, href?, active?, disabled?, variant?}` entries, rendered with `ListGroup:Item`      |
+| `items`       | array?       | `null`  | Entries with the props of `ListGroup:Item` below, rendered with it                          |
 | `flush`       | bool         | `false` | No outer border nor rounded corners (`list-group-flush`)                                    |
 | `hoverable`   | bool         | `false` | Highlights the row under the cursor and reveals its actions (`list-group-hoverable`)        |
 | `transparent` | bool         | `false` | No background nor borders on the items, for a side menu (`list-group-transparent`)          |
 | `numbered`    | bool         | `false` | Numbers the items (`list-group-numbered`)                                                   |
 | `horizontal`  | bool\|string | `false` | Items in a row: `true` for every width, or from a breakpoint `sm` `md` `lg` `xl` `xxl`      |
 | `card`        | bool         | `false` | Card padding on the items (`card-list-group`)                                               |
+| `size`        | string?      | `null`  | `sm` `lg`: compact or roomy items (`list-group-sm`, `list-group-lg`)                        |
+| `selectable`  | bool         | `false` | A checked `ListGroup:Check` marks its item active (`list-group-selectable`)                 |
 
 Other attributes go to the root `<div class="list-group">` (or the `tag` set).
 
 `ListGroup:Item`:
 
-| Prop       | Type    | Default | Description                                                                             |
-| ---------- | ------- | ------- | --------------------------------------------------------------------------------------- |
-| `label`    | string? | `null`  | Item text                                                                               |
-| `href`     | string? | `null`  | Renders an `<a href>`                                                                   |
-| `button`   | bool    | `false` | Renders a `<button type="button">` (ignored with `href`)                                |
-| `tag`      | string  | `'div'` | `div` `li`: the element of an item that is not a link nor a button                      |
-| `action`   | bool?   | `null`  | Hover and focus style (`list-group-item-action`): `true` for links and buttons          |
-| `active`   | bool    | `false` | Current item (`active`, `aria-current="true"`)                                          |
-| `disabled` | bool    | `false` | Item the user cannot pick (`disabled`): see [Active and disabled](#active-and-disabled) |
-| `variant`  | string? | `null`  | `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                |
+| Prop          | Type    | Default | Description                                                                             |
+| ------------- | ------- | ------- | --------------------------------------------------------------------------------------- |
+| `label`       | string? | `null`  | Item text                                                                               |
+| `href`        | string? | `null`  | Renders an `<a href>`                                                                   |
+| `button`      | bool    | `false` | Renders a `<button type="button">` (ignored with `href`)                                |
+| `tag`         | string  | `'div'` | `div` `li` `label`: the element of an item that is not a link nor a button              |
+| `action`      | bool?   | `null`  | Hover and focus style (`list-group-item-action`): `true` for links and buttons          |
+| `active`      | bool    | `false` | Current item (`active`, `aria-current="true"`)                                          |
+| `disabled`    | bool    | `false` | Item the user cannot pick (`disabled`): see [Active and disabled](#active-and-disabled) |
+| `variant`     | string? | `null`  | `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                |
+| `title`       | string? | `null`  | First line of the content slot, with `ListGroup:Content`                                |
+| `description` | string? | `null`  | Second line of the content slot, with `ListGroup:Content`                               |
+| `icon`        | string? | `null`  | Icon of the media slot, with `ListGroup:Media`                                          |
+| `meta`        | string? | `null`  | Text of the meta slot, with `ListGroup:Meta`                                            |
 
 Other attributes go to the `<a>`, `<button>`, `<div>` or `<li class="list-group-item">`. To drop the hover style of a
 link, pass `action="{{ false }}"` (see [boolean props](https://tabler-ux-components.silarhi.dev/getting-started/composition/#boolean-props)).
@@ -225,20 +328,33 @@ link, pass `action="{{ false }}"` (see [boolean props](https://tabler-ux-compone
 
 `ListGroup:Actions`:
 
-| Prop   | Type    | Default | Description                                |
-| ------ | ------- | ------- | ------------------------------------------ |
-| `href` | string? | `null`  | Link target, `#` when not set              |
-| `show` | bool    | `false` | Always visible, not only on hover (`show`) |
+| Prop   | Type    | Default | Description                                                               |
+| ------ | ------- | ------- | ------------------------------------------------------------------------- |
+| `tag`  | string  | `'a'`   | `a`: a link; `div` or `span`: the slot for controls of an item with slots |
+| `href` | string? | `null`  | With `tag="a"`, the link target, `#` when not set                         |
+| `show` | bool    | `false` | Always visible in a hoverable list group, not only on hover (`show`)      |
 
-Other attributes go to the `<a class="list-group-item-actions">`.
+Other attributes go to the `<a class="list-group-item-actions">` (or the `tag` set).
+
+`ListGroup:Content` takes `title` and `description`, `ListGroup:Title` an `href` (an `<a>` title, in an item that is not
+a link), and the slots a `tag`: `span` (the default) or `div`. `ListGroup:Check` takes `type` (`checkbox`, the default,
+or `radio`) and `checked`; other attributes, such as `name` and `value`, go to the `<input>`. `ListGroup:Nested` takes
+`collapse` and `show`.
 
 ## Sub-components
 
-| Component           | Renders                                                                          |
-| ------------------- | -------------------------------------------------------------------------------- |
-| `ListGroup:Item`    | `<div class="list-group-item">`, or an `<a>`, a `<button>` or an `<li>`: one row |
-| `ListGroup:Header`  | `<div class="list-group-header">` (or `<li>`): a section label                   |
-| `ListGroup:Actions` | `<a href="#" class="list-group-item-actions">`: a trailing link, shown on hover  |
+| Component               | Renders                                                                                              |
+| ----------------------- | ---------------------------------------------------------------------------------------------------- |
+| `ListGroup:Item`        | `<div class="list-group-item">`, or an `<a>`, a `<button>` or an `<li>`: one row                     |
+| `ListGroup:Header`      | `<div class="list-group-header">` (or `<li>`): a section label                                       |
+| `ListGroup:Actions`     | `<a href="#" class="list-group-item-actions">`: a trailing link, shown on hover, or the actions slot |
+| `ListGroup:Media`       | `<span class="list-group-item-media">`: the leading slot                                             |
+| `ListGroup:Content`     | `<span class="list-group-item-content">`: the main slot, title and description                       |
+| `ListGroup:Title`       | `<span class="list-group-item-title">` (or an `<a>`)                                                 |
+| `ListGroup:Description` | `<span class="list-group-item-description">`                                                         |
+| `ListGroup:Meta`        | `<span class="list-group-item-meta">`: a time, a count or a badge                                    |
+| `ListGroup:Check`       | `<input class="form-check-input list-group-selectable-check">`                                       |
+| `ListGroup:Nested`      | `<div class="list-group-nested">`: indented items under a parent item                                |
 
 ## Blocks
 
@@ -246,4 +362,6 @@ Other attributes go to the `<a class="list-group-item-actions">`.
 | --------- | ---------------------------------------------------------------------------- |
 | `content` | A `ListGroup:Item` for each entry of the `items` prop: replace it to compose |
 
-The `content` block of `ListGroup:Item` holds its `label` prop: pass children for richer content.
+The `content` block of `ListGroup:Item` holds its `label` prop, or its slots when `title`, `description`, `icon` or
+`meta` is set: the `media`, `body`, `meta` and `actions` (empty) blocks. Pass children for richer content.
+`ListGroup:Content` has the `title` and `description` blocks.

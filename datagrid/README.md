@@ -61,9 +61,38 @@ forms mix freely in the same grid:
 </twig:Tabler:Datagrid>
 ```
 
+## Layout
+
+The grid fits as many columns as the width allows. `horizontal` puts each title beside its value, one pair per row
+(`datagrid-horizontal`), for a narrow detail panel. Requires Tabler 1.7+:
+
+```twig {"preview":true}
+<twig:Tabler:Datagrid horizontal>
+    <twig:Tabler:Datagrid:Item title="Hostname" text="db-primary-01" />
+    <twig:Tabler:Datagrid:Item title="Region" text="eu-west-3" />
+    <twig:Tabler:Datagrid:Item title="Engine" text="PostgreSQL 17.2" />
+</twig:Tabler:Datagrid>
+```
+
+`cols` sets a fixed number of columns, from 1 to 4 (`datagrid-cols-{n}`, Tabler 1.7+):
+
+```twig {"preview":true}
+<twig:Tabler:Datagrid cols="2">
+    <twig:Tabler:Datagrid:Item title="Hostname" text="db-primary-01" />
+    <twig:Tabler:Datagrid:Item title="Region" text="eu-west-3" />
+    <twig:Tabler:Datagrid:Item title="Engine" text="PostgreSQL 17.2" />
+    <twig:Tabler:Datagrid:Item title="Port" text="5432" />
+</twig:Tabler:Datagrid>
+```
+
 ## Props
 
-`Datagrid` has no props: attributes go to the root `<div class="datagrid">`.
+| Prop         | Type | Default | Description                                                                  |
+| ------------ | ---- | ------- | ---------------------------------------------------------------------------- |
+| `horizontal` | bool | `false` | Title beside the value, one pair per row (`datagrid-horizontal`)             |
+| `cols`       | int? | `null`  | Fixed number of columns, 1 to 4 (`datagrid-cols-{n}`); unset, as many as fit |
+
+Other attributes go to the root `<div class="datagrid">`.
 
 `Datagrid:Item`:
 

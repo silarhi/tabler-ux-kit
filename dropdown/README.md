@@ -1,6 +1,49 @@
 # Dropdown
 
-A Bootstrap dropdown: a toggle and a menu of items, built from sub-components. It needs `tabler.js`.
+A Bootstrap dropdown: a toggle and a menu of items. It needs `tabler.js`.
+
+```twig {"preview":true}
+<twig:Tabler:Dropdown label="Actions" icon="settings" variant="primary" items="{{ [
+    {header: 'Invoice #1042'},
+    {label: 'Edit', href: '/invoices/1042/edit', icon: 'pencil'},
+    {label: 'Comments', href: '/invoices/1042/comments', icon: 'message', badge: 3},
+    {label: 'Send reminder', href: '/invoices/1042/remind', icon: 'mail', disabled: true},
+    {divider: true},
+    {label: 'Delete', href: '/invoices/1042/delete', icon: 'trash'},
+] }}" />
+```
+
+`label`, `icon` and `variant` set the toggle, a `Dropdown:Toggle`. `items` sets the menu, a `Dropdown:Menu`: an array
+of links `{label, href?, icon?, active?, disabled?, badge?}`, separators `{divider: true}` and labels
+`{header: '…'}`. A link without `href` points to `#`; `badge` adds a [Badge](https://tabler-ux-components.silarhi.dev/components/content/badge/) at the end of
+the item. Labels are text, escaped like any prop: for markup, compose the menu.
+
+## Installation
+
+::: installation
+
+## Blocks
+
+Each part has a block: `toggle` renders the `Dropdown:Toggle`, `menu` the `Dropdown:Menu`. Override one to keep the
+other, for example to align the menu to the end of the toggle, with the same `items` set on `Dropdown:Menu`:
+
+```twig {"preview":true}
+<div class="d-flex justify-content-end">
+    <twig:Tabler:Dropdown label="Export">
+        <twig:block name="menu">
+            <twig:Tabler:Dropdown:Menu end arrow items="{{ [
+                {label: 'CSV', href: '/export.csv', icon: 'file-spreadsheet'},
+                {label: 'PDF', href: '/export.pdf', icon: 'file-type-pdf'},
+            ] }}" />
+        </twig:block>
+    </twig:Tabler:Dropdown>
+</div>
+```
+
+## Composed
+
+To build the dropdown from its parts, pass `Dropdown:Toggle` and `Dropdown:Menu` as children: they replace the
+`content` block.
 
 ```twig {"preview":true}
 <twig:Tabler:Dropdown>
@@ -14,10 +57,6 @@ A Bootstrap dropdown: a toggle and a menu of items, built from sub-components. I
     </twig:Tabler:Dropdown:Menu>
 </twig:Tabler:Dropdown>
 ```
-
-## Installation
-
-::: installation
 
 ## Toggle
 
@@ -282,9 +321,15 @@ take no props.
 
 ### Dropdown
 
-| Prop        | Type   | Default  | Description                                                                      |
-| ----------- | ------ | -------- | -------------------------------------------------------------------------------- |
-| `direction` | string | `'down'` | `down` `up` `end` `start`: where the menu opens (`dropup` `dropend` `dropstart`) |
+| Prop        | Type    | Default  | Description                                                                      |
+| ----------- | ------- | -------- | -------------------------------------------------------------------------------- |
+| `label`     | string? | `null`   | Toggle label, rendered with `Dropdown:Toggle`                                    |
+| `icon`      | string? | `null`   | Tabler icon or UX Icons name before the toggle label                             |
+| `variant`   | string? | `null`   | Toggle color, forwarded to `Dropdown:Toggle`; `null` for a plain `.btn`          |
+| `items`     | array?  | `null`   | Menu entries, rendered with `Dropdown:Menu` (see its `items`)                    |
+| `direction` | string  | `'down'` | `down` `up` `end` `start`: where the menu opens (`dropup` `dropend` `dropstart`) |
+
+The toggle renders when `label` or `icon` is set, the menu when `items` is.
 
 ### Dropdown:Toggle
 
@@ -296,13 +341,14 @@ take no props.
 
 ### Dropdown:Menu
 
-| Prop         | Type | Default | Description                                              |
-| ------------ | ---- | ------- | -------------------------------------------------------- |
-| `end`        | bool | `false` | Aligns the menu to the end (`dropdown-menu-end`)         |
-| `arrow`      | bool | `false` | Arrow pointing at the toggle (`dropdown-menu-arrow`)     |
-| `dark`       | bool | `false` | Dark menu (`dropdown-menu-dark`)                         |
-| `scrollable` | bool | `false` | Caps the height and scrolls (`dropdown-menu-scrollable`) |
-| `card`       | bool | `false` | Panel for rich content (`dropdown-menu-card`)            |
+| Prop         | Type   | Default | Description                                                                                  |
+| ------------ | ------ | ------- | -------------------------------------------------------------------------------------------- |
+| `items`      | array? | `null`  | `{label, href?, icon?, active?, disabled?, badge?}`, `{divider: true}` or `{header}` entries |
+| `end`        | bool   | `false` | Aligns the menu to the end (`dropdown-menu-end`)                                             |
+| `arrow`      | bool   | `false` | Arrow pointing at the toggle (`dropdown-menu-arrow`)                                         |
+| `dark`       | bool   | `false` | Dark menu (`dropdown-menu-dark`)                                                             |
+| `scrollable` | bool   | `false` | Caps the height and scrolls (`dropdown-menu-scrollable`)                                     |
+| `card`       | bool   | `false` | Panel for rich content (`dropdown-menu-card`)                                                |
 
 ### Dropdown:Item
 
@@ -313,3 +359,21 @@ take no props.
 | `active`   | bool    | `false` | Highlighted item (`active`)                                                                   |
 | `disabled` | bool    | `false` | Non-interactive item (`disabled`, `aria-disabled`, or the `disabled` attribute on a `button`) |
 | `icon`     | string? | `null`  | Leading Tabler icon or UX Icons name (`dropdown-item-icon`)                                   |
+
+## Blocks
+
+`Dropdown`:
+
+| Block     | Default                                                                    |
+| --------- | -------------------------------------------------------------------------- |
+| `toggle`  | `Dropdown:Toggle` with the `icon` and the `label`, when one of them is set |
+| `menu`    | `Dropdown:Menu` with the `items`, when set                                 |
+| `content` | `toggle`, then `menu`: replace it to compose freely                        |
+
+`Dropdown:Menu`:
+
+| Block     | Default                                                                                  |
+| --------- | ---------------------------------------------------------------------------------------- |
+| `content` | A `Dropdown:Item`, `Dropdown:Divider` or `Dropdown:Header` for each entry of the `items` |
+
+The content of `Dropdown:Toggle` is its label, the content of `Dropdown:Item` its label, after the `icon`.

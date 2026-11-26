@@ -3,6 +3,33 @@
 A tab bar that switches between panes already in the page, with the Bootstrap JavaScript bundled in `tabler.js`.
 
 ```twig {"preview":true}
+<twig:Tabler:Tabs id="user-tabs" items="{{ [
+    {label: 'Overview', icon: 'user', text: 'Jane Cooper is an admin since March 2024.'},
+    {label: 'Activity', icon: 'activity', text: 'Signed in 2 hours ago from Paris.'},
+    {label: 'Settings', icon: 'settings', text: 'Two-factor authentication is enabled.'},
+    {label: 'Billing', icon: 'credit-card', disabled: true},
+] }}" />
+```
+
+`items` is an array of `{label, id?, icon?, active?, text?, disabled?}`. `Tabs` renders the bar, with a `Tabs:Item`
+for each entry, then a `Tabs:Content` holding a `Tabs:Pane` with the `text` of each entry. Each pane gets the id
+`<id>-<n>`, starting at 1, unless the entry has its own `id`. Without an `id`, the panes get a random prefix
+(`tabs-<n>`), and the bar no `id`: set your own when the ids must stay the same between renders, for example to link
+to a tab. The first tab is active; once an entry sets `active`, only the entries with `active: true` are.
+
+`icon` puts a [Tabler icon](https://tabler.io/icons), or a UX Icons name (`lucide:house`), before the label, in a
+`.nav-link-icon`. `disabled` makes a tab non-interactive.
+
+## Installation
+
+::: installation
+
+## Composed
+
+`Tabs` renders the bar, `Tabs:Content` the panes. Each `Tabs:Item` targets the `id` of a `Tabs:Pane`, without the `#`.
+Mark the first tab and its pane `active`.
+
+```twig {"preview":true}
 <twig:Tabler:Tabs>
     <twig:Tabler:Tabs:Item target="tab-overview" active>Overview</twig:Tabler:Tabs:Item>
     <twig:Tabler:Tabs:Item target="tab-activity">Activity</twig:Tabler:Tabs:Item>
@@ -15,12 +42,8 @@ A tab bar that switches between panes already in the page, with the Bootstrap Ja
 </twig:Tabler:Tabs:Content>
 ```
 
-`Tabs` renders the bar, `Tabs:Content` the panes. Each `Tabs:Item` targets the `id` of a `Tabs:Pane`, without the `#`.
-Mark the first tab and its pane `active`.
-
-## Installation
-
-::: installation
+With `items`, override the `panes` block to write the panes yourself, for example to put markup in them or a class on
+`Tabs:Content`, and keep the generated bar. Give the panes the ids the bar targets.
 
 ## Tabs, Nav or Navbar
 
@@ -94,22 +117,26 @@ tab. `fill` makes the tabs share the full width. The panes are left out of this 
 
 `Tabs`:
 
-| Prop        | Type | Default | Description                                                              |
-| ----------- | ---- | ------- | ------------------------------------------------------------------------ |
-| `pills`     | bool | `false` | Pills (`nav-pills`) instead of tabs (`nav-tabs`)                         |
-| `underline` | bool | `false` | Underlined links (`nav-underline`) instead of tabs; ignored with `pills` |
-| `bordered`  | bool | `false` | Border under the whole bar, active tab underlined (`nav-bordered`)       |
-| `fill`      | bool | `false` | Tabs share the full width (`nav-fill`)                                   |
-| `card`      | bool | `false` | Tab bar for a card header (`card-header-tabs`)                           |
+| Prop        | Type    | Default | Description                                                                                         |
+| ----------- | ------- | ------- | --------------------------------------------------------------------------------------------------- |
+| `id`        | string? | `null`  | DOM id of the bar and prefix of the generated pane ids; random prefix when `null`                   |
+| `items`     | array?  | `null`  | `{label, id?, icon?, active?, text?, disabled?}` entries, rendered with `Tabs:Item` and `Tabs:Pane` |
+| `pills`     | bool    | `false` | Pills (`nav-pills`) instead of tabs (`nav-tabs`)                                                    |
+| `underline` | bool    | `false` | Underlined links (`nav-underline`) instead of tabs; ignored with `pills`                            |
+| `bordered`  | bool    | `false` | Border under the whole bar, active tab underlined (`nav-bordered`)                                  |
+| `fill`      | bool    | `false` | Tabs share the full width (`nav-fill`)                                                              |
+| `card`      | bool    | `false` | Tab bar for a card header (`card-header-tabs`)                                                      |
 
-Other attributes go to the root `<ul class="nav" role="tablist">`.
+Other attributes go to the root `<ul class="nav" role="tablist">`, not to the panes.
 
 `Tabs:Item`:
 
-| Prop     | Type   | Default    | Description                            |
-| -------- | ------ | ---------- | -------------------------------------- |
-| `target` | string | (required) | `id` of the pane it shows, without `#` |
-| `active` | bool   | `false`    | The tab selected first                 |
+| Prop       | Type    | Default    | Description                                                   |
+| ---------- | ------- | ---------- | ------------------------------------------------------------- |
+| `target`   | string  | (required) | `id` of the pane it shows, without `#`                        |
+| `active`   | bool    | `false`    | The tab selected first                                        |
+| `disabled` | bool    | `false`    | Non-interactive tab (`disabled`, with `aria-disabled="true"`) |
+| `icon`     | string? | `null`     | Leading Tabler icon or UX Icons name (`nav-link-icon`)        |
 
 Other attributes go to the `<a class="nav-link" data-bs-toggle="tab">`, not to the `<li>`.
 
@@ -130,3 +157,12 @@ Other attributes go to the `<div class="tab-pane">`. `Tabs:Content` has no props
 | `Tabs:Item`    | `<li class="nav-item">` around an `<a href="#target" data-bs-toggle="tab">` |
 | `Tabs:Content` | `<div class="tab-content">`, the container of the panes                     |
 | `Tabs:Pane`    | `<div class="tab-pane" role="tabpanel">`, one pane                          |
+
+## Blocks
+
+| Block     | Default                                                                                                |
+| --------- | ------------------------------------------------------------------------------------------------------ |
+| `content` | A `Tabs:Item` for each entry of the `items` prop                                                       |
+| `panes`   | After the bar: `Tabs:Content` with a `Tabs:Pane` holding the `text` of each entry, when `items` is set |
+
+The content of `Tabs:Item` is its label, after the `icon`; the content of `Tabs:Pane` is the pane.

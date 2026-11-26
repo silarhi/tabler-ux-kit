@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "TextShimmer",
+    "description": "A highlight sweeping across a short label while something is in progress.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

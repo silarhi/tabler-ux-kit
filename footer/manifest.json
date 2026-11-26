@@ -1,0 +1,14 @@
+{
+    "type": "component",
+    "name": "Footer",
+    "description": "The page footer, with a copyright line and links on the start side and more links on the end side.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

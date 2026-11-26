@@ -81,6 +81,28 @@ Put an icon before the label with the `nav-link-icon` class:
 </twig:Tabler:SegmentedControl>
 ```
 
+## In a form
+
+A segmented control that picks a value is a radio group, not a tab list. Use `SegmentedControl:Option` segments: a
+radio (or a checkbox with `type="checkbox"`) followed by its `<label class="nav-link">`, so the checked segment is
+submitted with the form. Give the control `role="radiogroup"` and an `aria-label`, or put it in a `<fieldset>` with a
+`<legend>`. The [form theme](https://tabler-ux-components.silarhi.dev/getting-started/form-theme/) renders an expanded `ChoiceType` this way with
+`choice_style: 'segmented'`.
+
+```twig {"preview":true}
+<form>
+    <twig:Tabler:SegmentedControl role="radiogroup" aria-label="Billing period">
+        <twig:Tabler:SegmentedControl:Option id="billing-monthly" name="billing" value="monthly" label="Monthly" checked />
+        <twig:Tabler:SegmentedControl:Option id="billing-yearly" name="billing" value="yearly" label="Yearly" />
+        <twig:Tabler:SegmentedControl:Option id="billing-lifetime" name="billing" value="lifetime" icon="infinity" label="Lifetime" />
+    </twig:Tabler:SegmentedControl>
+</form>
+```
+
+Tabler hides the inputs of a segmented control with `display: none`, which takes them out of the keyboard order. The
+option adds `btn-check d-block` to the input: hidden but focusable, so <kbd>Tab</kbd> reaches the group and the arrow
+keys move the selection. Tabler draws no focus ring on the segment itself.
+
 ## Props
 
 | Prop        | Type   | Default | Description                                    |
@@ -89,13 +111,15 @@ Put an icon before the label with the `nav-link-icon` class:
 | `vertical`  | bool   | `false` | Stacks the segments (`nav-segmented-vertical`) |
 | `size`      | string | `'md'`  | `sm` `md` `lg` (`nav-sm`, `nav-lg`)            |
 
-Other attributes go to the root `<nav role="tablist">`: give it an `aria-label`.
+Other attributes go to the root `<nav role="tablist">`: give it an `aria-label`. Pass `role="radiogroup"` for
+`SegmentedControl:Option` radios.
 
 ## Sub-components
 
-| Component               | Renders                                                                                         |
-| ----------------------- | ----------------------------------------------------------------------------------------------- |
-| `SegmentedControl:Item` | `<button type="button" class="nav-link" role="tab" data-bs-toggle="tab">`, with `aria-selected` |
+| Component                 | Renders                                                                                          |
+| ------------------------- | ------------------------------------------------------------------------------------------------ |
+| `SegmentedControl:Item`   | `<button type="button" class="nav-link" role="tab" data-bs-toggle="tab">`, with `aria-selected`  |
+| `SegmentedControl:Option` | `<input class="nav-link-input btn-check d-block">` and its `<label class="nav-link">`, for forms |
 
 `SegmentedControl:Item` takes one prop:
 
@@ -104,3 +128,19 @@ Other attributes go to the root `<nav role="tablist">`: give it an `aria-label`.
 | `active` | bool | `false` | The selected segment (`active`, `aria-selected="true"`); the others get `tabindex="-1"` |
 
 Its `type` is `button` unless you pass another one, such as `type="submit"`.
+
+`SegmentedControl:Option` takes these props:
+
+| Prop       | Type   | Default   | Description                                        |
+| ---------- | ------ | --------- | -------------------------------------------------- |
+| `id`       | string | required  | The input id, referenced by the label's `for`      |
+| `name`     | string | `null`    | The input name, shared by the options of a control |
+| `value`    | string | `null`    | The input value                                    |
+| `type`     | string | `'radio'` | `radio` or `checkbox`                              |
+| `checked`  | bool   | `false`   | The selected segment                               |
+| `disabled` | bool   | `false`   | An inactive segment                                |
+| `label`    | string | `null`    | The label text; children replace it                |
+| `icon`     | string | `null`    | An icon before the label (`nav-link-icon`)         |
+
+`class` and the attributes prefixed with `label:` go on the `<label>`; every other attribute (`required`,
+`aria-describedby`, `data-*`…) goes on the `<input>`. The `icon` and `content` blocks hold the icon and the label.

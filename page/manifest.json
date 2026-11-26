@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Page",
+    "description": "The shell of an app page, with the navigation, the page header, the body and the footer.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "recipe": [
+            "page-header"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

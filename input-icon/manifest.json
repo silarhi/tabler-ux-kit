@@ -1,0 +1,18 @@
+{
+    "type": "component",
+    "name": "InputIcon",
+    "description": "An icon, or a spinner, inside a text field.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon",
+            "spinner"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

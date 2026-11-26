@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Selectgroup",
+    "description": "Radios or checkboxes styled as buttons, for a filter bar or a set of options.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}

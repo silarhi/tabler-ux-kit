@@ -53,23 +53,53 @@ dot between the items (`list-inline-dots`), and has no effect without `inline`:
 </twig:Tabler:List>
 ```
 
+## Icons
+
+`icon` replaces the bullets with icons (`list-icon`, Tabler 1.7+), for the features of a plan or the steps of a setup.
+The first icon of each item is its marker, centered on the first line: the `icon` of a `List:Item`. `variant` on the
+list colors every marker, `variant` on an item only its own:
+
+```twig {"preview":true}
+<twig:Tabler:List icon variant="success" class="mb-0">
+    {% for feature in ['Unlimited projects', 'Priority support', 'Custom domains'] %}
+        <twig:Tabler:List:Item icon="check">{{ feature }}</twig:Tabler:List:Item>
+    {% endfor %}
+    <twig:Tabler:List:Item icon="x" variant="danger">No single sign-on</twig:Tabler:List:Item>
+</twig:Tabler:List>
+```
+
+With `icon`, `inline` lays short entries out in a row that wraps (`list-icon-inline`) instead of `list-inline`, and its
+items get no `list-inline-item`:
+
+```twig {"preview":true}
+<twig:Tabler:List icon inline class="mb-0">
+    <twig:Tabler:List:Item icon="mail">hello@example.com</twig:Tabler:List:Item>
+    <twig:Tabler:List:Item icon="phone">+33 5 61 00 00 00</twig:Tabler:List:Item>
+    <twig:Tabler:List:Item icon="map-pin">Toulouse, France</twig:Tabler:List:Item>
+</twig:Tabler:List>
+```
+
 ## Props
 
-| Prop        | Type | Default | Description                                                   |
-| ----------- | ---- | ------- | ------------------------------------------------------------- |
-| `separated` | bool | `false` | Stacks the items with a gap (`list-separated`)                |
-| `inline`    | bool | `false` | Items in a row (`list-inline`); its `List:Item`s follow it    |
-| `dots`      | bool | `false` | With `inline`: a dot between the items (`list-inline-dots`)   |
-| `unstyled`  | bool | `false` | No bullets and no indent (`list-unstyled`)                    |
-| `ordered`   | bool | `false` | Renders an `<ol>` instead of a `<ul>`                         |
+| Prop        | Type    | Default | Description                                                                                    |
+| ----------- | ------- | ------- | ---------------------------------------------------------------------------------------------- |
+| `separated` | bool    | `false` | Stacks the items with a gap (`list-separated`)                                                 |
+| `inline`    | bool    | `false` | Items in a row (`list-inline`), its `List:Item`s following it; with `icon`, `list-icon-inline` |
+| `dots`      | bool    | `false` | With `inline`: a dot between the items (`list-inline-dots`)                                    |
+| `unstyled`  | bool    | `false` | No bullets and no indent (`list-unstyled`)                                                     |
+| `ordered`   | bool    | `false` | Renders an `<ol>` instead of a `<ul>`                                                          |
+| `icon`      | bool    | `false` | Icons instead of bullets (`list-icon`, Tabler 1.7+)                                            |
+| `variant`   | string? | `null`  | With `icon`: the color of every marker (`--tblr-list-icon-color`), a semantic color            |
 
 Other attributes go to the root `<ul>` (or `<ol>`).
 
 `List:Item`:
 
-| Prop     | Type  | Default | Description                                                                   |
-| -------- | ----- | ------- | ----------------------------------------------------------------------------- |
-| `inline` | bool? | `null`  | Item of an inline list (`list-inline-item`); `null` follows the parent `List` |
+| Prop      | Type    | Default | Description                                                                   |
+| --------- | ------- | ------- | ----------------------------------------------------------------------------- |
+| `inline`  | bool?   | `null`  | Item of an inline list (`list-inline-item`); `null` follows the parent `List` |
+| `icon`    | string? | `null`  | Icon before the content: the marker of an icon list                           |
+| `variant` | string? | `null`  | Color of that icon (`text-{variant}`), overriding the color of the list       |
 
 Other attributes go to the `<li>`. An item placed outside a `List`, e.g. in a list of your own markup, needs `inline`
 set by hand; `inline="{{ false }}"` keeps an item of an inline list out of the row.
@@ -85,5 +115,7 @@ set by hand; `inline="{{ false }}"` keeps an item of an inline list out of the r
 | Block     | Default                               |
 | --------- | ------------------------------------- |
 | `content` | Empty: the children, the `List:Item`s |
+
+`List:Item` has an `icon` block, the `Icon` of its `icon` and `variant` props, before its `content`.
 
 `List:Item` has an empty `content` block too, for the item content.

@@ -92,9 +92,24 @@ A short label next to other content: a status, a counter, a tag.
 </twig:Tabler:Button>
 ```
 
+## Icons
+
+`icon` adds an icon before the label, rendered with [Icon](https://tabler-ux-components.silarhi.dev/components/content/icon/) (so a prefixed `lucide:…` name
+works with `symfony/ux-icons`) and Tabler's `icon` class, hidden from assistive technology. The `icon` block replaces
+it. With `iconOnly`, the badge needs no children: give it an `aria-label`.
+
+```twig {"preview":true}
+<twig:Tabler:Badge:List>
+    <twig:Tabler:Badge variant="success" icon="check">Verified</twig:Tabler:Badge>
+    <twig:Tabler:Badge variant="warning" light="{{ true }}" icon="clock">Pending</twig:Tabler:Badge>
+    <twig:Tabler:Badge variant="danger" outline="{{ true }}" icon="alert-triangle">Failed</twig:Tabler:Badge>
+    <twig:Tabler:Badge variant="info" light="{{ true }}" icon="star" iconOnly="{{ true }}" aria-label="Starred" />
+</twig:Tabler:Badge:List>
+```
+
 ## Icon only
 
-`iconOnly` makes a square badge that holds only an icon (`badge-icononly`):
+`iconOnly` makes a square badge that holds only an icon (`badge-icononly`), from the `icon` prop or the children:
 
 ```twig {"preview":true}
 <twig:Tabler:Badge:List>
@@ -115,6 +130,18 @@ A short label next to other content: a status, a counter, a tag.
     <twig:Tabler:Badge variant="primary" light="{{ true }}">twig</twig:Tabler:Badge>
     <twig:Tabler:Badge variant="primary" light="{{ true }}">doctrine</twig:Tabler:Badge>
 </twig:Tabler:Badge:List>
+```
+
+Its `items` renders a badge for each entry, an array of Badge props: `text` (the label, escaped), and the optional
+`variant`, `icon`, `light`, `outline`, `pill`, `size` and `href`:
+
+```twig {"preview":true}
+<twig:Tabler:Badge:List items="{{ [
+    {text: 'PHP', variant: 'primary', icon: 'brand-php'},
+    {text: 'Symfony', variant: 'dark'},
+    {text: 'Twig', variant: 'success', light: true},
+    {text: 'Tabler', variant: 'info', outline: true, href: '#'},
+] }}" />
 ```
 
 ## Links
@@ -143,8 +170,15 @@ With `href`, the badge renders as an `<a>`:
 | `notification` | bool    | `false`     | Over the top end corner of its parent (`badge-notification`)                                                |
 | `blink`        | bool    | `false`     | Pulsing animation (`badge-blink`)                                                                           |
 | `href`         | string? | `null`      | Renders an `<a href>` instead of a `<span>`                                                                 |
+| `icon`         | string? | `null`      | Leading icon name, rendered with `Icon` (`icon`)                                                            |
 
 Other attributes go to the root `<span class="badge">` (or `<a>`). Any other `variant` value renders no color class.
+
+`Badge:List`:
+
+| Prop    | Type   | Default | Description                                                                                       |
+| ------- | ------ | ------- | ------------------------------------------------------------------------------------------------- |
+| `items` | array? | `null`  | Badges to render: `{text, variant?, icon?, light?, outline?, pill?, size?, href?}`, `Badge` props |
 
 ## Sub-components
 
@@ -154,6 +188,9 @@ Other attributes go to the root `<span class="badge">` (or `<a>`). Any other `va
 
 ## Blocks
 
-| Block     | Default                        |
-| --------- | ------------------------------ |
-| `content` | Empty: the children, the label |
+| Block     | Default                                                      |
+| --------- | ------------------------------------------------------------ |
+| `icon`    | A `Tabler:Icon` named `icon` with the `icon` class, when set |
+| `content` | Empty: the children, the label                               |
+
+The `content` block of `Badge:List` renders a `Badge` for each entry of `items`; the children replace it.

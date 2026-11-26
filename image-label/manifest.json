@@ -1,0 +1,17 @@
+{
+    "type": "component",
+    "name": "Image label",
+    "description": "A short text or an icon pinned to a corner of an image, such as \"New\", \"AI\" or a video length.",
+    "copy-files": {
+        "templates/components/": "%COMPONENTS_DIR%/"
+    },
+    "dependencies": {
+        "recipe": [
+            "icon"
+        ],
+        "composer": [
+            "twig/extra-bundle",
+            "twig/html-extra:^3.12.0"
+        ]
+    }
+}
