@@ -179,6 +179,20 @@ With `href`, the card renders as an `<a>`, so the whole card is clickable. `link
 </div>
 ```
 
+## Tooltip
+
+`tooltip` sets the `title` and `data-bs-toggle="tooltip"` on the card itself, which `tabler.js` turns into a Bootstrap
+tooltip: the hover hint of a link card. It is the only way to give the card an HTML `title`, since the `title` prop is
+the header. An explicit `data-bs-toggle` wins over the generated one:
+
+```twig {"preview":true}
+<div class="row row-cards">
+    <div class="col-sm-6">
+        <twig:Tabler:Card href="/deployments/1842" link="{{ true }}" title="Deployment #1842" text="main, deployed 2 hours ago." tooltip="Open the deployment logs" />
+    </div>
+</div>
+```
+
 ## Element
 
 `tag` picks the root element: `div` (the default), or a sectioning element when the card is a unit of the page,
@@ -451,6 +465,7 @@ Passing children replaces the `content` block, and so the three blocks. The stat
 | `footer`            | string?      | `null`  | Rendered with `Card:Footer`                                                                                                |
 | `tag`               | string       | `'div'` | `div` `article` `section` `aside` `nav` `details`: the root element                                                        |
 | `href`              | string?      | `null`  | Renders an `<a href>` instead of the `tag` element                                                                         |
+| `tooltip`           | string?      | `null`  | Tooltip text (`title`, `data-bs-toggle="tooltip"`) on the card, e.g. the hover hint of a link card                         |
 
 Other attributes go to the root `<div class="card">` (or the `tag` element, or `<a>`).
 

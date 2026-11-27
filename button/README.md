@@ -1,6 +1,7 @@
 # Button
 
-Renders a `<button type="button">`, or an `<a role="button">` when `href` is set.
+Renders a `<button type="button">`, an `<a role="button">` when `href` is set, or the element named by
+[`tag`](#other-elements).
 
 ```twig {"preview":true}
 <div class="btn-list">
@@ -197,6 +198,29 @@ default:
 </div>
 ```
 
+## Other elements
+
+`tag` picks the element: `button`, `a`, `label` or `span`. Left `null` (the default), it is an `<a>` with `href` and a
+`<button>` without; an explicit `tag` wins over `href`. A `label` or a `span` gets no `type`, `href` nor `role`, and
+`disabled` sets the `disabled` class and `aria-disabled="true"` on it.
+
+A `label` is the styled trigger of a file input: clicking it opens the file picker, which a `<button>` cannot do. Put
+the input inside, hidden with `visually-hidden` so it stays focusable. The `disabled` class only blocks the pointer:
+disable the input too.
+
+```twig {"preview":true}
+<div class="btn-list">
+    <twig:Tabler:Button tag="label" icon="upload">
+        <input type="file" name="import" accept=".csv" class="visually-hidden">
+        Import a CSV file
+    </twig:Tabler:Button>
+    <twig:Tabler:Button tag="label" variant="default" appearance="outline" disabled="{{ true }}">
+        <input type="file" name="attachment" class="visually-hidden" disabled>
+        Attach a file
+    </twig:Tabler:Button>
+</div>
+```
+
 ## Full width
 
 ```twig {"preview":true}
@@ -229,14 +253,15 @@ forwarded to the button:
 | `variant`     | string  | `'primary'` | `default` (neutral) `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`                  |
 | `appearance`  | string  | `'filled'`  | `filled` `outline` `ghost` `link` (`btn-link`) `action` (`btn-action`); `link` and `action` ignore `variant`  |
 | `size`        | string  | `'md'`      | `sm` `md` `lg` `xl`                                                                                           |
-| `href`        | string? | `null`      | Renders `<a href role="button">` instead of `<button>`                                                        |
-| `type`        | string  | `'button'`  | `button` `submit` `reset`, ignored for links                                                                  |
+| `href`        | string? | `null`      | Renders `<a href role="button">` instead of `<button>`, unless `tag` names another element                    |
+| `tag`         | string? | `null`      | `button` `a` `label` `span`; `null` for `<a>` with `href`, else `<button>`                                    |
+| `type`        | string  | `'button'`  | `button` `submit` `reset`, only on a `<button>`                                                               |
 | `pill`        | bool    | `false`     | Fully rounded corners (`btn-pill`)                                                                            |
 | `square`      | bool    | `false`     | No border radius (`btn-square`)                                                                               |
 | `iconOnly`    | bool    | `false`     | Icon-only button (`btn-icon`)                                                                                 |
 | `loading`     | bool    | `false`     | Spinner instead of the label (`btn-loading`)                                                                  |
 | `block`       | bool    | `false`     | Full width (`w-100`)                                                                                          |
-| `disabled`    | bool    | `false`     | `disabled` attribute on `<button>`; `disabled` class, `aria-disabled` and `tabindex` on `<a>`                 |
+| `disabled`    | bool    | `false`     | `disabled` attribute on `<button>`; `disabled` class and `aria-disabled` on the others, `tabindex` on `<a>`   |
 | `floating`    | bool    | `false`     | Pinned to the bottom corner of the viewport (`btn-floating`)                                                  |
 | `animateIcon` | string? | `null`      | Animates the icon on hover: `pulse` `rotate` `shake` `tada` `move-start` (`btn-animate-icon-*`)               |
 | `icon`        | string? | `null`      | Leading icon name, rendered with `Icon` (`icon`)                                                              |
@@ -246,7 +271,7 @@ forwarded to the button:
 | `collapse`    | string? | `null`      | Id of the element to toggle (`data-bs-toggle="collapse"`, `data-bs-target`, `aria-controls`, `aria-expanded`) |
 | `tooltip`     | string? | `null`      | Tooltip text (`title`, `data-bs-toggle="tooltip"` unless a trigger is set); `aria-label` of an `iconOnly` one |
 
-Other attributes go to the `<button>` or `<a>`, and win over the generated `role`, `data-bs-*`, `aria-*` and `title`.
+Other attributes go to the root element, and win over the generated `role`, `data-bs-*`, `aria-*` and `title`.
 The children are the label.
 
 ## Blocks
