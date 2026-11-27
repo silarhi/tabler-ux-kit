@@ -179,6 +179,27 @@ With `href`, the card renders as an `<a>`, so the whole card is clickable. `link
 </div>
 ```
 
+## Element
+
+`tag` picks the root element: `div` (the default), or a sectioning element when the card is a unit of the page,
+`article`, `section`, `aside` or `nav`. `href` takes precedence over it. `tag="details"` makes a collapsible card
+without JavaScript: give its `Card:Header` `tag="summary"`, the toggle, and the `open` attribute to show it expanded.
+`Card:Header` also takes `tag="header"`:
+
+```twig {"preview":true}
+<div class="row row-cards">
+    <div class="col-sm-6">
+        <twig:Tabler:Card tag="article" title="Release notes" subtitle="Version 2.0" text="Dark mode, faster search and a new export." />
+    </div>
+    <div class="col-sm-6">
+        <twig:Tabler:Card tag="details">
+            <twig:Tabler:Card:Header tag="summary" title="Advanced settings" />
+            <twig:Tabler:Card:Body>Shown once the header is clicked: no JavaScript involved.</twig:Tabler:Card:Body>
+        </twig:Tabler:Card>
+    </div>
+</div>
+```
+
 ## Images
 
 `Card:Img` renders an image on an edge of the card. `position` sets the edge whose corners are rounded: `top` (the
@@ -428,15 +449,16 @@ Passing children replaces the `content` block, and so the three blocks. The stat
 | `subtitle`          | string?      | `null`  | Rendered with `Card:Header` and `Card:Subtitle`, under the title                                                           |
 | `text`              | string?      | `null`  | Rendered with `Card:Body`                                                                                                  |
 | `footer`            | string?      | `null`  | Rendered with `Card:Footer`                                                                                                |
-| `href`              | string?      | `null`  | Renders an `<a href>` instead of a `<div>`                                                                                 |
+| `tag`               | string       | `'div'` | `div` `article` `section` `aside` `nav` `details`: the root element                                                        |
+| `href`              | string?      | `null`  | Renders an `<a href>` instead of the `tag` element                                                                         |
 
-Other attributes go to the root `<div class="card">` (or `<a>`).
+Other attributes go to the root `<div class="card">` (or the `tag` element, or `<a>`).
 
 ## Sub-components
 
 | Component         | Renders                                                                            |
 | ----------------- | ---------------------------------------------------------------------------------- |
-| `Card:Header`     | `<div class="card-header">`                                                        |
+| `Card:Header`     | `<div class="card-header">` (or `<header>`, `<summary>` with `tag`)                |
 | `Card:Title`      | `<h3 class="card-title">`                                                          |
 | `Card:Subtitle`   | `<div class="card-subtitle">`: small muted text under the title                    |
 | `Card:Actions`    | `<div class="card-actions">`: buttons or links at the end of the header            |
@@ -455,10 +477,11 @@ Other attributes go to the root `<div class="card">` (or `<a>`).
 
 `Card:Header`:
 
-| Prop       | Type    | Default | Description                                                                             |
-| ---------- | ------- | ------- | --------------------------------------------------------------------------------------- |
-| `title`    | string? | `null`  | Rendered with `Card:Title`                                                              |
-| `subtitle` | string? | `null`  | Rendered with `Card:Subtitle`; the title and the subtitle are then wrapped in a `<div>` |
+| Prop       | Type    | Default | Description                                                                               |
+| ---------- | ------- | ------- | ----------------------------------------------------------------------------------------- |
+| `title`    | string? | `null`  | Rendered with `Card:Title`                                                                |
+| `subtitle` | string? | `null`  | Rendered with `Card:Subtitle`; the title and the subtitle are then wrapped in a `<div>`   |
+| `tag`      | string  | `'div'` | `div` `header` `summary`: the element, `summary` for the toggle of a `tag="details"` card |
 
 Its children replace its `content` block, as before: `<twig:Tabler:Card:Header><twig:Tabler:Card:Title>…` still works.
 

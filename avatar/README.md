@@ -65,10 +65,14 @@ a `name`, `auto` sets no color.
 
 ## Variants
 
-`variant` gives initials or icons a tinted background (`bg-{variant}-lt`):
+`variant` gives initials or icons a tinted background (`bg-{variant}-lt`), from a theme color or one of Tabler's
+colors (`blue` … `cyan`, as for `color`):
 
 ```twig {"preview":true}
 {% for variant, initials in {primary: 'JD', secondary: 'AL', success: 'MK', danger: 'RB', warning: 'SC', info: 'TW', dark: 'EV', light: 'NP'} %}
+    <twig:Tabler:Avatar variant="{{ variant }}">{{ initials }}</twig:Tabler:Avatar>
+{% endfor %}
+{% for variant, initials in {purple: 'OB', teal: 'LG', orange: 'HM', pink: 'CF'} %}
     <twig:Tabler:Avatar variant="{{ variant }}">{{ initials }}</twig:Tabler:Avatar>
 {% endfor %}
 ```
@@ -186,17 +190,17 @@ from. Put it in the avatar, with an `image` or with markup such as an icon:
 
 ## Props
 
-| Prop      | Type    | Default | Description                                                                                 |
-| --------- | ------- | ------- | ------------------------------------------------------------------------------------------- |
-| `size`    | string  | `'md'`  | `xxs` `xs` `sm` `md` `lg` `xl` `2xl`                                                        |
-| `variant` | string? | `null`  | Tinted background: `primary` `secondary` `success` `danger` `warning` `info` `dark` `light` |
-| `rounded` | bool    | `false` | Circle (`rounded-circle`)                                                                   |
-| `square`  | bool    | `false` | Rounded corners instead of a circle (`avatar-square`)                                       |
-| `cover`   | bool    | `false` | Pulled over the element above, with a ring (`avatar-cover`)                                 |
-| `image`   | string? | `null`  | Image URL, set as an inline `background-image` style                                        |
-| `name`    | string? | `null`  | Name of the person: initials without `image`, `role="img"`, `title` and `aria-label`        |
-| `color`   | string? | `null`  | Tabler color of the background (`bg-{color}-lt`), or `auto` to pick it from the `name`      |
-| `tooltip` | string? | `null`  | Tooltip text (`title`, `data-bs-toggle="tooltip"`), replacing the `title` of `name`         |
+| Prop      | Type    | Default | Description                                                                                                                    |
+| --------- | ------- | ------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `size`    | string  | `'md'`  | `xxs` `xs` `sm` `md` `lg` `xl` `2xl`                                                                                           |
+| `variant` | string? | `null`  | Tinted background: `primary` `secondary` `success` `danger` `warning` `info` `dark` `light`, or a Tabler color `blue` … `cyan` |
+| `rounded` | bool    | `false` | Circle (`rounded-circle`)                                                                                                      |
+| `square`  | bool    | `false` | Rounded corners instead of a circle (`avatar-square`)                                                                          |
+| `cover`   | bool    | `false` | Pulled over the element above, with a ring (`avatar-cover`)                                                                    |
+| `image`   | string? | `null`  | Image URL, set as an inline `background-image` style                                                                           |
+| `name`    | string? | `null`  | Name of the person: initials without `image`, `role="img"`, `title` and `aria-label`                                           |
+| `color`   | string? | `null`  | Tabler color of the background (`bg-{color}-lt`), or `auto` to pick it from the `name`                                         |
+| `tooltip` | string? | `null`  | Tooltip text (`title`, `data-bs-toggle="tooltip"`), replacing the `title` of `name`                                            |
 
 Other attributes go to the root `<span class="avatar">`. A `style` attribute is merged after the `background-image`,
 so it can still override it.
