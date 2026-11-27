@@ -125,6 +125,25 @@ meaning on its own:
 </div>
 ```
 
+## Tooltip
+
+`tooltip` sets the `title` and `data-bs-toggle="tooltip"` on the `<i>` (or the UX Icons `<svg>`) itself, with no
+wrapper, so the icon fits in an input group addon or next to a label. An icon with a tooltip carries meaning: it also
+gets `role="img"` and the text as its `aria-label`, so screen readers announce it. Attributes you pass yourself win:
+an `aria-label` with more context, or `aria-hidden="true"` when the text next to the icon already says the same, which
+keeps the icon decorative (no `role` nor `aria-label`):
+
+```twig {"preview":true}
+<div class="d-flex align-items-center gap-3">
+    <span>Last sync 14:00 <twig:Tabler:Icon name="info-circle" class="text-secondary" tooltip="Synced every hour" /></span>
+    <twig:Tabler:Icon name="alert-triangle" variant="warning" tooltip="2 rows were skipped" />
+</div>
+<div class="input-group mt-3">
+    <input type="text" class="form-control" placeholder="API key" aria-label="API key">
+    <span class="input-group-text"><twig:Tabler:Icon name="help" tooltip="Found in Settings, API" /></span>
+</div>
+```
+
 ## Props
 
 | Prop        | Type    | Default    | Description                                                                                                                         |
@@ -134,3 +153,4 @@ meaning on its own:
 | `animation` | string? | `null`     | `pulse` `tada` `rotate`                                                                                                             |
 | `size`      | string? | `null`     | `sm` `md` `lg` `inline` (`icon icon-{size}`); unset, follows the font size                                                          |
 | `filled`    | bool    | `false`    | Filled variant: `ti-filled ti-filled-{name}`, see [Filled](#filled); with UX Icons, `tabler:{name}-filled` in the `tabler` set only |
+| `tooltip`   | string? | `null`     | Tooltip text (`title`, `data-bs-toggle="tooltip"`), also the `aria-label` (`role="img"`) unless `aria-hidden` is set                |

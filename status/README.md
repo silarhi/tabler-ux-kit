@@ -49,6 +49,17 @@ variant color (`status-lite`):
 <twig:Tabler:Status variant="danger" lite="{{ true }}" dot="{{ true }}" label="Overdue" />
 ```
 
+## Tooltip
+
+`tooltip` sets the `title` and `data-bs-toggle="tooltip"` on the status itself, with no wrapper. The label stays its
+accessible text, so keep the state in it and the details in the tooltip. Attributes you pass yourself (`title`,
+`data-bs-toggle`) win:
+
+```twig {"preview":true}
+<twig:Tabler:Status variant="success" dot="{{ true }}" label="Operational" tooltip="No incident in 30 days" />
+<twig:Tabler:Status variant="warning" dot="{{ true }}" animated="{{ true }}" label="Degraded" tooltip="Since 14:02, 3 incidents" />
+```
+
 ## Indicator
 
 `Status:Indicator` is a larger, standalone marker (`status-indicator`), e.g. next to a service name on an uptime page.
@@ -103,6 +114,7 @@ See [Composition](https://tabler-ux-components.silarhi.dev/getting-started/compo
 | `animated` | bool    | `false`     | Pulses the dot (needs `dot`)                                                                                                                                                                       |
 | `lite`     | bool    | `false`     | Neutral border and text, only the dot keeps the color (`status-lite`)                                                                                                                              |
 | `label`    | string? | `null`      | The status text                                                                                                                                                                                    |
+| `tooltip`  | string? | `null`      | Tooltip text (`title`, `data-bs-toggle="tooltip"`)                                                                                                                                                 |
 
 Other attributes go to the root `<span class="status">`.
 

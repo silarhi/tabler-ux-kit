@@ -119,6 +119,19 @@ it. With `iconOnly`, the badge needs no children: give it an `aria-label`.
 </twig:Tabler:Badge:List>
 ```
 
+## Tooltip
+
+`tooltip` sets the `title` and `data-bs-toggle="tooltip"` on the badge itself, which `tabler.js` turns into a Bootstrap
+tooltip. Unlike a [Tooltip](https://tabler-ux-components.silarhi.dev/components/overlays/tooltip/), it adds no wrapper, so the badge stays a direct child of a
+button group or an input group. A `dot` or `iconOnly` badge, which has no text, also gets it as its `aria-label`.
+Attributes you pass yourself (`title`, `data-bs-toggle`, `aria-label`) win over the generated ones:
+
+```twig {"preview":true}
+<twig:Tabler:Badge variant="success" light="{{ true }}" tooltip="Paid on 3 March">Paid</twig:Tabler:Badge>
+<twig:Tabler:Badge variant="warning" light="{{ true }}" icon="clock" iconOnly="{{ true }}" tooltip="Due in 3 days" />
+<twig:Tabler:Badge variant="danger" dot="{{ true }}" tooltip="Overdue" /> INV-0042
+```
+
 ## Lists
 
 `Badge:List` spaces several badges in a row and wraps them on narrow screens (`badge-list`):
@@ -133,7 +146,7 @@ it. With `iconOnly`, the badge needs no children: give it an `aria-label`.
 ```
 
 Its `items` renders a badge for each entry, an array of Badge props: `text` (the label, escaped), and the optional
-`variant`, `icon`, `light`, `outline`, `pill`, `size` and `href`:
+`variant`, `icon`, `light`, `outline`, `pill`, `size`, `href` and `tooltip`:
 
 ```twig {"preview":true}
 <twig:Tabler:Badge:List items="{{ [
@@ -171,14 +184,16 @@ With `href`, the badge renders as an `<a>`:
 | `blink`        | bool    | `false`     | Pulsing animation (`badge-blink`)                                                                           |
 | `href`         | string? | `null`      | Renders an `<a href>` instead of a `<span>`                                                                 |
 | `icon`         | string? | `null`      | Leading icon name, rendered with `Icon` (`icon`)                                                            |
+| `tooltip`      | string? | `null`      | Tooltip text (`title`, `data-bs-toggle="tooltip"`); the `aria-label` of a `dot` or `iconOnly` badge         |
 
-Other attributes go to the root `<span class="badge">` (or `<a>`). Any other `variant` value renders no color class.
+Other attributes go to the root `<span class="badge">` (or `<a>`), and win over the generated `title`,
+`data-bs-toggle` and `aria-label`. Any other `variant` value renders no color class.
 
 `Badge:List`:
 
-| Prop    | Type   | Default | Description                                                                                       |
-| ------- | ------ | ------- | ------------------------------------------------------------------------------------------------- |
-| `items` | array? | `null`  | Badges to render: `{text, variant?, icon?, light?, outline?, pill?, size?, href?}`, `Badge` props |
+| Prop    | Type   | Default | Description                                                                                                 |
+| ------- | ------ | ------- | ----------------------------------------------------------------------------------------------------------- |
+| `items` | array? | `null`  | Badges to render: `{text, variant?, icon?, light?, outline?, pill?, size?, href?, tooltip?}`, `Badge` props |
 
 ## Sub-components
 
